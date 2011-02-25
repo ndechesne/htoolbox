@@ -40,17 +40,26 @@ pthread_mutex_t thread_mutex = PTHREAD_MUTEX_INITIALIZER;
 static char tx_buffer[102400];
 static ssize_t tx_callback(const char** buffer, size_t size, void* user) {
   static size_t sent = 0;
+  static bool   first_time = true;
   const char* cuser = static_cast<char*>(user);
   *buffer = &tx_buffer[sent];
-  if (size < (sizeof(tx_buffer) - sent)) {
-    sent += size;
-  } else {
+  ssize_t rc = size;
+  if (size >= (sizeof(tx_buffer) - sent)) {
     size = sizeof(tx_buffer) - sent;
-    sent = sizeof(tx_buffer);
+    if (first_time) {
+      rc = size;
+    } else {
+      rc = -103587;
+    }
   }
+  sent += size;
   hlog_verbose("tx callback called for %s, sent = %zu, rc = %zd",
-    cuser, sent, size);
-  return size;
+    cuser, sent, rc);
+  if (size == 0) {
+    sent = 0;
+    first_time = false;
+  }
+  return rc;
 }
 
 static char rx_buffer[102400];
@@ -61,6 +70,9 @@ int rx_callback(const char* buffer, size_t size, void* user) {
   received += size;
   hlog_verbose("rx callback called for %s, received = %zu, rc = %zd",
     cuser, received, size);
+  if (size == 0) {
+    received = 0;
+  }
   return 0;
 }
 
@@ -87,8 +99,20 @@ void* receiver(void*) {
   bool b2 = false;
   r.add(1, &b2);
   // Blob
-  char rx_buffer2[102400];
-  r.add(2, rx_buffer2, sizeof(rx_buffer2));
+  char rx_buffer21[102400];
+  r.add(21, rx_buffer21, sizeof(rx_buffer21));
+  // Blob
+  char rx_buffer22[102400];
+  r.add(22, rx_buffer22, sizeof(rx_buffer22));
+  // Blob
+  char rx_buffer23[102400];
+  r.add(23, rx_buffer23, sizeof(rx_buffer23));
+  // Blob
+  char rx_buffer24[102400];
+  r.add(24, rx_buffer24, sizeof(rx_buffer24));
+  // Blob
+  char rx_buffer25[102400];
+  r.add(25, rx_buffer25, sizeof(rx_buffer25));
   // BigBlob
   char bigblob[] = "BigBlobR";
   r.add(3, rx_callback, bigblob);
@@ -106,9 +130,12 @@ void* receiver(void*) {
     char        val[65536];
     type = receiver.receive(&tag, &len, val);
     usleep(1000);
-    hlog_info("receive: type=%d tag=%u, len=%zu", type, tag, len);
+    hlog_info("receive: type=%d tag=%u, len=%zu %s", type, tag, len,
+      tag < 65530 ? "" : val);
     if (type == Receiver::DATA) {
-      r.submit(tag, len, val);
+      if (r.submit(tag, len, val) < 0) {
+        hlog_error("no receiver for tag %d", tag);
+      }
     }
   } while (type >= Receiver::END);
 
@@ -118,16 +145,20 @@ void* receiver(void*) {
   hlog_info("b1 = %d", b1);
   hlog_info("b2 = %d", b2);
 
-  hlog_info("bl = %d", memcmp(tx_buffer, rx_buffer2, sizeof(tx_buffer)));
+  hlog_info("21 = %d", memcmp(tx_buffer, rx_buffer21, BUFFER_MAX));
+  hlog_info("22 = %d", memcmp(tx_buffer, rx_buffer22, 30));
+  hlog_info("23 = %d", memcmp(tx_buffer, rx_buffer23, 30));
+
+  hlog_info("25 = %d", memcmp(tx_buffer, rx_buffer25, sizeof(rx_buffer25)));
   for (size_t i = 0; i < sizeof(tx_buffer); ++i) {
-    if (tx_buffer[i] != rx_buffer2[i]) {
-      hlog_error("tx_buffer[%zu]=%d and rx_buffer2[%zu]=%d differ",
-        i, tx_buffer[i], i, rx_buffer2[i]);
+    if (tx_buffer[i] != rx_buffer25[i]) {
+      hlog_error("tx_buffer[%zu]=%d and rx_buffer25[%zu]=%d differ",
+        i, tx_buffer[i], i, rx_buffer25[i]);
       break;
     }
   }
 
-  hlog_info("bb = %d", memcmp(tx_buffer, rx_buffer, sizeof(tx_buffer)));
+  hlog_info("bb = %d", memcmp(tx_buffer, rx_buffer, sizeof(rx_buffer)));
   for (size_t i = 0; i < sizeof(tx_buffer); ++i) {
     if (tx_buffer[i] != rx_buffer[i]) {
       hlog_error("tx_buffer[%zu]=%d and rx_buffer[%zu]=%d differ",
@@ -175,7 +206,15 @@ int main(void) {
   // Bool
   t.add(1, true);
   // Blob
-  t.add(2, tx_buffer, sizeof(tx_buffer));
+  t.add(21, tx_buffer, BUFFER_MAX);
+  // Blob
+  t.add(22, tx_buffer, 30);
+  // Blob
+  t.add(23, tx_buffer, 30);
+  // Blob
+  t.add(24, tx_buffer, 0);
+  // Blob
+  t.add(25, tx_buffer, sizeof(tx_buffer));
   // BigBlob
   char bigblob[] = "BigBlobT";
   t.add(3, tx_callback, bigblob);
@@ -184,6 +223,8 @@ int main(void) {
   // String
   std::string s = "Goodbye cruel world";
   t.add(5, s);
+  // BigBlob (fails)
+  t.add(3, tx_callback, bigblob);
 
   t.send(sender);
 
@@ -193,6 +234,7 @@ int main(void) {
   sock.close();
 
   pthread_mutex_lock(&main_mutex);
+  pthread_join(thread, NULL);
 
   return 0;
 }

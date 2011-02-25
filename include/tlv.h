@@ -46,6 +46,8 @@ public:
   int write(uint16_t tag, int32_t number);
   // End message
   int end();
+  // Report message error
+  int error(int error_no);
 };
 
 class Receiver {

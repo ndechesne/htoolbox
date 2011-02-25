@@ -37,6 +37,9 @@ case $1 in
   "rp" )
     export NAME="report"
     ;;
+  "th" )
+    export NAME="tlv_helper"
+    ;;
   "tlv" )
     export NAME="tlv"
     ;;

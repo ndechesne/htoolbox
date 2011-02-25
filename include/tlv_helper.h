@@ -65,18 +65,7 @@ class ReceptionManager : public IReceptionManager {
   public:
     Blob(uint16_t tag, char* buf, size_t cap) :
       IObject(tag), _buffer(buf), _capacity(cap), _received(0) {}
-    int submit(size_t size, const char* val) {
-      if (size + _received > _capacity) {
-        return -ERANGE;
-      }
-      memcpy(&_buffer[_received], val, size);
-      _received += size;
-      // Sugar for strings
-      if (_received < _capacity) {
-        _buffer[_received] = '\0';
-      }
-      return 0;
-    }
+    int submit(size_t size, const char* val);
   };
   class BigBlob : public IObject {
   public:
@@ -88,10 +77,7 @@ class ReceptionManager : public IReceptionManager {
     BigBlob(uint16_t tag, callback_f cb, void* user) :
       IObject(tag), _callback(cb), _user(user) {}
     int submit(size_t size, const char* val) {
-      if (_callback == NULL) {
-        return -EINVAL;
-      }
-      return _callback(val, size, _user);;
+      return _callback(val, size, _user);
     }
   };
   class Int : public IObject {
@@ -192,10 +178,10 @@ class TransmissionManager : public ITransmissionManager {
   class Bool : public IObject {
   public:
     Bool(uint16_t tag, bool val) : IObject(tag) {
-      _len = val ? 0 : -1;
+      _len = val ? 0 : 1;
     }
     bool ready() {
-      if (_len < 0) {
+      if (_len != 0) {
         return false;
       } else {
         return IObject::ready();
@@ -210,23 +196,11 @@ class TransmissionManager : public ITransmissionManager {
     size_t      _size;
     const char* _reader;
     size_t      _sent;
+    bool        _ended;
   public:
     Blob(uint16_t tag, const char* buf, size_t size):
-        IObject(tag), _buffer(buf), _size(size), _sent(0) {}
-    bool ready() {
-      size_t left = _size - _sent;
-      if (left == 0) {
-        return false;
-      }
-      if (left > BUFFER_MAX) {
-        _len = BUFFER_MAX;
-      } else {
-        _len = left;
-      }
-      _reader = &_buffer[_sent];
-      _sent += _len;
-      return true;
-    }
+      IObject(tag), _buffer(buf), _size(size), _sent(0), _ended(false) {}
+    bool ready();
     const char* value() const {
       return _reader;
     }
@@ -238,12 +212,21 @@ class TransmissionManager : public ITransmissionManager {
     callback_f  _callback;
     void*       _user;
     const char* _buffer;
+    bool        _ended;
   public:
     BigBlob(uint16_t tag, callback_f cb, void* user) :
-        IObject(tag), _callback(cb), _user(user), _buffer(NULL) {}
+        IObject(tag), _callback(cb), _user(user), _buffer(NULL), _ended(false) {}
     bool ready() {
+      if (_ended) {
+        // Re-arm
+        _ended = false;
+        return false;
+      }
       _len = _callback(&_buffer, BUFFER_MAX, _user);
-      return _len > 0;
+      if (_len == 0) {
+        _ended = true;
+      }
+      return true;
     }
     const char* value() const {
       return _buffer;
@@ -273,7 +256,9 @@ class TransmissionManager : public ITransmissionManager {
         IObject(tag), _value(value) {
       _len = _value.length();
     }
-    const char* value() const { return _value.c_str(); }
+    const char* value() const {
+      return _value.c_str();
+    }
   };
   std::list<IObject*> _objects;
   bool                _started;

@@ -1,22 +1,35 @@
+receive: type=1 tag=65530, len=0 start
+receive: type=3 tag=1, len=0 
+receive: type=3 tag=21, len=65535 
+receive: type=3 tag=21, len=0 
+receive: type=3 tag=22, len=30 
+receive: type=3 tag=23, len=30 
+receive: type=3 tag=24, len=0 
 tx callback called for BigBlobT, sent = 65535, rc = 65535
-receive: type=1 tag=65530, len=0
-receive: type=3 tag=1, len=0
-receive: type=3 tag=2, len=65535
 tx callback called for BigBlobT, sent = 102400, rc = 36865
+receive: type=3 tag=25, len=65535 
+receive: type=3 tag=25, len=36865 
 tx callback called for BigBlobT, sent = 102400, rc = 0
-receive: type=3 tag=2, len=36865
-receive: type=3 tag=3, len=65535
+tx callback called for BigBlobT, sent = 65535, rc = 65535
+tx callback called for BigBlobT, sent = 102400, rc = -103587
+receive: type=3 tag=3, len=65535 
 rx callback called for BigBlobR, received = 65535, rc = 65535
-receive: type=3 tag=3, len=36865
+receive: type=3 tag=3, len=36865 
 rx callback called for BigBlobR, received = 102400, rc = 36865
-receive: type=3 tag=4, len=2
-receive: type=3 tag=5, len=19
-receive: type=0 tag=65532, len=0
-receive: type=-1 tag=0, len=0
+receive: type=3 tag=3, len=0 
+rx callback called for BigBlobR, received = 102400, rc = 0
+receive: type=3 tag=4, len=2 
+receive: type=3 tag=5, len=19 
+receive: type=3 tag=3, len=65535 
+rx callback called for BigBlobR, received = 65535, rc = 65535
+receive: type=-1 tag=65533, len=103587 103587
 values:
 b1 = 0
 b2 = 1
-bl = 0
+21 = 0
+22 = 0
+23 = 0
+25 = 0
 bb = 0
 i = 12
 s = Goodbye cruel world

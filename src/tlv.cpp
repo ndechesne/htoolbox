@@ -31,6 +31,7 @@ enum {
   START_TAG  = 65530,
   CHECK_TAG  = 65531,
   END_TAG    = 65532,
+  ERROR_TAG  = 65533,
   MAX_LENGTH = 0xffff,
 };
 
@@ -107,6 +108,17 @@ int Sender::end() {
   return _failed ? -1 : 0;
 }
 
+int Sender::error(int error_no) {
+  if (! _started) {
+    errno = EBADF;
+    _failed = true;
+    return -1;
+  }
+  write(ERROR_TAG, error_no);
+  _started = false;
+  return _failed ? -1 : 0;
+}
+
 Receiver::Type Receiver::receive(
     uint16_t*   tag,
     size_t*     len,
@@ -160,6 +172,10 @@ Receiver::Type Receiver::receive(
     case END_TAG:
       strcpy(val, "end");
       type = Receiver::END;
+      break;
+    case ERROR_TAG:
+      sscanf(val, "%d", len);
+      type = Receiver::ERROR;
       break;
     default:
       type = Receiver::DATA;

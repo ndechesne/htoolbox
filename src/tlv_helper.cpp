@@ -28,6 +28,45 @@
 using namespace htoolbox;
 using namespace tlv;
 
+int ReceptionManager::Blob::submit(size_t size, const char* val) {
+  if (size + _received > _capacity) {
+    return -ERANGE;
+  }
+  if (size > 0) {
+    memcpy(&_buffer[_received], val, size);
+    _received += size;
+  }
+  if (size < BUFFER_MAX) {
+    // Sugar for strings
+    if (_received < _capacity) {
+      _buffer[_received] = '\0';
+    }
+    // End of data, re-arm
+    _received = 0;
+  }
+  return 0;
+}
+
+bool TransmissionManager::Blob::ready() {
+  // Need to always send less than BUFFER_MAX to signal the end of data
+  if (_ended) {
+    // Re-arm
+    _ended = false;
+    _sent = 0;
+    return false;
+  }
+  size_t left = _size - _sent;
+  if (left >= BUFFER_MAX) {
+    _len = BUFFER_MAX;
+  } else {
+    _len = left;
+    _ended = true;
+  }
+  _reader = &_buffer[_sent];
+  _sent += _len;
+  return true;
+}
+
 int ReceptionManager::Int::submit(size_t size, const char* val) {
   if (_int_32 != NULL) {
     if (size >= 11) {
@@ -120,8 +159,14 @@ int TransmissionManager::send(Sender& sender, bool start_and_end) {
         it != _objects.end(); ++it) {
       IObject& o = **it;
       while (o.ready()) {
-        rc = sender.write(o.tag(), o.value(), o.length());
-        if (rc < 0) return -errno;
+        if (o.length() < 0) {
+          rc = sender.error(-o.length());
+          if (rc < 0) return -errno;
+          return o.length();
+        } else {
+          rc = sender.write(o.tag(), o.value(), o.length());
+          if (rc < 0) return -errno;
+        }
       }
     }
     src = src->next();
