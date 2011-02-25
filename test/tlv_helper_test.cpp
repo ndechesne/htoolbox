@@ -40,13 +40,7 @@ pthread_mutex_t thread_mutex = PTHREAD_MUTEX_INITIALIZER;
 static char tx_buffer[102400];
 static ssize_t tx_callback(const char** buffer, size_t size, void* user) {
   static size_t sent = 0;
-  static bool initialised = false;
   const char* cuser = static_cast<char*>(user);
-  if (! initialised) {
-    for (size_t i = 0; i < sizeof(tx_buffer); ++i) {
-      tx_buffer[i] = 'A'/*static_cast<char>((rand() + 0x32) & 0x7f)*/;
-    }
-  }
   *buffer = &tx_buffer[sent];
   if (size < (sizeof(tx_buffer) - sent)) {
     sent += size;
@@ -93,8 +87,8 @@ void* receiver(void*) {
   bool b2 = false;
   r.add(1, &b2);
   // Blob
-  char cs[BUFFER_MAX] = "";
-  r.add(2, cs, BUFFER_MAX);
+  char rx_buffer2[102400];
+  r.add(2, rx_buffer2, sizeof(rx_buffer2));
   // BigBlob
   char bigblob[] = "BigBlobR";
   r.add(3, rx_callback, bigblob);
@@ -112,8 +106,7 @@ void* receiver(void*) {
     char        val[65536];
     type = receiver.receive(&tag, &len, val);
     usleep(1000);
-    hlog_info("receive: type=%d tag=%u, len=%zu, value='%s'",
-      type, tag, len, ((len > 0) || (tag == 0)) ? val : "");
+    hlog_info("receive: type=%d tag=%u, len=%zu", type, tag, len);
     if (type == Receiver::DATA) {
       r.submit(tag, len, val);
     }
@@ -124,8 +117,24 @@ void* receiver(void*) {
   hlog_info("values:");
   hlog_info("b1 = %d", b1);
   hlog_info("b2 = %d", b2);
-  hlog_info("cs = %s", cs);
-  hlog_info("cmp = %d", memcmp(tx_buffer, rx_buffer, sizeof(tx_buffer)));
+
+  hlog_info("bl = %d", memcmp(tx_buffer, rx_buffer2, sizeof(tx_buffer)));
+  for (size_t i = 0; i < sizeof(tx_buffer); ++i) {
+    if (tx_buffer[i] != rx_buffer2[i]) {
+      hlog_error("tx_buffer[%zu]=%d and rx_buffer2[%zu]=%d differ",
+        i, tx_buffer[i], i, rx_buffer2[i]);
+      break;
+    }
+  }
+
+  hlog_info("bb = %d", memcmp(tx_buffer, rx_buffer, sizeof(tx_buffer)));
+  for (size_t i = 0; i < sizeof(tx_buffer); ++i) {
+    if (tx_buffer[i] != rx_buffer[i]) {
+      hlog_error("tx_buffer[%zu]=%d and rx_buffer[%zu]=%d differ",
+        i, tx_buffer[i], i, rx_buffer[i]);
+      break;
+    }
+  }
   hlog_info("i = %d", i);
   hlog_info("s = %s", s.c_str());
 
@@ -140,6 +149,9 @@ int main(void) {
   report.setLevel(verbose);
   pthread_mutex_lock(&main_mutex);
 
+  for (size_t i = 0; i < sizeof(tx_buffer); ++i) {
+    tx_buffer[i] = static_cast<char>((rand() + 0x32) & 0x7f);
+  }
 
   pthread_t thread;
   int rc = pthread_create(&thread, NULL, receiver, NULL);
@@ -163,7 +175,7 @@ int main(void) {
   // Bool
   t.add(1, true);
   // Blob
-  t.add(2, "Hello world!", 12);
+  t.add(2, tx_buffer, sizeof(tx_buffer));
   // BigBlob
   char bigblob[] = "BigBlobT";
   t.add(3, tx_callback, bigblob);

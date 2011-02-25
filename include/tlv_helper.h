@@ -61,17 +61,19 @@ class ReceptionManager : public IReceptionManager {
   class Blob : public IObject {
     char*  _buffer;
     size_t _capacity;
+    size_t _received;
   public:
     Blob(uint16_t tag, char* buf, size_t cap) :
-      IObject(tag), _buffer(buf), _capacity(cap) {}
+      IObject(tag), _buffer(buf), _capacity(cap), _received(0) {}
     int submit(size_t size, const char* val) {
-      if (size > _capacity) {
+      if (size + _received > _capacity) {
         return -ERANGE;
       }
-      memcpy(_buffer, val, size);
+      memcpy(&_buffer[_received], val, size);
+      _received += size;
       // Sugar for strings
-      if (size < _capacity) {
-        _buffer[size] = '\0';
+      if (_received < _capacity) {
+        _buffer[_received] = '\0';
       }
       return 0;
     }
@@ -205,14 +207,28 @@ class TransmissionManager : public ITransmissionManager {
   };
   class Blob : public IObject {
     const char* _buffer;
+    size_t      _size;
+    const char* _reader;
+    size_t      _sent;
   public:
     Blob(uint16_t tag, const char* buf, size_t size):
-        IObject(tag), _buffer(buf) {
-      // FIXME Automatically use BigBlob when size > BUFFER_MAX
-      _len = size;
+        IObject(tag), _buffer(buf), _size(size), _sent(0) {}
+    bool ready() {
+      size_t left = _size - _sent;
+      if (left == 0) {
+        return false;
+      }
+      if (left > BUFFER_MAX) {
+        _len = BUFFER_MAX;
+      } else {
+        _len = left;
+      }
+      _reader = &_buffer[_sent];
+      _sent += _len;
+      return true;
     }
     const char* value() const {
-      return _buffer;
+      return _reader;
     }
   };
   class BigBlob : public IObject {
