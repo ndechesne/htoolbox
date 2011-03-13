@@ -1,5 +1,7 @@
 server path = 'this_is_quite_a_long_socket'
 server listening socket #3
+concurrent server path = 'this_is_quite_a_long_socket'
+Device or resource busy, concurrent server failed to listen
 server going to accept connections
 server going to accept connections
 client1 path = 'this_is_quite_a_long_socket'

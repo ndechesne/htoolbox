@@ -72,6 +72,16 @@ int main() {
     hlog_info("server listening socket #%d", sock);
   }
 
+  Socket concurrent(@@FIRST@@);
+  hlog_info("concurrent server path = '%s'", server.path());
+  int other_sock = server.listen(2);
+  if (other_sock < 0) {
+    hlog_info("%s, concurrent server failed to listen", strerror(errno));
+  } else {
+    hlog_error("concurrent server listening socket #%d", other_sock);
+    return 0;
+  }
+
   int rc;
   pthread_t thread1;
   rc = pthread_create(&thread1, NULL, server_thread, &server);
