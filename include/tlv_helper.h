@@ -43,18 +43,17 @@ class ReceptionManager : public IReceptionManager {
     uint16_t tag() const { return _tag; }
     virtual int submit(size_t, const char*) { return -EPERM; }
   };
+  class Void : public IObject {
+  public:
+    Void(uint16_t tag) : IObject(tag) {}
+    int submit(size_t, const char*) { return 0; }
+  };
   class Bool : public IObject {
     bool* _value;
   public:
-    Bool(uint16_t tag, bool* val) : IObject(tag), _value(val) {
-      if (_value != NULL) {
-        *_value = false;
-      }
-    }
-    int submit(size_t, const char*) {
-      if (_value != NULL) {
-        *_value = true;
-      }
+    Bool(uint16_t tag, bool* val) : IObject(tag), _value(val) {}
+    int submit(size_t len, const char*) {
+      *_value = len > 0;
       return 0;
     }
   };
@@ -115,7 +114,10 @@ public:
       delete *it;
     }
   }
-  void add(uint16_t tag, bool* val = NULL) {
+  void add(uint16_t tag) {
+    _objects.push_back(new Void(tag));
+  }
+  void add(uint16_t tag, bool* val) {
     _objects.push_back(new Bool(tag, val));
   }
   void add(uint16_t tag, char* val, size_t capacity) {
@@ -178,17 +180,14 @@ class TransmissionManager : public ITransmissionManager {
   class Bool : public IObject {
   public:
     Bool(uint16_t tag, bool val) : IObject(tag) {
-      _len = val ? 0 : 1;
-    }
-    bool ready() {
-      if (_len != 0) {
-        return false;
-      } else {
-        return IObject::ready();
-      }
+      _len = val ? 1 : 0;
     }
     const char* value() const {
-      return "";
+      if (_len > 0) {
+        return "1";
+      } else {
+        return "";
+      }
     }
   };
   class Blob : public IObject {
@@ -271,7 +270,7 @@ public:
       delete *it;
     }
   }
-  void add(uint16_t tag, bool val = NULL) {
+  void add(uint16_t tag, bool val) {
     _objects.push_back(new Bool(tag, val));
   }
   void add(uint16_t tag, const char* val, size_t size) {

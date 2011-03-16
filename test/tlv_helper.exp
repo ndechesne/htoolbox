@@ -1,5 +1,6 @@
 receive: type=1 tag=65530, len=0 start
-receive: type=3 tag=1, len=0 
+receive: type=3 tag=0, len=0 
+receive: type=3 tag=1, len=1 
 receive: type=3 tag=21, len=65535 
 receive: type=3 tag=21, len=0 
 receive: type=3 tag=22, len=30 

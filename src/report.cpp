@@ -553,9 +553,6 @@ int Report::TlvManager::submit(uint16_t tag, size_t size, const char* val) {
   if (rc < 0) {
     return rc;
   }
-  if (tag == tlv::log_start_tag) {
-    _temp = false;
-  } else
   if (tag == tlv::log_start_tag + 5) {
     Level level = static_cast<Level>(_level);
     if (tl_report != NULL) {
