@@ -16,6 +16,9 @@ case $1 in
   "cp" )
     export NAME="copier"
     ;;
+  "cr" )
+    export NAME="criticality"
+    ;;
   "fl" )
     export NAME="files"
     ;;

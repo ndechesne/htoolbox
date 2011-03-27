@@ -9,6 +9,7 @@ check_PROGRAMS = \
   asyncwriter_test \
   configuration_test \
   copier_test \
+  criticality_test \
   filereaderwriter_test \
   files_test \
   hasher_test \
@@ -28,6 +29,7 @@ abstract_socket_test_SOURCES = abstract_socket_test.cpp
 asyncwriter_test_SOURCES = asyncwriter_test.cpp
 configuration_test_SOURCES = configuration_test.cpp
 copier_test_SOURCES = copier_test.cpp
+criticality_test_SOURCES = criticality_test.cpp
 filereaderwriter_test_SOURCES = filereaderwriter_test.cpp
 files_test_SOURCES = files_test.cpp
 hasher_test_SOURCES = hasher_test.cpp
@@ -83,6 +85,7 @@ check_SUCCESSES = \
   asyncwriter.done \
   copier.done \
   files.done \
+  criticality.done \
   report.done \
   zipper.done \
   $(NULL)
@@ -91,6 +94,7 @@ EXTRA_DIST = \
   abstract_socket.exp \
   asyncwriter.exp \
   configuration.exp \
+  criticality.exp \
   files.exp \
   filereaderwriter.exp \
   hasher.exp \

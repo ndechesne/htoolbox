@@ -38,7 +38,7 @@ void* receiver(void*) {
   // Report test!
   Report my_report;
   tl_report = &my_report;
-  hlog_info("receiver (local) log level is %s", Report::levelString(tl_report->level()));
+  hlog_info("receiver (local) log level is %s", tl_report->level().toString());
 
   Socket sock("socket");
   Receiver receiver(sock);
@@ -81,7 +81,7 @@ int main(void) {
   report.setLevel(verbose);
   pthread_mutex_lock(&mutex);
 
-  hlog_info("initial (global) log level is %s", Report::levelString(report.level()));
+  hlog_info("initial (global) log level is %s", report.level().toString());
 
   pthread_t thread;
   int rc = pthread_create(&thread, NULL, receiver, NULL);
@@ -91,7 +91,7 @@ int main(void) {
   }
 
   pthread_mutex_lock(&mutex);
-  hlog_info("sender (global) log level is %s", Report::levelString(report.level()));
+  hlog_info("sender (global) log level is %s", report.level().toString());
 
   Socket sock("socket");
   if (sock.open() < 0) {

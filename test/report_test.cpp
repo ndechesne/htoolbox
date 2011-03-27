@@ -68,42 +68,42 @@ int main(void) {
   hlog_regression("regression level");
 
   cout << endl << "String conversions" << endl;
-  Level converted;
-  converted = regression;
-  Report::stringToLevel("alert", &converted);
-  hlog_info("%s", Report::levelString(converted));
-  converted = regression;
-  Report::stringToLevel("error", &converted);
-  hlog_info("%s", Report::levelString(converted));
-  converted = regression;
-  Report::stringToLevel("warning", &converted);
-  hlog_info("%s", Report::levelString(converted));
-  converted = regression;
-  Report::stringToLevel("info", &converted);
-  hlog_info("%s", Report::levelString(converted));
-  converted = regression;
-  Report::stringToLevel("verbose", &converted);
-  hlog_info("%s", Report::levelString(converted));
-  converted = regression;
-  Report::stringToLevel("debug", &converted);
-  hlog_info("%s", Report::levelString(converted));
+  Criticality converted;
+  converted.set(regression);
+  converted.setFromString("alert");
+  hlog_info("%s", converted.toString());
+  converted.set(regression);
+  converted.setFromString("error");
+  hlog_info("%s", converted.toString());
+  converted.set(regression);
+  converted.setFromString("warning");
+  hlog_info("%s", converted.toString());
+  converted.set(regression);
+  converted.setFromString("info");
+  hlog_info("%s", converted.toString());
+  converted.set(regression);
+  converted.setFromString("verbose");
+  hlog_info("%s", converted.toString());
+  converted.set(regression);
+  converted.setFromString("debug");
+  hlog_info("%s", converted.toString());
   converted = alert;
-  Report::stringToLevel("regression", &converted);
-  hlog_info("%s", Report::levelString(converted));
+  converted.setFromString("regression");
+  hlog_info("%s", converted.toString());
 
   cout << endl << "Notifications" << endl;
   report.setLevel(alert);
   hlog_alert("console level should be alert, is %s",
-    Report::levelString(report.consoleLogLevel()));
+    report.consoleLogLevel().toString());
   report.setLevel(verbose);
   hlog_alert("console level should be verbose, is %s",
-    Report::levelString(report.consoleLogLevel()));
+    report.consoleLogLevel().toString());
   report.setConsoleLogLevel(warning);
   hlog_alert("level should be warning, is %s",
-    Report::levelString(report.level()));
+    report.level().toString());
   report.setConsoleLogLevel(debug);
   hlog_alert("level should be debug, is %s",
-    Report::levelString(report.level()));
+    report.level().toString());
 
   cout << endl << "Verbosity level: alert" << endl;
   report.setLevel(alert);

@@ -1,0 +1,312 @@
+String conversions
+criticality set from 'alert' to 'alert'
+criticality set from 'alert' to 'AlErT'
+criticality set from 'error' to 'error'
+criticality set from 'error' to 'ErRoR'
+criticality set from 'warning' to 'warning'
+criticality set from 'warning' to 'WaRnInG'
+criticality set from 'info' to 'info'
+criticality set from 'info' to 'InFo'
+criticality set from 'verbose' to 'verbose'
+criticality set from 'verbose' to 'VeRbOsE'
+criticality set from 'debug' to 'debug'
+criticality set from 'debug' to 'DeBuG'
+criticality set from 'regression' to 'regression'
+criticality set from 'regression' to 'ReGrEsSiOn'
+failed to set criticality from 'bidon'
+failed to set criticality from 'Alest'
+Comparisons
+not alert < alert
+not alert > alert
+alert <= alert
+alert >= alert
+alert == alert
+not alert != alert
+alert < error
+not alert > error
+alert <= error
+not alert >= error
+not alert == error
+alert != error
+alert < warning
+not alert > warning
+alert <= warning
+not alert >= warning
+not alert == warning
+alert != warning
+alert < info
+not alert > info
+alert <= info
+not alert >= info
+not alert == info
+alert != info
+alert < verbose
+not alert > verbose
+alert <= verbose
+not alert >= verbose
+not alert == verbose
+alert != verbose
+alert < debug
+not alert > debug
+alert <= debug
+not alert >= debug
+not alert == debug
+alert != debug
+alert < regression
+not alert > regression
+alert <= regression
+not alert >= regression
+not alert == regression
+alert != regression
+not error < alert
+error > alert
+not error <= alert
+error >= alert
+not error == alert
+error != alert
+not error < error
+not error > error
+error <= error
+error >= error
+error == error
+not error != error
+error < warning
+not error > warning
+error <= warning
+not error >= warning
+not error == warning
+error != warning
+error < info
+not error > info
+error <= info
+not error >= info
+not error == info
+error != info
+error < verbose
+not error > verbose
+error <= verbose
+not error >= verbose
+not error == verbose
+error != verbose
+error < debug
+not error > debug
+error <= debug
+not error >= debug
+not error == debug
+error != debug
+error < regression
+not error > regression
+error <= regression
+not error >= regression
+not error == regression
+error != regression
+not warning < alert
+warning > alert
+not warning <= alert
+warning >= alert
+not warning == alert
+warning != alert
+not warning < error
+warning > error
+not warning <= error
+warning >= error
+not warning == error
+warning != error
+not warning < warning
+not warning > warning
+warning <= warning
+warning >= warning
+warning == warning
+not warning != warning
+warning < info
+not warning > info
+warning <= info
+not warning >= info
+not warning == info
+warning != info
+warning < verbose
+not warning > verbose
+warning <= verbose
+not warning >= verbose
+not warning == verbose
+warning != verbose
+warning < debug
+not warning > debug
+warning <= debug
+not warning >= debug
+not warning == debug
+warning != debug
+warning < regression
+not warning > regression
+warning <= regression
+not warning >= regression
+not warning == regression
+warning != regression
+not info < alert
+info > alert
+not info <= alert
+info >= alert
+not info == alert
+info != alert
+not info < error
+info > error
+not info <= error
+info >= error
+not info == error
+info != error
+not info < warning
+info > warning
+not info <= warning
+info >= warning
+not info == warning
+info != warning
+not info < info
+not info > info
+info <= info
+info >= info
+info == info
+not info != info
+info < verbose
+not info > verbose
+info <= verbose
+not info >= verbose
+not info == verbose
+info != verbose
+info < debug
+not info > debug
+info <= debug
+not info >= debug
+not info == debug
+info != debug
+info < regression
+not info > regression
+info <= regression
+not info >= regression
+not info == regression
+info != regression
+not verbose < alert
+verbose > alert
+not verbose <= alert
+verbose >= alert
+not verbose == alert
+verbose != alert
+not verbose < error
+verbose > error
+not verbose <= error
+verbose >= error
+not verbose == error
+verbose != error
+not verbose < warning
+verbose > warning
+not verbose <= warning
+verbose >= warning
+not verbose == warning
+verbose != warning
+not verbose < info
+verbose > info
+not verbose <= info
+verbose >= info
+not verbose == info
+verbose != info
+not verbose < verbose
+not verbose > verbose
+verbose <= verbose
+verbose >= verbose
+verbose == verbose
+not verbose != verbose
+verbose < debug
+not verbose > debug
+verbose <= debug
+not verbose >= debug
+not verbose == debug
+verbose != debug
+verbose < regression
+not verbose > regression
+verbose <= regression
+not verbose >= regression
+not verbose == regression
+verbose != regression
+not debug < alert
+debug > alert
+not debug <= alert
+debug >= alert
+not debug == alert
+debug != alert
+not debug < error
+debug > error
+not debug <= error
+debug >= error
+not debug == error
+debug != error
+not debug < warning
+debug > warning
+not debug <= warning
+debug >= warning
+not debug == warning
+debug != warning
+not debug < info
+debug > info
+not debug <= info
+debug >= info
+not debug == info
+debug != info
+not debug < verbose
+debug > verbose
+not debug <= verbose
+debug >= verbose
+not debug == verbose
+debug != verbose
+not debug < debug
+not debug > debug
+debug <= debug
+debug >= debug
+debug == debug
+not debug != debug
+debug < regression
+not debug > regression
+debug <= regression
+not debug >= regression
+not debug == regression
+debug != regression
+not regression < alert
+regression > alert
+not regression <= alert
+regression >= alert
+not regression == alert
+regression != alert
+not regression < error
+regression > error
+not regression <= error
+regression >= error
+not regression == error
+regression != error
+not regression < warning
+regression > warning
+not regression <= warning
+regression >= warning
+not regression == warning
+regression != warning
+not regression < info
+regression > info
+not regression <= info
+regression >= info
+not regression == info
+regression != info
+not regression < verbose
+regression > verbose
+not regression <= verbose
+regression >= verbose
+not regression == verbose
+regression != verbose
+not regression < debug
+regression > debug
+not regression <= debug
+regression >= debug
+not regression == debug
+regression != debug
+not regression < regression
+not regression > regression
+regression <= regression
+regression >= regression
+regression == regression
+not regression != regression

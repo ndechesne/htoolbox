@@ -86,61 +86,6 @@ Report::~Report() {
   delete _d;
 }
 
-const char* Report::levelString(Level level) {
-  switch (level) {
-    case alert:
-      return "alert";
-    case error:
-      return "error";
-    case warning:
-      return "warning";
-    case info:
-      return "info";
-    case verbose:
-      return "verbose";
-    case debug:
-      return "debug";
-    case regression:
-      return "regression";
-  }
-  return "unknown";
-}
-
-int Report::stringToLevel(const char* str, Level* level) {
-  switch (str[0]) {
-    case 'a':
-    case 'A':
-      *level = alert;
-      return 0;
-    case 'e':
-    case 'E':
-      *level = error;
-      return 0;
-    case 'w':
-    case 'W':
-      *level = warning;
-      return 0;
-    case 'i':
-    case 'I':
-      *level = info;
-      return 0;
-    case 'v':
-    case 'V':
-      *level = verbose;
-      return 0;
-    case 'd':
-    case 'D':
-      *level = debug;
-      return 0;
-    case 'r':
-    case 'R':
-      *level = regression;
-      return 0;
-    default:
-      return -1;
-  }
-}
-
 void Report::startConsoleLog() {
   _console.open();
 }
@@ -150,7 +95,7 @@ void Report::stopConsoleLog() {
 }
 
 void Report::notify() {
-  Level level = alert;
+  Criticality level(alert);
   for (list<Observee*>::const_iterator it = _observees.begin();
       it != _observees.end(); ++it) {
     IOutput* output = dynamic_cast<IOutput*>(*it);
@@ -569,8 +514,8 @@ class Report::Filter::Condition {
   size_t      _file_name_length;
   size_t      _min_line;
   size_t      _max_line;
-  Level       _min_level;
-  Level       _max_level;
+  Criticality _min_level;
+  Criticality _max_level;
   size_t      _index;
 public:
   friend class Report::Filter;
@@ -591,7 +536,7 @@ public:
   void show(Level level) const {
     hlog_report(level, "%s '%s' %zu <= line <= %zu, %s <= level <= %s",
       _accept ? "ACCEPT" : "REJECT", _file_name, _min_line, _max_line,
-      levelString(_min_level), levelString(_max_level));
+      _min_level.toString(), _max_level.toString());
   }
 };
 

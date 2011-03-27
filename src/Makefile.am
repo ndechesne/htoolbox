@@ -10,6 +10,7 @@ libhtoolbox_la_SOURCES = \
   asyncwriter.cpp \
   configuration.cpp \
   copier.cpp \
+  criticality.cpp \
   files.cpp \
   filereaderwriter.cpp \
   hasher.cpp \

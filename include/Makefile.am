@@ -4,6 +4,7 @@ htoolsinclude_HEADERS = \
   asyncwriter.h \
   configuration.h \
   copier.h \
+  criticality.h \
   filereaderwriter.h \
   files.h \
   hasher.h \
@@ -27,6 +28,7 @@ EXTRA_DIST = \
   asyncwriter.h \
   configuration.h \
   copier.h \
+  criticality.h \
   filereaderwriter.h \
   files.h \
   hasher.h \

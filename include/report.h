@@ -24,39 +24,24 @@
 #include <list>
 
 #include <observer.h>
+#include <criticality.h>
 #include <tlv.h>
 #include <tlv_helper.h>
 
 namespace htoolbox {
-
-  //! Criticality levels
-  enum Level {
-    // These go to error output
-    alert,        /*!< Your're dead */
-    error,        /*!< Big issue, but might recover */
-    warning,      /*!< Non-blocking issue */
-    // These go to standard output
-    info,         /*!< Basic information */
-    verbose,      /*!< Extra information */
-    debug,        /*!< Developper information */
-    regression    /*!< For regression testing purposes */
-  };
-
   class Report : public Observer {
     //! Current output criticality level (default: info)
-    Level             _level;
+    Criticality       _level;
     struct Private;
     Private* const    _d;
     static size_t utf8_len(const char* s);
   public:
     Report();
     ~Report();
-    static const char* levelString(Level level);
-    static int stringToLevel(const char* str, Level* level);
 
     class IOutput : public Observee {
     protected:
-      Level             _level;
+      Criticality       _level;
       bool              _open;
     public:
       IOutput() : _level(info), _open(false) {}
@@ -65,7 +50,7 @@ namespace htoolbox {
         _level = level;
         notifyObservers();
       }
-      virtual Level level() const { return _level; }
+      virtual Criticality level() const { return _level; }
       virtual int open() {
         _open = true;
         notifyObservers();
@@ -214,7 +199,7 @@ namespace htoolbox {
     // Set console log level
     void setConsoleLogLevel(Level level) { _console.setLevel(level); }
     // Get console log level
-    Level consoleLogLevel() const { return _console.level(); }
+    Criticality consoleLogLevel() const { return _console.level(); }
 
     // Add output to list
     void add(IOutput* output) {
@@ -229,7 +214,7 @@ namespace htoolbox {
     // Set output verbosity level for all outputs
     void setLevel(Level level);
     // Get current output verbosity level
-    Level level() const { return _level; }
+    Criticality level() const { return _level; }
     // Display message on standard output
     int log(
       const char*     file,
