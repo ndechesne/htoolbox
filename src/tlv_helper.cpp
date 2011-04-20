@@ -147,8 +147,8 @@ int ReceptionManager::receive(Receiver& rec, abort_cb_f abort_cb, void* user) {
   return 0;
 }
 
-int TransmissionManager::send(Sender& sender, bool start_and_end) {
-  int rc = 0;
+ssize_t TransmissionManager::send(Sender& sender, bool start_and_end) {
+  ssize_t rc = 0;
   if (start_and_end && ! _started) {
     rc = this->start(sender);
     if (rc < 0) return -errno;
@@ -160,7 +160,7 @@ int TransmissionManager::send(Sender& sender, bool start_and_end) {
       IObject& o = **it;
       while (o.ready()) {
         if (o.length() < 0) {
-          rc = sender.error(-o.length());
+          rc = sender.error(static_cast<int>(-o.length()));
           if (rc < 0) return -errno;
           return o.length();
         } else {

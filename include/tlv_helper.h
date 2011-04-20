@@ -152,7 +152,7 @@ class ITransmissionManager {
 public:
   ITransmissionManager(const ITransmissionManager* next): _next(next) {}
   const ITransmissionManager* next() const { return _next; }
-  virtual int send(Sender& sender, bool insert) = 0;
+  virtual ssize_t send(Sender& sender, bool insert) = 0;
 };
 
 class TransmissionManager : public ITransmissionManager {
@@ -301,7 +301,7 @@ public:
     }
     return rc;
   }
-  int send(Sender& sender, bool start_and_end = true);
+  ssize_t send(Sender& sender, bool start_and_end = true);
 };
 
 }

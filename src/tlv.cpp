@@ -174,7 +174,7 @@ Receiver::Type Receiver::receive(
       type = Receiver::END;
       break;
     case ERROR_TAG:
-      sscanf(val, "%d", len);
+      sscanf(val, "%zu", len);
       type = Receiver::ERROR;
       break;
     default:
