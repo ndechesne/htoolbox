@@ -34,6 +34,7 @@ chmod 750 "$TESTDIR/testfile"
 touch "$TESTDIR/testfile~"
 ln -s "testfile" "$TESTDIR/testlink"
 mkfifo "$TESTDIR/testpipe"
+chmod 600 "$TESTDIR/testpipe"
 
 # Filters test
 mkdir "$TESTDIR/subdir"
