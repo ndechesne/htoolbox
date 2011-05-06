@@ -131,9 +131,12 @@ int Report::log(
       it != _observees.end(); ++it) {
     IOutput* output = dynamic_cast<IOutput*>(*it);
     if (output->isOpen() && (level <= output->level())) {
-      if (output->log(file, line, level, temp, ident, format, &ap) < 0) {
+      va_list aq;
+      va_copy(aq, ap);
+      if (output->log(file, line, level, temp, ident, format, &aq) < 0) {
         rc = -1;
       }
+      va_end(aq);
     }
   }
   // unlock
