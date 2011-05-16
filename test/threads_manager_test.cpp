@@ -45,10 +45,9 @@ int main(void) {
   report.consoleFilter().addCondition(true, "threads_manager.cpp", 0, 0, regression);
   report.consoleFilter().addCondition(true, __FILE__, 0, 0, regression);
 
-  Queue q_in("in");
   Queue q_out("out", 20);
   char user[32] = "";
-  ThreadsManager ws("sched", task, user, &q_in, &q_out);
+  ThreadsManager ws("sched", task, user, &q_out);
 
   char cuser[] = "user_string";
   ws.setActivityCallback(activity_callback, cuser);
@@ -61,10 +60,10 @@ int main(void) {
   } else {
     usleep(50000);
     char data1[32] = "data1";
-    q_in.push(data1);
+    ws.push(data1);
     usleep(250000);
     char data2[32] = "data2";
-    q_in.push(data2);
+    ws.push(data2);
     usleep(150000);
     hlog_regression("%zu thread(s)", ws.threads());
     ws.stop();
@@ -86,10 +85,10 @@ int main(void) {
   } else {
     usleep(100000);
     char data1[32] = "data1";
-    q_in.push(data1);
+    ws.push(data1);
     usleep(100000);
     char data2[32] = "data2";
-    q_in.push(data2);
+    ws.push(data2);
     usleep(100000);
     hlog_regression("%zu thread(s)", ws.threads());
     ws.stop();
@@ -111,34 +110,34 @@ int main(void) {
   } else {
     usleep(50000);
     char data1[32] = "data1";
-    q_in.push(data1);
+    ws.push(data1);
     usleep(250000);
     char data2[32] = "data2";
-    q_in.push(data2);
+    ws.push(data2);
     usleep(250000);
     char data3[32] = "data3";
-    q_in.push(data3);
+    ws.push(data3);
     usleep(250000);
     char data4[32] = "data4";
-    q_in.push(data4);
+    ws.push(data4);
     usleep(250000);
     char data5[32] = "data5";
-    q_in.push(data5);
+    ws.push(data5);
     usleep(250000);
     char data6[32] = "data6";
-    q_in.push(data6);
+    ws.push(data6);
     usleep(250000);
     char data7[32] = "data7";
-    q_in.push(data7);
+    ws.push(data7);
     usleep(250000);
     char data8[32] = "data8";
-    q_in.push(data8);
+    ws.push(data8);
     usleep(250000);
     char data9[32] = "data9";
-    q_in.push(data9);
+    ws.push(data9);
     usleep(250000);
     char data10[32] = "data10";
-    q_in.push(data10);
+    ws.push(data10);
     usleep(150000);
     hlog_regression("%zu thread(s)", ws.threads());
     ws.stop();

@@ -20,14 +20,16 @@
 namespace htoolbox {
 
 class ThreadsManager {
+  Queue          in;
   struct         Private;
   Private* const _d;
   ThreadsManager(const htoolbox::ThreadsManager&);
 public:
   typedef void* (*routine_f)(void* data, void* user);
-  ThreadsManager(const char* name, routine_f routine, void* user,
-    Queue* in, Queue* out);
+  ThreadsManager(const char* name, routine_f routine, void* user, Queue* out);
   ~ThreadsManager();
+  Queue& inputQueue() { return in; }
+  int push(void* data) { return in.push(data); }
   typedef void (*callback_f)(bool idle, void* user);
   void setActivityCallback(callback_f callback, void* user);
   int start(size_t max_threads = 0, size_t min_threads = 0, time_t time_out = 600);

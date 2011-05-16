@@ -66,15 +66,12 @@ int main(void) {
   report.setLevel(debug);
   report.consoleFilter().addCondition(true, __FILE__, regression);
 
-  Queue q_in("in");
-  Queue q_int1("int1");
-  Queue q_int2("int2");
   char user1[32] = "user1";
   char user2[32] = "user2";
   char user3[32] = "user3";
-  ThreadsManager ws1("sched1", task1, user1, &q_in, &q_int1);
-  ThreadsManager ws2("sched2", task2, user2, &q_int1, &q_int2);
-  ThreadsManager ws3("sched3", task3, user3, &q_int2, NULL);
+  ThreadsManager ws3("sched3", task3, user3, NULL);
+  ThreadsManager ws2("sched2", task2, user2, &ws3.inputQueue());
+  ThreadsManager ws1("sched1", task1, user1, &ws2.inputQueue());
 
   if ((ws3.start(0, 0, 2) != 0) || (ws2.start(0, 0, 2) != 0) || (ws1.start(0, 0, 2) != 0)) {
     hlog_error("start failed");
@@ -83,7 +80,7 @@ int main(void) {
     for (size_t i = 0; i < MAX_LOOPS; ++i) {
       sprintf(data[i], "a%03zu", i);
       hlog_regression("push %s", data[i]);
-      q_in.push(data[i]);
+      ws1.push(data[i]);
       hlog_regression("ws1 %zu thread(s)", ws1.threads());
       hlog_regression("ws2 %zu thread(s)", ws2.threads());
       hlog_regression("ws3 %zu thread(s)", ws3.threads());
