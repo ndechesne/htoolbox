@@ -1,8 +1,14 @@
-1.2 - Future
-  * use fix number of subdirs in database
-  * on-the-fly image tree creation
-  * disk usage statistics in verbose mode
-  * support fir case insensitive string matching in filters
+1.2 - 2011-05-20 (git branch 1.2, tag 1.2.0)
+  * separate toolbox from hbackup, call it htoolbox
+  * add generic server framework and queues
+  * configuration management revamp
+  * stackable modules
+    * align API with POSIX
+    * new copier
+    * new tlv and tlv_helper modules to send info and data over sockets
+    * revamp socket design to manage all types
+  * new observer class
+  * report over socket, better filtering
 
 1.1 - 2010-10-13 (SVN r975)
   * fix expiration
