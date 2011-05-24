@@ -178,22 +178,18 @@ REJECT 'file2' 0 <= line <= 0, alert <= level <= regression
 REJECT 'file1' 0 <= line <= 15, alert <= level <= regression
 ACCEPT 'file1' 5 <= line <= 25, debug <= level <= regression
 file1:20: INFO: filter enabled
-file1:20: DEBUG: filter enabled
 Listing filter conditions:
 REJECT 'file2' 0 <= line <= 0, alert <= level <= regression
 REJECT 'file1' 0 <= line <= 15, alert <= level <= regression
 ACCEPT 'file1' 5 <= line <= 25, debug <= level <= regression
 ACCEPT '' 0 <= line <= 0, alert <= level <= verbose
-file0:20: VERBOSE: filters not enabled
 file1:10: INFO: filter enabled
 file1:20: INFO: filter enabled
-file1:20: DEBUG: filter enabled
 file2:20: INFO: filter enabled
 Listing filter conditions:
 REJECT 'file2' 0 <= line <= 0, alert <= level <= regression
 REJECT 'file1' 0 <= line <= 15, alert <= level <= regression
 ACCEPT '' 0 <= line <= 0, alert <= level <= verbose
-file0:20: VERBOSE: filters not enabled
 file1:10: INFO: filter enabled
 file1:20: INFO: filter enabled
 file2:20: INFO: filter enabled
