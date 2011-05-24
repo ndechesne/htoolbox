@@ -1,4 +1,9 @@
 initial (global) log level is verbose
+report 'my report' [info]:
+ -> filter 'default console filter' (open) [info]:
+ --> conditions:
+ --> output:
+ ---> console 'default console' (open) [info]
 receiver (local) log level is info
 receiver (local) log level is info
 sender (global) log level is verbose
@@ -11,7 +16,7 @@ receive: type=3 tag=18, len=27, value='I am not a stupid protocol!'
 receive: type=0 tag=65532, len=0, value=''
 receive: type=1 tag=65530, len=0, value=''
 receive: type=3 tag=65520, len=12, value='tlv_test.cpp'
-receive: type=3 tag=65521, len=3, value='139'
+receive: type=3 tag=65521, len=3, value='140'
 receive: type=3 tag=65522, len=1, value='3'
 receive: type=3 tag=65523, len=0, value=''
 receive: type=3 tag=65524, len=1, value='0'
@@ -23,13 +28,13 @@ receive: type=3 tag=65523, len=1, value='1'
 receive: type=3 tag=65524, len=1, value='3'
 receive: type=3 tag=65525, len=34, value='this is some text with a number 17'
 receive: type=3 tag=65520, len=12, value='tlv_test.cpp'
-receive: type=3 tag=65521, len=3, value='142'
+receive: type=3 tag=65521, len=3, value='143'
 receive: type=3 tag=65522, len=1, value='3'
 receive: type=3 tag=65523, len=0, value=''
 receive: type=3 tag=65524, len=1, value='0'
 receive: type=3 tag=65525, len=28, value='message sent twice to socket'
 receive: type=3 tag=65520, len=12, value='tlv_test.cpp'
-receive: type=3 tag=65521, len=3, value='142'
+receive: type=3 tag=65521, len=3, value='143'
 receive: type=3 tag=65522, len=1, value='3'
 receive: type=3 tag=65523, len=0, value=''
 receive: type=3 tag=65524, len=1, value='0'

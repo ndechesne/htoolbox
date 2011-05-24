@@ -36,15 +36,17 @@ namespace htoolbox {
     Private* const    _d;
     static size_t utf8_len(const char* s);
   public:
-    Report();
+    Report(const char* name);
     ~Report();
+    const char* name() const;
 
     class IOutput : public Observee {
     protected:
       Criticality       _level;
       bool              _open;
     public:
-      IOutput() : _level(info), _open(false) {}
+      IOutput(const char* name) :
+        Observee(name), _level(info), _open(false) {}
       virtual ~IOutput() {}
       virtual void setLevel(Level level) {
         _level = level;
@@ -67,23 +69,26 @@ namespace htoolbox {
         size_t          line,
         Level           level,
         bool            temporary,
-        size_t          ident,
+        size_t          indentation,
         const char*     format,
         va_list*        args) = 0;
+      virtual void show(Level level, size_t indentation) const = 0;
     };
 
     class ConsoleOutput : public IOutput {
       size_t            _size_to_overwrite;
     public:
-      ConsoleOutput() : _size_to_overwrite(0) {}
+      ConsoleOutput(const char* name) :
+        IOutput(name), _size_to_overwrite(0) {}
       int log(
         const char*     file,
         size_t          line,
         Level           level,
         bool            temporary,
-        size_t          ident,
+        size_t          indentation,
         const char*     format,
         va_list*        args);
+      void show(Level level, size_t indentation = 0) const;
     };
 
     class FileOutput : public IOutput {
@@ -96,6 +101,7 @@ namespace htoolbox {
         size_t          backups   = 0,      // default: no backup
         bool            zip       = false); // default: do no zip backups
       ~FileOutput();
+      const char* name() const;
       int open();
       int close();
       bool isOpen() const;
@@ -104,16 +110,18 @@ namespace htoolbox {
         size_t          line,
         Level           level,
         bool            temporary,
-        size_t          ident,
+        size_t          indentation,
         const char*     format,
         va_list*        args);
+      void show(Level level, size_t indentation = 0) const;
     };
 
     class TlvOutput : public IOutput {
       tlv::Sender&      _sender;
     public:
       // The log consumes 9 tags
-      TlvOutput(tlv::Sender& sender) : _sender(sender) {
+      TlvOutput(const char* name, tlv::Sender& sender) :
+          IOutput(name), _sender(sender) {
         open();
       }
       int log(
@@ -121,9 +129,10 @@ namespace htoolbox {
         size_t          line,
         Level           level,
         bool            temporary,
-        size_t          ident,
+        size_t          indentation,
         const char*     format,
         va_list*        args);
+      void show(Level level, size_t indentation = 0) const;
     };
 
     class TlvManager : public tlv::IReceptionManager {
@@ -155,6 +164,7 @@ namespace htoolbox {
     public:
       Filter(const char* name, IOutput* output, bool auto_delete);
       ~Filter();
+      const char* name() const { return _name; }
       // This shall trigger us back to check for macro check level
       void setLevel(Level level) {
         _output->setLevel(level);
@@ -187,10 +197,10 @@ namespace htoolbox {
         size_t          line,
         Level           level,
         bool            temp,
-        size_t          ident,
+        size_t          indent,
         const char*     format,
         va_list*        args);
-      void show(Level level) const;
+      void show(Level level, size_t indentation = 0) const;
     };
 
     // Log to console
@@ -225,6 +235,7 @@ namespace htoolbox {
       size_t          indent,      // text indentation
       const char*     format,
       ...) __attribute__ ((format (printf, 7, 8)));
+    void show(Level level, size_t indentation = 0) const;
   private:
     ConsoleOutput     _console;
     Filter            _con_filter;

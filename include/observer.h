@@ -23,10 +23,13 @@ namespace htoolbox {
   class Observer;
 
   class Observee {
+    const char* _name;
     std::list<Observer*>  _observers;
   public:
     friend class Observer;
+    Observee(const char* name = NULL) : _name(name) {}
     virtual ~Observee();
+    virtual const char* name() const { return _name; }
     void registerObserver(Observer*);
     void unregisterObserver(Observer*);
     void notifyObservers() const;

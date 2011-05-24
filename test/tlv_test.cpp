@@ -36,7 +36,8 @@ pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
 
 void* receiver(void*) {
   // Report test!
-  Report my_report;
+  Report my_report("my report");
+  my_report.show(info);
   tl_report = &my_report;
   hlog_info("receiver (local) log level is %s", tl_report->level().toString());
 
@@ -128,7 +129,7 @@ int main(void) {
   hlog_info("log test");
   // The global report shall log to the socket, but filter out the thread
   report.stopConsoleLog();
-  Report::TlvOutput o(sender);
+  Report::TlvOutput o("tlv", sender);
   Report::Filter f("sender", &o, false);
   f.addCondition(false, "tlv_test.cpp", 37, 76);
   if (sender.start() < 0) {

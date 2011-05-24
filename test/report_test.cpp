@@ -320,7 +320,7 @@ int main(void) {
   cout << endl << "Filters" << endl;
   report.stopConsoleLog();
   hlog_info("should not appear");
-  Report::ConsoleOutput con_log;
+  Report::ConsoleOutput con_log("local console");
   con_log.open();
   con_log.setLevel(info);
   Report::Filter fil("filter 1", &con_log, false);
@@ -330,20 +330,20 @@ int main(void) {
   report.log("file2", 20 , info, false, 0, "file2:20: INFO: filters not enabled");
   // Reject file2 altogether
   fil.addCondition(false, "file2");
-  fil.show(info);
+  report.show(info);
   report.log("file0", 20 , verbose, false, 0, "file0:20: VERBOSE: filters not enabled");
   report.log("file1", 20 , info, false, 0, "file1:20: INFO: filter enabled");
   report.log("file2", 20 , info, false, 0, "file2:20: INFO: filter enabled");
   // Reject file1 line > 15
   fil.addCondition(false, "file1", 0, 15);
-  fil.show(info);
+  report.show(info);
   report.log("file0", 20 , verbose, false, 0, "file0:20: VERBOSE: filters not enabled");
   report.log("file1", 10 , info, false, 0, "file1:10: INFO: filter enabled");
   report.log("file1", 20 , info, false, 0, "file1:20: INFO: filter enabled");
   report.log("file2", 20 , info, false, 0, "file2:20: INFO: filter enabled");
   // Accept file1 5 < line < 25 level >= debug
   size_t index = fil.addCondition(true, "file1", 5, 25, debug);
-  fil.show(info);
+  report.show(info);
   report.log("file0", 20 , verbose, false, 0, "file0:20: VERBOSE: filters not enabled");
   report.log("file1", 10 , info, false, 0, "file1:10: INFO: filter enabled");
   report.log("file1", 20 , info, false, 0, "file1:20: INFO: filter enabled");
@@ -351,7 +351,7 @@ int main(void) {
   report.log("file2", 20 , info, false, 0, "file2:20: INFO: filter enabled");
   // Accept all if level <= verbose
   fil.addCondition(true, "", 0, 0, alert, verbose);
-  fil.show(info);
+  report.show(info);
   report.log("file0", 20 , verbose, false, 0, "file0:20: VERBOSE: filters not enabled");
   report.log("file1", 10 , info, false, 0, "file1:10: INFO: filter enabled");
   report.log("file1", 20 , info, false, 0, "file1:20: INFO: filter enabled");
@@ -359,7 +359,7 @@ int main(void) {
   report.log("file2", 20 , info, false, 0, "file2:20: INFO: filter enabled");
   // Remove rule on debug
   fil.removeCondition(index);
-  fil.show(info);
+  report.show(info);
   report.log("file0", 20 , verbose, false, 0, "file0:20: VERBOSE: filters not enabled");
   report.log("file1", 10 , info, false, 0, "file1:10: INFO: filter enabled");
   report.log("file1", 20 , info, false, 0, "file1:20: INFO: filter enabled");
@@ -434,7 +434,7 @@ int main(void) {
 
 
   cout << endl << "Specific report" << endl;
-  Report my_report;
+  Report my_report("my report");
   tl_report = &my_report;
   hlog_alert("some message with a number %d", 9);
   hlog_info("message with a number %d", 10);

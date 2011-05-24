@@ -39,7 +39,7 @@ using namespace std;
 
 using namespace htoolbox;
 
-Report htoolbox::report;
+Report htoolbox::report("default report");
 __thread Report* htoolbox::tl_report;
 
 enum {
@@ -47,6 +47,7 @@ enum {
 };
 
 struct Report::Private {
+  const char*     name;
   pthread_mutex_t mutex;
   Private() {
     pthread_mutexattr_t attr;
@@ -77,13 +78,19 @@ size_t Report::utf8_len(const char* s) {
   return size;
 }
 
-Report::Report() : _d(new Private), _con_filter("console", &_console, false) {
+Report::Report(const char* name) : _d(new Private), _console("default console"),
+    _con_filter("default console filter", &_console, false) {
+  _d->name = name;
   _con_filter.registerObserver(this);
   _console.open();
 }
 
 Report::~Report() {
   delete _d;
+}
+
+const char* Report::name() const {
+  return _d->name;
 }
 
 void Report::startConsoleLog() {
@@ -119,7 +126,7 @@ int Report::log(
     size_t          line,
     Level           level,
     bool            temp,
-    size_t          ident,
+    size_t          indentation,
     const char*     format,
     ...) {
   va_list ap;
@@ -133,7 +140,7 @@ int Report::log(
     if (output->isOpen() && (level <= output->level())) {
       va_list aq;
       va_copy(aq, ap);
-      if (output->log(file, line, level, temp, ident, format, &aq) < 0) {
+      if (output->log(file, line, level, temp, indentation, format, &aq) < 0) {
         rc = -1;
       }
       va_end(aq);
@@ -145,12 +152,22 @@ int Report::log(
   return rc;
 }
 
+void Report::show(Level level, size_t indentation) const {
+  hlog_generic(level, false, indentation, "report '%s' [%s]:", name(),
+    this->level().toString());
+  for (list<Observee*>::const_iterator it = _observees.begin();
+      it != _observees.end(); ++it) {
+    IOutput* output = dynamic_cast<IOutput*>(*it);
+    output->show(level, indentation + 1);
+  }
+}
+
 int Report::ConsoleOutput::log(
     const char*     file,
     size_t          line,
     Level           level,
     bool            temporary,
-    size_t          ident,
+    size_t          indentation,
     const char*     format,
     va_list*        args) {
   (void) file;
@@ -169,23 +186,21 @@ int Report::ConsoleOutput::log(
     case warning:
       offset += sprintf(&buffer[offset], "Warning: ");
       break;
+    case info:
     case verbose:
     case debug:
+    case regression:
       // add arrow
-      if (ident > 0) {
+      if (indentation > 0) {
         /* " --n--> " */
         buffer[offset++] = ' ';
-        for (size_t i = 0; i < ident; ++i) {
+        for (size_t i = 0; i < indentation; ++i) {
           buffer[offset++] = '-';
         }
         buffer[offset++] = '>';
         buffer[offset++] = ' ';
       }
       break;
-    case regression:
-      break;
-    default:
-      ;
   }
   // message
   offset += vsnprintf(&buffer[offset], sizeof(buffer) - offset, format, *args);
@@ -228,6 +243,11 @@ int Report::ConsoleOutput::log(
     _size_to_overwrite = 0;
   }
   return static_cast<int>(offset);
+}
+
+void Report::ConsoleOutput::show(Level level, size_t indentation) const {
+  hlog_generic(level, false, indentation, "console '%s' (%s) [%s]", name(),
+    isOpen() ? "open" : "closed", this->level().toString());
 }
 
 struct Report::FileOutput::Private {
@@ -375,7 +395,7 @@ Report::FileOutput::FileOutput(
     const char*     name,
     size_t          max_lines,
     size_t          max_files,
-    bool            zip) : _d(new Private(*this)) {
+    bool            zip) : IOutput(""), _d(new Private(*this)) {
   _d->name = strdup(name);
   _d->max_lines = max_lines;
   _d->max_files = max_files;
@@ -386,6 +406,10 @@ Report::FileOutput::~FileOutput() {
   close();
   free(_d->name);
   delete _d;
+}
+
+const char* Report::FileOutput::name() const {
+  return _d->name;
 }
 
 int Report::FileOutput::open() {
@@ -416,10 +440,9 @@ int Report::FileOutput::log(
     size_t          line,
     Level           level,
     bool            temporary,
-    size_t          ident,
+    size_t          indentation,
     const char*     format,
     va_list*        args) {
-  (void) ident;
   // print only if required
   if (temporary) {
     return 0;
@@ -460,6 +483,14 @@ int Report::FileOutput::log(
   }
   // location
   rc += fprintf(_d->fd, "%s:%zd ", file, line);
+  // indentation
+  if (indentation > 0) {
+    char indent[] = "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t";
+    if (indentation < sizeof(indent)) {
+      indent[indentation] = '\0';
+    }
+    rc += fprintf(_d->fd, "%s", indent);
+  }
   // message
   rc += vfprintf(_d->fd, format, *args);
   // end
@@ -467,6 +498,16 @@ int Report::FileOutput::log(
   fflush(_d->fd);
   ++_d->lines;
   return rc;
+}
+
+void Report::FileOutput::show(Level level, size_t indentation) const {
+  hlog_generic(level, false, indentation, "file '%s' (%s) [%s]:", name(),
+    isOpen() ? "open" : "closed", this->level().toString());
+  hlog_generic(level, false, indentation + 1, "name: '%s'", _d->name);
+  hlog_generic(level, false, indentation + 1, "max_lines: %zu", _d->max_lines);
+  hlog_generic(level, false, indentation + 1, "max_files: %zu", _d->max_files);
+  hlog_generic(level, false, indentation + 1, "zip_backups: %s",
+    _d->zip_backups ? "yes" : "no");
 }
 
 int Report::TlvOutput::log(
@@ -489,11 +530,16 @@ int Report::TlvOutput::log(
   buffer[sizeof(buffer) - 1] = '\0';
   m.add(tag++, buffer, len);
   if (m.send(_sender, false) < 0) {
-    hlog_error("Report::TlvOutput::log: %s logging for file='%s' line=%zu",
-      strerror(errno), file, line);
+    hlog_error("Report::TlvOutput::log: %m logging for file='%s' line=%zu",
+      file, line);
     return -1;
   }
   return 0;
+}
+
+void Report::TlvOutput::show(Level level, size_t indentation) const {
+  hlog_generic(level, false, indentation, "tlv '%s' (%s) [%s]", name(),
+    isOpen() ? "open" : "closed", this->level().toString());
 }
 
 int Report::TlvManager::submit(uint16_t tag, size_t size, const char* val) {
@@ -536,15 +582,16 @@ public:
             (memcmp(_file_name, file, _file_name_length) == 0)) &&
            (line >= _min_line) && ((_max_line == 0) || (line <= _max_line));
   }
-  void show(Level level) const {
-    hlog_report(level, "%s '%s' %zu <= line <= %zu, %s <= level <= %s",
+  void show(Level level, size_t indentation = 0) const {
+    hlog_generic(level, false, indentation,
+      "%s '%s' %zu <= line <= %zu, %s <= level <= %s",
       _accept ? "ACCEPT" : "REJECT", _file_name, _min_line, _max_line,
       _min_level.toString(), _max_level.toString());
   }
 };
 
 Report::Filter::Filter(const char* name, IOutput* output, bool auto_delete)
-  : _output(output), _auto_delete(auto_delete), _index(0) {
+  : IOutput(""), _output(output), _auto_delete(auto_delete), _index(0) {
   strncpy(_name, name, sizeof(_name));
   _name[sizeof(_name) - 1] = '\0';
   _output->registerObserver(this);
@@ -606,7 +653,7 @@ int Report::Filter::log(
     size_t          line,
     Level           level,
     bool            temp,
-    size_t          ident,
+    size_t          indentation,
     const char*     format,
     va_list*        args) {
   // If the level is loggable, accept
@@ -620,15 +667,19 @@ int Report::Filter::log(
     }
   }
   if (accept) {
-    return _output->log(file, line, level, temp, ident, format, args);
+    return _output->log(file, line, level, temp, indentation, format, args);
   }
   return 0;
 }
 
-void Report::Filter::show(Level level) const {
-  hlog_report(level, "Listing filter conditions:");
+void Report::Filter::show(Level level, size_t indentation) const {
+  hlog_generic(level, false, indentation, "filter '%s' (%s) [%s]:", name(),
+    isOpen() ? "open" : "closed", this->level().toString());
+  hlog_generic(level, false, indentation + 1, "conditions:");
   for (list<Condition*>::const_iterator it = _conditions.begin();
       it != _conditions.end(); ++it) {
-    (*it)->show(level);
+    (*it)->show(level, indentation + 2);
   }
+  hlog_generic(level, false, indentation + 1, "output:");
+  _output->show(level, indentation + 2);
 }
