@@ -4,8 +4,8 @@
 AC_PREREQ(2.61)
 
 # This contains version information
-AC_INIT([HToolBox],[1.2],[herve@lucidia.net])
-AC_SUBST(LIB_VERSION, [3:0:2])
+AC_INIT([HToolBox],[1.2.90],[herve@lucidia.net])
+AC_SUBST(LIB_VERSION, [3:90:2])
 
 AM_INIT_AUTOMAKE([foreign])
 AC_CONFIG_SRCDIR([config.h.in])
