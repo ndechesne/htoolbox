@@ -31,7 +31,7 @@ using namespace htoolbox;
 int my_time = 0;
 
 class Pit : public IReaderWriter {
-  long long _offset;
+  int64_t _offset;
 public:
   int open() { _offset = 0; return 0; }
   int close() { return 0; }
@@ -46,7 +46,7 @@ public:
     return size;
   }
   const char* path() const { return "pit"; }
-  long long offset() const { return _offset; }
+  int64_t offset() const { return _offset; }
 };
 
 class Top : public IReaderWriter {
@@ -101,7 +101,7 @@ int main() {
   if (fw->put(buffer3, sizeof(buffer3)) < 0) return 0;
   if (fw->put(buffer4, sizeof(buffer4)) < 0) return 0;
   if (fw->close() < 0) return 0;
-  hlog_regression("offset = '%lld'", fw->offset());
+  hlog_regression("offset = '%jd'", fw->offset());
 
   hlog_regression("hash1 = '%s'", hash1);
   memset(hash1, 0, sizeof(hash1));
@@ -126,7 +126,7 @@ int main() {
   if (fm->put(buffer3, sizeof(buffer3)) < 0) return 0;
   if (fm->put(buffer4, sizeof(buffer4)) < 0) return 0;
   if (fm->close() < 0) return 0;
-  hlog_regression("offset = '%lld'", fm->offset());
+  hlog_regression("offset = '%jd'", fm->offset());
 
   hlog_regression("hash1 = '%s'", hash1);
   memset(hash1, 0, sizeof(hash1));

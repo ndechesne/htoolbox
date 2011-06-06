@@ -18,6 +18,7 @@
 #define _IREADERWRITER_H
 
 #include <unistd.h>
+#include <stdint.h>
 
 namespace htoolbox {
 
@@ -104,7 +105,7 @@ public:
   /*!
    * \return            offset in the underlying stream
   */
-  virtual long long offset() const {
+  virtual int64_t offset() const {
     return _child == NULL ? -1 : _child->offset();
   }
 };

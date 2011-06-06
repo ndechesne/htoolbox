@@ -29,7 +29,7 @@ struct FileReaderWriter::Private {
   char      path[PATH_MAX];
   bool      writer;
   int       fd;
-  long long offset;
+  int64_t   offset;
   Private(const char* p, bool w) : writer(w), fd(-1) {
     strcpy(path, p);
   }
@@ -114,6 +114,6 @@ const char* FileReaderWriter::path() const {
   return _d->path;
 }
 
-long long FileReaderWriter::offset() const {
+int64_t FileReaderWriter::offset() const {
   return _d->offset;
 }

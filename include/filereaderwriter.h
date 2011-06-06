@@ -42,7 +42,7 @@ public:
   ssize_t get(void* buffer, size_t size);
   ssize_t put(const void* buffer, size_t size);
   const char* path() const;
-  long long offset() const;
+  int64_t offset() const;
 };
 
 };

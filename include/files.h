@@ -74,7 +74,7 @@ protected:
   const char*   _basename;  // file cached base name
   char          _type;      // file type ('?' if metadata not available)
   time_t        _mtime;     // time of last modification
-  long long     _size;      // file size, in bytes
+  int64_t       _size;      // file size, in bytes
   uid_t         _uid;       // user ID of owner
   gid_t         _gid;       // group ID of owner
   mode_t        _mode;      // permissions
@@ -116,7 +116,7 @@ public:
       const char* path,
       char        type,
       time_t      mtime,
-      long long   size,
+      int64_t   size,
       uid_t       uid,
       gid_t       gid,
       mode_t      mode,
@@ -144,7 +144,7 @@ public:
   }
   // Reset some metadata
   void setMtime(time_t mtime)    { _mtime = mtime; }
-  void setSize(long long size)   { _size  = size;  }
+  void setSize(int64_t size)   { _size  = size;  }
   // Only used in list test
   void setHash(const char* hash) { strcpy(_hash, hash); }
   void setLink(const char* link) {
@@ -165,7 +165,7 @@ public:
   const char*   name()    const { return _basename;     }
   char          type()    const { return _type;         }
   time_t        mtime()   const { return _mtime;        }
-  long long     size()    const { return _size;         }
+  int64_t     size()    const { return _size;         }
   uid_t         uid()     const { return _uid;          }
   gid_t         gid()     const { return _gid;          }
   mode_t        mode()    const { return _mode;         }

@@ -50,7 +50,7 @@ int main() {
         if (rc < 0) {
           hlog_regression("%s writing file", strerror(errno));
         } else {
-          hlog_regression("written %zd bytes (total %lld) to %s",
+          hlog_regression("written %zd bytes (total %jd) to %s",
             rc, fw.offset(), fw.path());
         }
         count += rc;
@@ -84,7 +84,7 @@ int main() {
         if (rc < 0) {
           hlog_regression("%s reading file", strerror(errno));
         } else {
-          hlog_regression("read %zd bytes (total %lld) from %s",
+          hlog_regression("read %zd bytes (total %jd) from %s",
             rc, fr.offset(), fr.path());
         }
         count += rc;
@@ -107,7 +107,7 @@ int main() {
       if (rc < 0) {
         hlog_regression("%s writing file", strerror(errno));
       } else {
-        hlog_regression("written %zd bytes (total %lld) to %s",
+        hlog_regression("written %zd bytes (total %jd) to %s",
                         rc, fw.offset(), fw.path());
       }
       if (fw.close() < 0) {
@@ -131,7 +131,7 @@ int main() {
         if (rc < 0) {
           hlog_regression("%s writing file", strerror(errno));
         } else {
-          hlog_regression("written %zd bytes (total %lld) to %s",
+          hlog_regression("written %zd bytes (total %jd) to %s",
             rc, fw.offset(), fw.path());
         }
       }
@@ -153,7 +153,7 @@ int main() {
         if (rc < 0) {
           hlog_regression("%s reading file", strerror(errno));
         } else {
-          hlog_regression("read %zd bytes (total %lld) from %s",
+          hlog_regression("read %zd bytes (total %jd) from %s",
             rc, fr.offset(), fr.path());
         }
         count += rc;

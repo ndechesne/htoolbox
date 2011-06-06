@@ -72,7 +72,7 @@ static void showFile(const Node& g, int level = 0) {
   {
     type = "Oth.";
   }
-  printf("%s: %s, path = %s, type = %c, mtime = %d, size = %lld, uid = %d, "
+  printf("%s: %s, path = %s, type = %c, mtime = %d, size = %jd, uid = %d, "
          "gid = %d, mode = %03o",
          type, g.name(), g.path(), g.type(), g.mtime() != 0,
          (g.type() == 'd') ? 1 : g.size(),

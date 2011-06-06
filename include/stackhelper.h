@@ -54,7 +54,7 @@ public:
   const char* path() const {
     return _child->path();
   }
-  long long offset() const {
+  int64_t offset() const {
     return _child->offset();
   }
 };

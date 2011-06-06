@@ -56,7 +56,7 @@ public:
   //! \brief Returns the path of the last error if any, or an empty string
   const char* path() const;
   //! \brief Returns the first valid offset found, if any
-  long long offset() const;
+  int64_t offset() const;
 };
 
 };

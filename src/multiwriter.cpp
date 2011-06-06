@@ -116,10 +116,10 @@ const char* MultiWriter::path() const {
   return _d->path;
 }
 
-long long MultiWriter::offset() const {
+int64_t MultiWriter::offset() const {
   list<Private::Child>::iterator it;
   for (it = _d->children.begin(); it != _d->children.end(); ++it) {
-    long long offset = it->child->offset();
+    int64_t offset = it->child->offset();
     if (offset >= 0) {
       return offset;
     }

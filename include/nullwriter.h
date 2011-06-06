@@ -28,7 +28,7 @@ namespace htoolbox {
  * Offset is valid.
  */
 class NullWriter : public IReaderWriter {
-  long long _offset;
+  int64_t _offset;
 public:
   NullWriter() {}
   ~NullWriter() {}
@@ -55,7 +55,7 @@ public:
   const char* path() const {
     return "";
   };
-  long long offset() const {
+  int64_t offset() const {
     return _offset;
   };
 };
