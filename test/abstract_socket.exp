@@ -5,10 +5,10 @@ Device or resource busy, concurrent server failed to listen
 server going to accept connections
 server going to accept connections
 client1 path = '@this_is_quite_a_long_socket'
-client connection socket #4
+client connection socket #1
 client connected
 client2 path = '@this_is_quite_a_long_socket'
-client connection socket #5
+client connection socket #2
 client connected
 received 'This is my message'
 received 'Let us have another message'

@@ -5,10 +5,10 @@ Device or resource busy, concurrent server failed to listen
 server going to accept connections
 server going to accept connections
 client1 path = 'localhost:12345'
-client connection socket #4
+client connection socket #1
 client connected
 client2 path = '127.0.0.1:12345'
-client connection socket #5
+client connection socket #2
 client connected
 received 'This is my message'
 received 'Let us have another message'
