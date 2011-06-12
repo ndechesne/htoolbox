@@ -129,7 +129,6 @@ void* receiver(void*) {
     size_t      len;
     char        val[65536];
     type = receiver.receive(&tag, &len, val);
-    usleep(1000);
     hlog_info("receive: type=%d tag=%u, len=%zu %s", type, tag, len,
       tag < 65530 ? "" : val);
     if (type == Receiver::DATA) {
@@ -177,7 +176,7 @@ void* receiver(void*) {
 }
 
 int main(void) {
-  report.setLevel(verbose);
+  report.setLevel(regression);
   pthread_mutex_lock(&main_mutex);
 
   for (size_t i = 0; i < sizeof(tx_buffer); ++i) {

@@ -22,6 +22,7 @@
 #include <errno.h>
 #include <pthread.h>
 
+#include <report.h>
 #include <tlv.h>
 #include "tlv_helper.h"
 
@@ -126,6 +127,8 @@ int ReceptionManager::receive(Receiver& rec, abort_cb_f abort_cb, void* user) {
   char            val[65536];
   do {
     type = rec.receive(&tag, &len, val);
+    hlog_regression("receive: type=%d tag=%d len=%zu %s%s", type, tag, len,
+      type < 0 ? "msg=" : "", type < 0 ? val : "");
     switch (type) {
       case Receiver::CHECK:
         if ((abort_cb != NULL) && abort_cb(user)) {
@@ -151,6 +154,7 @@ ssize_t TransmissionManager::send(Sender& sender, bool start_and_end) {
   ssize_t rc = 0;
   if (start_and_end && ! _started) {
     rc = this->start(sender);
+    hlog_regression("send: rc=%zd start", rc);
     if (rc < 0) return -errno;
   }
   const ITransmissionManager* src = this;
@@ -165,6 +169,7 @@ ssize_t TransmissionManager::send(Sender& sender, bool start_and_end) {
           return o.length();
         } else {
           rc = sender.write(o.tag(), o.value(), o.length());
+          hlog_regression("send: rc=%zd tag=%d len=%zu", rc, o.tag(), o.length());
           if (rc < 0) return -errno;
         }
       }
@@ -173,6 +178,7 @@ ssize_t TransmissionManager::send(Sender& sender, bool start_and_end) {
   }
   if (start_and_end && _started) {
     rc = sender.end();
+    hlog_regression("send: rc=%zd end", rc);
     if (rc < 0) return -errno;
     _started = false;
   }

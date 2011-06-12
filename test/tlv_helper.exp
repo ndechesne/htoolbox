@@ -1,3 +1,11 @@
+send: rc=0 start
+send: rc=0 tag=0 len=0
+send: rc=0 tag=1 len=1
+send: rc=0 tag=21 len=65535
+send: rc=0 tag=21 len=0
+send: rc=0 tag=22 len=30
+send: rc=0 tag=23 len=30
+send: rc=0 tag=24 len=0
 receive: type=1 tag=65530, len=0 start
 receive: type=3 tag=0, len=0 
 receive: type=3 tag=1, len=1 
@@ -6,12 +14,20 @@ receive: type=3 tag=21, len=0
 receive: type=3 tag=22, len=30 
 receive: type=3 tag=23, len=30 
 receive: type=3 tag=24, len=0 
+send: rc=0 tag=25 len=65535
+send: rc=0 tag=25 len=36865
 tx callback called for BigBlobT, sent = 65535, rc = 65535
+send: rc=0 tag=3 len=65535
 tx callback called for BigBlobT, sent = 102400, rc = 36865
 receive: type=3 tag=25, len=65535 
 receive: type=3 tag=25, len=36865 
+send: rc=0 tag=3 len=36865
 tx callback called for BigBlobT, sent = 102400, rc = 0
+send: rc=0 tag=3 len=0
+send: rc=0 tag=4 len=2
+send: rc=0 tag=5 len=19
 tx callback called for BigBlobT, sent = 65535, rc = 65535
+send: rc=0 tag=3 len=65535
 tx callback called for BigBlobT, sent = 102400, rc = -103587
 receive: type=3 tag=3, len=65535 
 rx callback called for BigBlobR, received = 65535, rc = 65535
