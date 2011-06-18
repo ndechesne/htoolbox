@@ -63,12 +63,15 @@ void* receiver(void*) {
     type = receiver.receive(&tag, &len, val);
     hlog_info("receive: type=%d tag=%u, len=%zu, value='%s'",
       type, tag, len, ((len > 0) || (tag == 0)) ? val : "");
-    // The code below would be fun, but report would see a line number within
-    // range (the original one) and try to send it over the socket...
-/*    if ((tag >= tlv::log_start_tag) && (tag < tlv::log_start_tag + 10) &&
-        (log_manager.submit(tag, len, val) < 0)) {
-      hlog_error("%s logging", strerror(errno));
-    }*/
+    // Report would see a line number within range (the original one) and try
+    // to send it over the socket, so change it to something stupidly remote
+    if ((tag >= tlv::log_start_tag) && (tag < tlv::log_start_tag + 10)) {
+      if (tag == tlv::log_start_tag + 1) {
+        len = 7;
+        strcpy(val, "1000000");
+      }
+      log_manager.submit(tag, len, val);
+    }
   } while (type >= Receiver::END);
 
   sock.close();
