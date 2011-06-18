@@ -42,8 +42,10 @@ void activity_callback(bool idle, void* user) {
 
 int main(void) {
   report.setLevel(debug);
-  report.consoleFilter().addCondition(true, "threads_manager.cpp", 0, 0, regression);
-  report.consoleFilter().addCondition(true, __FILE__, 0, 0, regression);
+  report.consoleFilter().addCondition(Report::Filter::force,
+    "threads_manager.cpp", 0, 0, regression);
+  report.consoleFilter().addCondition(Report::Filter::force,
+    __FILE__, 0, 0, regression);
 
   Queue q_out("out", 20);
   char user[32] = "";

@@ -164,30 +164,25 @@ temporary message: debug  \r
                         \r
 
 Filters
+report 'default report' [info]:
+ -> filter 'filter 1' (open) [info]:
+ --> no conditions
+ --> output:
+ ---> console 'local console' (open) [info]
+file1:2: INFO: filter enabled
+file1:10: INFO: filter enabled
 file1:20: INFO: filters not enabled
 file2:20: INFO: filters not enabled
 report 'default report' [info]:
- -> filter 'default console filter' (closed) [regression]:
- --> conditions:
- ---> REJECT 'report_test.cpp' 0 <= line <= 0, regression <= level <= regression
- ---> ACCEPT 'report_test.cpp' 0 <= line <= 265, regression <= level <= regression
- ---> ACCEPT 'report_test.cpp' 6 <= line <= 0, alert <= level <= regression
- --> output:
- ---> console 'default console' (closed) [regression]
  -> filter 'filter 1' (open) [info]:
  --> conditions:
  ---> REJECT 'file2' 0 <= line <= 0, alert <= level <= regression
  --> output:
  ---> console 'local console' (open) [info]
+file1:2: INFO: filter enabled
+file1:10: INFO: filter enabled
 file1:20: INFO: filter enabled
 report 'default report' [info]:
- -> filter 'default console filter' (closed) [regression]:
- --> conditions:
- ---> REJECT 'report_test.cpp' 0 <= line <= 0, regression <= level <= regression
- ---> ACCEPT 'report_test.cpp' 0 <= line <= 265, regression <= level <= regression
- ---> ACCEPT 'report_test.cpp' 6 <= line <= 0, alert <= level <= regression
- --> output:
- ---> console 'default console' (closed) [regression]
  -> filter 'filter 1' (open) [info]:
  --> conditions:
  ---> REJECT 'file2' 0 <= line <= 0, alert <= level <= regression
@@ -196,13 +191,6 @@ report 'default report' [info]:
  ---> console 'local console' (open) [info]
 file1:20: INFO: filter enabled
 report 'default report' [regression]:
- -> filter 'default console filter' (closed) [regression]:
- --> conditions:
- ---> REJECT 'report_test.cpp' 0 <= line <= 0, regression <= level <= regression
- ---> ACCEPT 'report_test.cpp' 0 <= line <= 265, regression <= level <= regression
- ---> ACCEPT 'report_test.cpp' 6 <= line <= 0, alert <= level <= regression
- --> output:
- ---> console 'default console' (closed) [regression]
  -> filter 'filter 1' (open) [regression]:
  --> conditions:
  ---> REJECT 'file2' 0 <= line <= 0, alert <= level <= regression
@@ -213,13 +201,6 @@ report 'default report' [regression]:
 file1:20: INFO: filter enabled
 file1:20: DEBUG: filter enabled
 report 'default report' [regression]:
- -> filter 'default console filter' (closed) [regression]:
- --> conditions:
- ---> REJECT 'report_test.cpp' 0 <= line <= 0, regression <= level <= regression
- ---> ACCEPT 'report_test.cpp' 0 <= line <= 265, regression <= level <= regression
- ---> ACCEPT 'report_test.cpp' 6 <= line <= 0, alert <= level <= regression
- --> output:
- ---> console 'default console' (closed) [regression]
  -> filter 'filter 1' (open) [regression]:
  --> conditions:
  ---> REJECT 'file2' 0 <= line <= 0, alert <= level <= regression
@@ -229,18 +210,12 @@ report 'default report' [regression]:
  --> output:
  ---> console 'local console' (open) [info]
 file0:20: VERBOSE: filters not enabled
+file1:2: INFO: filter enabled
 file1:10: INFO: filter enabled
 file1:20: INFO: filter enabled
 file1:20: DEBUG: filter enabled
 file2:20: INFO: filter enabled
 report 'default report' [verbose]:
- -> filter 'default console filter' (closed) [regression]:
- --> conditions:
- ---> REJECT 'report_test.cpp' 0 <= line <= 0, regression <= level <= regression
- ---> ACCEPT 'report_test.cpp' 0 <= line <= 265, regression <= level <= regression
- ---> ACCEPT 'report_test.cpp' 6 <= line <= 0, alert <= level <= regression
- --> output:
- ---> console 'default console' (closed) [regression]
  -> filter 'filter 1' (open) [verbose]:
  --> conditions:
  ---> REJECT 'file2' 0 <= line <= 0, alert <= level <= regression
@@ -249,7 +224,18 @@ report 'default report' [verbose]:
  --> output:
  ---> console 'local console' (open) [info]
 file0:20: VERBOSE: filters not enabled
+file1:2: INFO: filter enabled
 file1:10: INFO: filter enabled
+file1:20: INFO: filter enabled
+file2:20: INFO: filter enabled
+report 'default report' [info]:
+ -> filter 'filter 1' (open) [info]:
+ --> conditions:
+ ---> REJECT 'file2' 0 <= line <= 0, alert <= level <= regression
+ ---> REJECT 'file1' 0 <= line <= 15, alert <= level <= regression
+ ---> ACCEPT 'file2' 0 <= line <= 0
+ --> output:
+ ---> console 'local console' (open) [info]
 file1:20: INFO: filter enabled
 file2:20: INFO: filter enabled
 
@@ -260,72 +246,61 @@ Error: No such file or directory creating log file: 'missing/report.log'
 
 Rotate file
 report.log:
-2009-08-07 06:05:04 DEBUG report_test.cpp:387 message: debug
+2009-08-07 06:05:04 DEBUG report_test.cpp:451 message: debug
 report.log-1.gz:
-2009-08-07 06:05:04 VERB  report_test.cpp:386 message: verbose
+2009-08-07 06:05:04 VERB  report_test.cpp:450 message: verbose
 report.log-2.gz:
-2009-08-07 06:05:04 INFO  report_test.cpp:385 message: info
+2009-08-07 06:05:04 INFO  report_test.cpp:449 message: info
 report.log-3.gz:
-2009-08-07 06:05:04 WARN  report_test.cpp:384 message: warning
+2009-08-07 06:05:04 WARN  report_test.cpp:448 message: warning
 report.log-4.gz:
-2009-08-07 06:05:04 ERROR report_test.cpp:383 message: error
+2009-08-07 06:05:04 ERROR report_test.cpp:447 message: error
 report.log-5.gz:
-2009-08-07 06:05:04 ALERT report_test.cpp:382 message: alert
+2009-08-07 06:05:04 ALERT report_test.cpp:446 message: alert
 report.log:
 report.log-1.gz:
-2009-08-07 06:05:04 DEBUG report_test.cpp:387 message: debug
+2009-08-07 06:05:04 DEBUG report_test.cpp:451 message: debug
 report.log-2.gz:
-2009-08-07 06:05:04 VERB  report_test.cpp:386 message: verbose
+2009-08-07 06:05:04 VERB  report_test.cpp:450 message: verbose
 report.log-3.gz:
-2009-08-07 06:05:04 INFO  report_test.cpp:385 message: info
+2009-08-07 06:05:04 INFO  report_test.cpp:449 message: info
 report.log-4.gz:
-2009-08-07 06:05:04 WARN  report_test.cpp:384 message: warning
+2009-08-07 06:05:04 WARN  report_test.cpp:448 message: warning
 report.log-5.gz:
-2009-08-07 06:05:04 ERROR report_test.cpp:383 message: error
+2009-08-07 06:05:04 ERROR report_test.cpp:447 message: error
 report.log:
 report.log-1.gz:
-2009-08-07 06:05:04 DEBUG report_test.cpp:387 message: debug
+2009-08-07 06:05:04 DEBUG report_test.cpp:451 message: debug
 report.log-2.gz:
-2009-08-07 06:05:04 VERB  report_test.cpp:386 message: verbose
+2009-08-07 06:05:04 VERB  report_test.cpp:450 message: verbose
 report.log-3.gz:
-2009-08-07 06:05:04 INFO  report_test.cpp:385 message: info
+2009-08-07 06:05:04 INFO  report_test.cpp:449 message: info
 report.log-4.gz:
-2009-08-07 06:05:04 WARN  report_test.cpp:384 message: warning
+2009-08-07 06:05:04 WARN  report_test.cpp:448 message: warning
 report.log-5.gz:
-2009-08-07 06:05:04 ERROR report_test.cpp:383 message: error
-report.log:
-report.log-1.gz:
-1
-report.log-2.gz:
-2009-08-07 06:05:04 DEBUG report_test.cpp:387 message: debug
-report.log-3.gz:
-2009-08-07 06:05:04 VERB  report_test.cpp:386 message: verbose
-report.log-4.gz:
-2009-08-07 06:05:04 INFO  report_test.cpp:385 message: info
-report.log-5.gz:
-2009-08-07 06:05:04 WARN  report_test.cpp:384 message: warning
+2009-08-07 06:05:04 ERROR report_test.cpp:447 message: error
 report.log:
 report.log-1.gz:
 1
 report.log-2.gz:
-1
+2009-08-07 06:05:04 DEBUG report_test.cpp:451 message: debug
 report.log-3.gz:
-2009-08-07 06:05:04 DEBUG report_test.cpp:387 message: debug
+2009-08-07 06:05:04 VERB  report_test.cpp:450 message: verbose
 report.log-4.gz:
-2009-08-07 06:05:04 VERB  report_test.cpp:386 message: verbose
+2009-08-07 06:05:04 INFO  report_test.cpp:449 message: info
 report.log-5.gz:
-2009-08-07 06:05:04 INFO  report_test.cpp:385 message: info
+2009-08-07 06:05:04 WARN  report_test.cpp:448 message: warning
 report.log:
 report.log-1.gz:
 1
 report.log-2.gz:
 1
 report.log-3.gz:
-1
+2009-08-07 06:05:04 DEBUG report_test.cpp:451 message: debug
 report.log-4.gz:
-2009-08-07 06:05:04 DEBUG report_test.cpp:387 message: debug
+2009-08-07 06:05:04 VERB  report_test.cpp:450 message: verbose
 report.log-5.gz:
-2009-08-07 06:05:04 VERB  report_test.cpp:386 message: verbose
+2009-08-07 06:05:04 INFO  report_test.cpp:449 message: info
 report.log:
 report.log-1.gz:
 1
@@ -334,9 +309,20 @@ report.log-2.gz:
 report.log-3.gz:
 1
 report.log-4.gz:
-2009-08-07 06:05:04 DEBUG report_test.cpp:387 message: debug
+2009-08-07 06:05:04 DEBUG report_test.cpp:451 message: debug
 report.log-5.gz:
-2009-08-07 06:05:04 VERB  report_test.cpp:386 message: verbose
+2009-08-07 06:05:04 VERB  report_test.cpp:450 message: verbose
+report.log:
+report.log-1.gz:
+1
+report.log-2.gz:
+1
+report.log-3.gz:
+1
+report.log-4.gz:
+2009-08-07 06:05:04 DEBUG report_test.cpp:451 message: debug
+report.log-5.gz:
+2009-08-07 06:05:04 VERB  report_test.cpp:450 message: verbose
 report.log
 report.log-1.gz
 report.log-2.gz

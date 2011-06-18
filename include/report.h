@@ -179,9 +179,17 @@ namespace htoolbox {
        *   addCondition(false, "main.cpp", 0, 0, debug, regression)
        * - I want to ignore regression output all files
        *   addCondition(false, "", 0, 0, regression, regression)
+       * The rules are all parsed, in the order they were set: the last match
+       * wins.
        */
+      enum Mode {
+        reject = 0, // if the rule matches, reject logging
+        force  = 1, // if the rule matches, force logging
+        accept = 2, // if the rule matches, force logging abiding to output level
+      };
+      static const char* ALL_FILES;
       size_t addCondition(                      // returns condition index
-        bool            accept,                 // false to reject logging
+        Mode            mode,                   // accept/reject logging
         const char*     file_name,              // file name to filter
         size_t          min_line = 0,           // start line to filter
         size_t          max_line = 0,           // end line to filter
@@ -234,7 +242,7 @@ namespace htoolbox {
       size_t          indent,      // text indentation
       const char*     format,
       ...) __attribute__ ((format (printf, 7, 8)));
-    void show(Level level, size_t indentation = 0) const;
+    void show(Level level, size_t indentation = 0, bool show_closed = true) const;
   private:
     ConsoleOutput     _console;
     Filter            _con_filter;

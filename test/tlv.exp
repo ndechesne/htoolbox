@@ -1,7 +1,7 @@
 initial (global) log level is verbose
 report 'my report' [info]:
  -> filter 'default console filter' (open) [info]:
- --> conditions:
+ --> no conditions
  --> output:
  ---> console 'default console' (open) [info]
 receiver (local) log level is info

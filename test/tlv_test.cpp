@@ -131,7 +131,7 @@ int main(void) {
   report.stopConsoleLog();
   Report::TlvOutput o("tlv", sender);
   Report::Filter f("sender", &o, false);
-  f.addCondition(false, "tlv_test.cpp", 37, 76);
+  f.addCondition(Report::Filter::reject, "tlv_test.cpp", 37, 76);
   if (sender.start() < 0) {
     hlog_error("%s writing to socket (start)", strerror(errno));
     return 0;

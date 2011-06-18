@@ -233,7 +233,7 @@ int main(void) {
 
   cout << endl << "Verbosity level: regression, restricted" << endl;
   report.setLevel(regression);
-  report.consoleFilter().addCondition(false, __FILE__, 0, 0, regression);
+  report.consoleFilter().addCondition(Report::Filter::reject, __FILE__, 0, 0, regression);
   hlog_info("default level");
   hlog_alert("alert level");
   hlog_error("error level");
@@ -252,7 +252,7 @@ int main(void) {
 
   cout << endl << "Verbosity level: regression, file name, line restricted" << endl;
   report.setLevel(regression);
-  report.consoleFilter().addCondition(true, "report_test.cpp", 0, __LINE__ + 10,
+  report.consoleFilter().addCondition(Report::Filter::force, "report_test.cpp", 0, __LINE__ + 10,
     regression, regression);
   hlog_regression("regression level");
   hlog_info("default level");
@@ -273,7 +273,7 @@ int main(void) {
 
   cout << endl << "Verbosity level: regression, file name" << endl;
   report.setLevel(regression);
-  report.consoleFilter().addCondition(true, "report_test.cpp", regression);
+  report.consoleFilter().addCondition(Report::Filter::force, "report_test.cpp", regression);
   hlog_regression("regression level");
   hlog_info("default level");
   hlog_alert("alert level");
@@ -323,48 +323,112 @@ int main(void) {
   Report::ConsoleOutput con_log("local console");
   con_log.open();
   con_log.setLevel(info);
+  // filter 1 -> con_log
   Report::Filter fil("filter 1", &con_log, false);
+  // report -> filter 1 -> con_log
   report.add(&fil);
-  report.log("file0", 20 , verbose, false, 0, "file0:20: VERBOSE: filters not enabled");
-  report.log("file1", 20 , info, false, 0, "file1:20: INFO: filters not enabled");
-  report.log("file2", 20 , info, false, 0, "file2:20: INFO: filters not enabled");
+  report.show(info, 0, false);
+  // Won't appear as level is info
+  report.log("file0", 20, verbose, false, 0, "file0:20: VERBOSE: filters not enabled");
+  // Will appear
+  report.log("file1", 2, info, false, 0, "file1:2: INFO: filter enabled");
+  report.log("file1", 10, info, false, 0, "file1:10: INFO: filter enabled");
+  report.log("file1", 20, info, false, 0, "file1:20: INFO: filters not enabled");
+  // Won't appear as level is info
+  report.log("file1", 20, debug, false, 0, "file1:20: DEBUG: filter enabled");
+  report.log("file2", 10, debug, false, 0, "file2:10: DEBUG: filters not enabled");
+  // Will appear
+  report.log("file2", 20, info, false, 0, "file2:20: INFO: filters not enabled");
   // Reject file2 altogether
-  fil.addCondition(false, "file2");
-  report.show(info);
-  report.log("file0", 20 , verbose, false, 0, "file0:20: VERBOSE: filters not enabled");
-  report.log("file1", 20 , info, false, 0, "file1:20: INFO: filter enabled");
-  report.log("file2", 20 , info, false, 0, "file2:20: INFO: filter enabled");
+  fil.addCondition(Report::Filter::reject, "file2");
+  report.show(info, 0, false);
+  // Won't appear as level is info
+  report.log("file0", 20, verbose, false, 0, "file0:20: VERBOSE: filters not enabled");
+  // Will appear
+  report.log("file1", 2, info, false, 0, "file1:2: INFO: filter enabled");
+  report.log("file1", 10, info, false, 0, "file1:10: INFO: filter enabled");
+  report.log("file1", 20, info, false, 0, "file1:20: INFO: filter enabled");
+  // Won't appear as level is info
+  report.log("file1", 20, debug, false, 0, "file1:20: DEBUG: filter enabled");
+  // Filtered out
+  report.log("file2", 10, debug, false, 0, "file2:10: DEBUG: filters not enabled");
+  report.log("file2", 20, info, false, 0, "file2:20: INFO: filter enabled");
   // Reject file1 line > 15
-  fil.addCondition(false, "file1", 0, 15);
-  report.show(info);
-  report.log("file0", 20 , verbose, false, 0, "file0:20: VERBOSE: filters not enabled");
-  report.log("file1", 10 , info, false, 0, "file1:10: INFO: filter enabled");
-  report.log("file1", 20 , info, false, 0, "file1:20: INFO: filter enabled");
-  report.log("file2", 20 , info, false, 0, "file2:20: INFO: filter enabled");
+  fil.addCondition(Report::Filter::reject, "file1", 0, 15);
+  report.show(info, 0, false);
+  // Won't appear as level is info
+  report.log("file0", 20, verbose, false, 0, "file0:20: VERBOSE: filters not enabled");
+  // Filtered out
+  report.log("file1", 2, info, false, 0, "file1:2: INFO: filter enabled");
+  report.log("file1", 10, info, false, 0, "file1:10: INFO: filter enabled");
+  // Will appear
+  report.log("file1", 20, info, false, 0, "file1:20: INFO: filter enabled");
+  // Won't appear as level is info
+  report.log("file1", 20, debug, false, 0, "file1:20: DEBUG: filter enabled");
+  // Filtered out
+  report.log("file2", 10, debug, false, 0, "file2:10: DEBUG: filters not enabled");
+  report.log("file2", 20, info, false, 0, "file2:20: INFO: filter enabled");
   // Accept file1 5 < line < 25 level >= debug
-  size_t index = fil.addCondition(true, "file1", 5, 25, debug);
-  report.show(info);
-  report.log("file0", 20 , verbose, false, 0, "file0:20: VERBOSE: filters not enabled");
-  report.log("file1", 10 , info, false, 0, "file1:10: INFO: filter enabled");
-  report.log("file1", 20 , info, false, 0, "file1:20: INFO: filter enabled");
-  report.log("file1", 20 , debug, false, 0, "file1:20: DEBUG: filter enabled");
-  report.log("file2", 20 , info, false, 0, "file2:20: INFO: filter enabled");
+  size_t index_1 = fil.addCondition(Report::Filter::force, "file1", 5, 25, debug);
+  report.show(info, 0, false);
+  // Won't appear as level is info
+  report.log("file0", 20, verbose, false, 0, "file0:20: VERBOSE: filters not enabled");
+  // Filtered out
+  report.log("file1", 2, info, false, 0, "file1:2: INFO: filter enabled");
+  // Will appear
+  report.log("file1", 10, info, false, 0, "file1:10: INFO: filter enabled");
+  report.log("file1", 20, info, false, 0, "file1:20: INFO: filter enabled");
+  report.log("file1", 20, debug, false, 0, "file1:20: DEBUG: filter enabled");
+  // Filtered out
+  report.log("file2", 10, debug, false, 0, "file2:10: DEBUG: filters not enabled");
+  report.log("file2", 20, info, false, 0, "file2:20: INFO: filter enabled");
   // Accept all if level <= verbose
-  fil.addCondition(true, "", 0, 0, alert, verbose);
-  report.show(info);
-  report.log("file0", 20 , verbose, false, 0, "file0:20: VERBOSE: filters not enabled");
-  report.log("file1", 10 , info, false, 0, "file1:10: INFO: filter enabled");
-  report.log("file1", 20 , info, false, 0, "file1:20: INFO: filter enabled");
-  report.log("file1", 20 , debug, false, 0, "file1:20: DEBUG: filter enabled");
-  report.log("file2", 20 , info, false, 0, "file2:20: INFO: filter enabled");
+  size_t index_2 = fil.addCondition(Report::Filter::force,
+    Report::Filter::ALL_FILES, 0, 0, alert, verbose);
+  report.show(info, 0, false);
+  // Will appear
+  report.log("file0", 20, verbose, false, 0, "file0:20: VERBOSE: filters not enabled");
+  // Filtered out
+  report.log("file1", 2, info, false, 0, "file1:2: INFO: filter enabled");
+  report.log("file1", 10, info, false, 0, "file1:10: INFO: filter enabled");
+  // Will appear
+  report.log("file1", 20, info, false, 0, "file1:20: INFO: filter enabled");
+  report.log("file1", 20, debug, false, 0, "file1:20: DEBUG: filter enabled");
+  // Filtered out
+  report.log("file2", 10, debug, false, 0, "file2:10: DEBUG: filters not enabled");
+  // Will appear
+  report.log("file2", 20, info, false, 0, "file2:20: INFO: filter enabled");
   // Remove rule on debug
-  fil.removeCondition(index);
-  report.show(info);
-  report.log("file0", 20 , verbose, false, 0, "file0:20: VERBOSE: filters not enabled");
-  report.log("file1", 10 , info, false, 0, "file1:10: INFO: filter enabled");
-  report.log("file1", 20 , info, false, 0, "file1:20: INFO: filter enabled");
-  report.log("file1", 20 , debug, false, 0, "file1:20: DEBUG: filter enabled");
-  report.log("file2", 20 , info, false, 0, "file2:20: INFO: filter enabled");
+  fil.removeCondition(index_1);
+  report.show(info, 0, false);
+  // Will appear
+  report.log("file0", 20, verbose, false, 0, "file0:20: VERBOSE: filters not enabled");
+  report.log("file1", 2, info, false, 0, "file1:2: INFO: filter enabled");
+  report.log("file1", 10, info, false, 0, "file1:10: INFO: filter enabled");
+  report.log("file1", 20, info, false, 0, "file1:20: INFO: filter enabled");
+  // Filtered out
+  report.log("file1", 20, debug, false, 0, "file1:20: DEBUG: filter enabled");
+  report.log("file2", 10, debug, false, 0, "file2:10: DEBUG: filters not enabled");
+  // Will appear
+  report.log("file2", 20, info, false, 0, "file2:20: INFO: filter enabled");
+  // Remove rule for all files
+  fil.removeCondition(index_2);
+  // Add rule to accept file2
+  fil.addCondition(Report::Filter::accept, "file2");
+  report.show(info, 0, false);
+  // Won't appear as level is info
+  report.log("file0", 20, verbose, false, 0, "file0:20: VERBOSE: filters not enabled");
+  // Filtered out
+  report.log("file1", 2, info, false, 0, "file1:2: INFO: filter enabled");
+  report.log("file1", 10, info, false, 0, "file1:10: INFO: filter enabled");
+  // Will appear
+  report.log("file1", 20, info, false, 0, "file1:20: INFO: filter enabled");
+  // Won't appear as level is info
+  report.log("file1", 20, debug, false, 0, "file1:20: DEBUG: filter enabled");
+  // Filtered out
+  report.log("file2", 10, debug, false, 0, "file2:10: DEBUG: filters not enabled");
+  // Will appear
+  report.log("file2", 20, info, false, 0, "file2:20: INFO: filter enabled");
   report.remove(&fil);
   hlog_info("should not appear");
   report.startConsoleLog();

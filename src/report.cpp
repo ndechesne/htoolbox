@@ -152,13 +152,15 @@ int Report::log(
   return rc;
 }
 
-void Report::show(Level level, size_t indentation) const {
+void Report::show(Level level, size_t indentation, bool show_closed) const {
   hlog_generic(level, false, indentation, "report '%s' [%s]:", name(),
     this->level().toString());
   for (list<Observee*>::const_iterator it = _observees.begin();
       it != _observees.end(); ++it) {
     IOutput* output = dynamic_cast<IOutput*>(*it);
-    output->show(level, indentation + 1);
+    if (show_closed || output->isOpen()) {
+      output->show(level, indentation + 1);
+    }
   }
 }
 
@@ -558,7 +560,7 @@ int Report::TlvManager::submit(uint16_t tag, size_t size, const char* val) {
 }
 
 class Report::Filter::Condition {
-  bool        _accept;
+  Mode        _mode;
   char        _file_name[FILE_NAME_MAX + 1];
   size_t      _file_name_length;
   size_t      _min_line;
@@ -568,8 +570,8 @@ class Report::Filter::Condition {
   size_t      _index;
 public:
   friend class Report::Filter;
-  Condition(bool a, const char* f, size_t l, size_t h, Level b, Level t, size_t i)
-  : _accept(a), _min_line(l), _max_line(h), _min_level(b), _max_level(t), _index(i) {
+  Condition(Mode m, const char* f, size_t l, size_t h, Level b, Level t, size_t i)
+  : _mode(m), _min_line(l), _max_line(h), _min_level(b), _max_level(t), _index(i) {
     strncpy(_file_name, f, FILE_NAME_MAX);
     _file_name[FILE_NAME_MAX] = '\0';
     _file_name_length = strlen(_file_name) + 1;
@@ -583,10 +585,16 @@ public:
            (line >= _min_line) && ((_max_line == 0) || (line <= _max_line));
   }
   void show(Level level, size_t indentation = 0) const {
-    hlog_generic(level, false, indentation,
-      "%s '%s' %zu <= line <= %zu, %s <= level <= %s",
-      _accept ? "ACCEPT" : "REJECT", _file_name, _min_line, _max_line,
-      _min_level.toString(), _max_level.toString());
+    if (_mode < accept) {
+      hlog_generic(level, false, indentation,
+        "%s '%s' %zu <= line <= %zu, %s <= level <= %s",
+        _mode > reject ? "ACCEPT" : "REJECT", _file_name, _min_line, _max_line,
+        _min_level.toString(), _max_level.toString());
+    } else {
+      hlog_generic(level, false, indentation,
+        "%s '%s' %zu <= line <= %zu",
+        _mode > reject ? "ACCEPT" : "REJECT", _file_name, _min_line, _max_line);
+    }
   }
 };
 
@@ -613,22 +621,23 @@ void Report::Filter::notify() {
   _level = _output->level();
   for (list<Condition*>::iterator it = _conditions.begin();
       it != _conditions.end(); ++it) {
-    if ((*it)->_accept && ((*it)->_max_level > _level)) {
+    if (((*it)->_mode == force) && ((*it)->_max_level > _level)) {
       _level = (*it)->_max_level;
     }
   }
   notifyObservers();
 }
 
+const char* Report::Filter::ALL_FILES = "";
 
 size_t Report::Filter::addCondition(
-    bool            accept,
+    Mode            mode,
     const char*     file_name,
     size_t          min_line,
     size_t          max_line,
     Level           min_level,
     Level           max_level) {
-  _conditions.push_back(new Condition(accept, file_name,
+  _conditions.push_back(new Condition(mode, file_name,
     min_line, max_line, min_level, max_level, ++_index));
   notify();
   return _index;
@@ -657,16 +666,18 @@ int Report::Filter::log(
     const char*     format,
     va_list*        args) {
   // If the level is loggable, accept
-  bool accept = level <= _output->level();
+  bool log_me = level <= _output->level();
   // Check all conditions
   for (list<Condition*>::const_iterator it = _conditions.begin();
       it != _conditions.end(); ++it) {
+    Condition* c = *it;
     // If one matches, check whether it's an accept or a reject
-    if ((*it)->matches(file, line, level)) {
-      accept = (*it)->_accept;
+    if (c->matches(file, line, level) &&
+        ((c->_mode < accept) || (level <= _output->level()))) {
+      log_me = (*it)->_mode > reject;
     }
   }
-  if (accept) {
+  if (log_me) {
     return _output->log(file, line, level, temp, indentation, format, args);
   }
   return 0;
@@ -675,10 +686,14 @@ int Report::Filter::log(
 void Report::Filter::show(Level level, size_t indentation) const {
   hlog_generic(level, false, indentation, "filter '%s' (%s) [%s]:", name(),
     isOpen() ? "open" : "closed", this->level().toString());
-  hlog_generic(level, false, indentation + 1, "conditions:");
-  for (list<Condition*>::const_iterator it = _conditions.begin();
-      it != _conditions.end(); ++it) {
-    (*it)->show(level, indentation + 2);
+  if (_conditions.empty()) {
+    hlog_generic(level, false, indentation + 1, "no conditions");
+  } else {
+    hlog_generic(level, false, indentation + 1, "conditions:");
+    for (list<Condition*>::const_iterator it = _conditions.begin();
+        it != _conditions.end(); ++it) {
+      (*it)->show(level, indentation + 2);
+    }
   }
   hlog_generic(level, false, indentation + 1, "output:");
   _output->show(level, indentation + 2);

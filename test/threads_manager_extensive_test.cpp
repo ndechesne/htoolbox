@@ -64,7 +64,8 @@ enum {
 
 int main(void) {
   report.setLevel(debug);
-  report.consoleFilter().addCondition(true, __FILE__, regression);
+  report.consoleFilter().addCondition(Report::Filter::force,
+    __FILE__, regression);
 
   char user1[32] = "user1";
   char user2[32] = "user2";
