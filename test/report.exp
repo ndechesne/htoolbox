@@ -195,7 +195,7 @@ report 'default report' [info]:
  --> output:
  ---> console 'local console' (open) [info]
 file1:20: INFO: filter enabled
-report 'default report' [info]:
+report 'default report' [regression]:
  -> filter 'default console filter' (closed) [regression]:
  --> conditions:
  ---> REJECT 'report_test.cpp' 0 <= line <= 0, regression <= level <= regression
@@ -203,7 +203,7 @@ report 'default report' [info]:
  ---> ACCEPT 'report_test.cpp' 6 <= line <= 0, alert <= level <= regression
  --> output:
  ---> console 'default console' (closed) [regression]
- -> filter 'filter 1' (open) [info]:
+ -> filter 'filter 1' (open) [regression]:
  --> conditions:
  ---> REJECT 'file2' 0 <= line <= 0, alert <= level <= regression
  ---> REJECT 'file1' 0 <= line <= 15, alert <= level <= regression
@@ -211,7 +211,8 @@ report 'default report' [info]:
  --> output:
  ---> console 'local console' (open) [info]
 file1:20: INFO: filter enabled
-report 'default report' [info]:
+file1:20: DEBUG: filter enabled
+report 'default report' [regression]:
  -> filter 'default console filter' (closed) [regression]:
  --> conditions:
  ---> REJECT 'report_test.cpp' 0 <= line <= 0, regression <= level <= regression
@@ -219,7 +220,7 @@ report 'default report' [info]:
  ---> ACCEPT 'report_test.cpp' 6 <= line <= 0, alert <= level <= regression
  --> output:
  ---> console 'default console' (closed) [regression]
- -> filter 'filter 1' (open) [info]:
+ -> filter 'filter 1' (open) [regression]:
  --> conditions:
  ---> REJECT 'file2' 0 <= line <= 0, alert <= level <= regression
  ---> REJECT 'file1' 0 <= line <= 15, alert <= level <= regression
@@ -227,10 +228,12 @@ report 'default report' [info]:
  ---> ACCEPT '' 0 <= line <= 0, alert <= level <= verbose
  --> output:
  ---> console 'local console' (open) [info]
+file0:20: VERBOSE: filters not enabled
 file1:10: INFO: filter enabled
 file1:20: INFO: filter enabled
+file1:20: DEBUG: filter enabled
 file2:20: INFO: filter enabled
-report 'default report' [info]:
+report 'default report' [verbose]:
  -> filter 'default console filter' (closed) [regression]:
  --> conditions:
  ---> REJECT 'report_test.cpp' 0 <= line <= 0, regression <= level <= regression
@@ -238,13 +241,14 @@ report 'default report' [info]:
  ---> ACCEPT 'report_test.cpp' 6 <= line <= 0, alert <= level <= regression
  --> output:
  ---> console 'default console' (closed) [regression]
- -> filter 'filter 1' (open) [info]:
+ -> filter 'filter 1' (open) [verbose]:
  --> conditions:
  ---> REJECT 'file2' 0 <= line <= 0, alert <= level <= regression
  ---> REJECT 'file1' 0 <= line <= 15, alert <= level <= regression
  ---> ACCEPT '' 0 <= line <= 0, alert <= level <= verbose
  --> output:
  ---> console 'local console' (open) [info]
+file0:20: VERBOSE: filters not enabled
 file1:10: INFO: filter enabled
 file1:20: INFO: filter enabled
 file2:20: INFO: filter enabled

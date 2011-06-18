@@ -170,7 +170,6 @@ namespace htoolbox {
         _output->setLevel(level);
         notifyObservers();
       }
-      Criticality level() const { return _output->level(); }
       void notify();
       /* This function adds a special condition, either to add some log or to
        * remove some. Examples:
