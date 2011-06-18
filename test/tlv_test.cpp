@@ -138,7 +138,8 @@ int main(void) {
   }
   report.add(&f);
   hlog_info("this log should be send over the socket (%d)", 9);
-  report.log("file", 12345, warning, true, 3, "this is some text with a number %d", 17);
+  report.log("file", 12345, "", warning, true, 3,
+    "this is some text with a number %d", 17);
   tl_report = &report;
   hlog_info("message sent twice to socket");
   report.remove(&f);

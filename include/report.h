@@ -67,6 +67,7 @@ namespace htoolbox {
       virtual int log(
         const char*     file,
         size_t          line,
+        const char*     function,
         Level           level,
         bool            temporary,
         size_t          indentation,
@@ -83,6 +84,7 @@ namespace htoolbox {
       int log(
         const char*     file,
         size_t          line,
+        const char*     function,
         Level           level,
         bool            temporary,
         size_t          indentation,
@@ -108,6 +110,7 @@ namespace htoolbox {
       int log(
         const char*     file,
         size_t          line,
+        const char*     function,
         Level           level,
         bool            temporary,
         size_t          indentation,
@@ -127,6 +130,7 @@ namespace htoolbox {
       int log(
         const char*     file,
         size_t          line,
+        const char*     function,
         Level           level,
         bool            temporary,
         size_t          indentation,
@@ -138,6 +142,7 @@ namespace htoolbox {
     class TlvManager : public tlv::IReceptionManager {
       std::string           _file;
       size_t                _line;
+      std::string           _function;
       int                   _level;
       bool                  _temp;
       size_t                _indent;
@@ -146,10 +151,11 @@ namespace htoolbox {
       TlvManager(IReceptionManager* next = NULL): _manager(next) {
         _manager.add(tlv::log_start_tag + 0, _file);
         _manager.add(tlv::log_start_tag + 1, &_line);
-        _manager.add(tlv::log_start_tag + 2, &_level);
-        _manager.add(tlv::log_start_tag + 3, &_temp);
-        _manager.add(tlv::log_start_tag + 4, &_indent);
-        _manager.add(tlv::log_start_tag + 5);
+        _manager.add(tlv::log_start_tag + 2, _function);
+        _manager.add(tlv::log_start_tag + 3, &_level);
+        _manager.add(tlv::log_start_tag + 4, &_temp);
+        _manager.add(tlv::log_start_tag + 5, &_indent);
+        _manager.add(tlv::log_start_tag + 6);
       }
       int submit(uint16_t tag, size_t size, const char* val);
     };
@@ -195,6 +201,12 @@ namespace htoolbox {
         size_t          max_line = 0,           // end line to filter
         Level           min_level = alert,      // min log level to set
         Level           max_level = regression);// max log level to set
+      size_t addCondition(                      // returns condition index
+        Mode            mode,                   // accept/reject logging
+        const char*     file_name,              // file name to filter
+        const char*     function_name,          // function name to filter
+        Level           min_level = alert,      // min log level to set
+        Level           max_level = regression);// max log level to set
       void removeCondition(size_t index);
       int open() { return _output->open(); }
       int close() { return _output->close(); }
@@ -202,6 +214,7 @@ namespace htoolbox {
       int log(
         const char*     file,
         size_t          line,
+        const char*     function,
         Level           level,
         bool            temp,
         size_t          indent,
@@ -237,11 +250,12 @@ namespace htoolbox {
     int log(
       const char*     file,
       size_t          line,
+      const char*     function,
       Level           level,
       bool            temporary,  // erase this message with next one
       size_t          indent,      // text indentation
       const char*     format,
-      ...) __attribute__ ((format (printf, 7, 8)));
+      ...) __attribute__ ((format (printf, 8, 9)));
     void show(Level level, size_t indentation = 0, bool show_closed = true) const;
   private:
     ConsoleOutput     _console;
@@ -266,9 +280,9 @@ namespace htoolbox {
   do { \
     if ((htoolbox::tl_report != NULL) && \
      ((l) <= htoolbox::tl_report->level())) \
-      htoolbox::tl_report->log(__FILE__,__LINE__,(l),(t),(i),(f),##__VA_ARGS__); \
+      htoolbox::tl_report->log(__FILE__,__LINE__,__FUNCTION__,(l),(t),(i),(f),##__VA_ARGS__); \
     if ((l) <= htoolbox::report.level()) \
-      htoolbox::report.log(__FILE__,__LINE__,(l),(t),(i),(f),##__VA_ARGS__); \
+      htoolbox::report.log(__FILE__,__LINE__,__FUNCTION__,(l),(t),(i),(f),##__VA_ARGS__); \
   } while (0);
 
 #define hlog_report(level, format, ...) \
@@ -318,7 +332,7 @@ namespace htoolbox {
 
 #define hlog_global_generic(l, t, i, f, ...) \
   hlog_global_is_worth(l) \
-  ? htoolbox::report.log(__FILE__,__LINE__,(l),(t),(i),(f),##__VA_ARGS__) \
+  ? htoolbox::report.log(__FILE__,__LINE__,__FUNCTION__,(l),(t),(i),(f),##__VA_ARGS__) \
   : 0
 
 #define hlog_global_report(level, format, ...) \

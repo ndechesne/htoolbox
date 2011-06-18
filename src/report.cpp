@@ -43,7 +43,8 @@ Report htoolbox::report("default report");
 __thread Report* htoolbox::tl_report;
 
 enum {
-  FILE_NAME_MAX = 128
+  FILE_NAME_MAX = 128,
+  FUNCTION_NAME_MAX = 128,
 };
 
 struct Report::Private {
@@ -124,6 +125,7 @@ void Report::setLevel(Level level) {
 int Report::log(
     const char*     file,
     size_t          line,
+    const char*     function,
     Level           level,
     bool            temp,
     size_t          indentation,
@@ -140,7 +142,7 @@ int Report::log(
     if (output->isOpen() && (level <= output->level())) {
       va_list aq;
       va_copy(aq, ap);
-      if (output->log(file, line, level, temp, indentation, format, &aq) < 0) {
+      if (output->log(file, line, function, level, temp, indentation, format, &aq) < 0) {
         rc = -1;
       }
       va_end(aq);
@@ -167,6 +169,7 @@ void Report::show(Level level, size_t indentation, bool show_closed) const {
 int Report::ConsoleOutput::log(
     const char*     file,
     size_t          line,
+    const char*     function,
     Level           level,
     bool            temporary,
     size_t          indentation,
@@ -174,6 +177,7 @@ int Report::ConsoleOutput::log(
     va_list*        args) {
   (void) file;
   (void) line;
+  (void) function;
   FILE* fd = (level <= warning) ? stderr : stdout;
   char buffer[1024];
   size_t offset = 0;
@@ -440,11 +444,13 @@ bool Report::FileOutput::isOpen() const {
 int Report::FileOutput::log(
     const char*     file,
     size_t          line,
+    const char*     function,
     Level           level,
     bool            temporary,
     size_t          indentation,
     const char*     format,
     va_list*        args) {
+  (void) function;
   // print only if required
   if (temporary) {
     return 0;
@@ -515,6 +521,7 @@ void Report::FileOutput::show(Level level, size_t indentation) const {
 int Report::TlvOutput::log(
     const char*     file,
     size_t          line,
+    const char*     function,
     Level           level,
     bool            temporary,
     size_t          indent,
@@ -524,6 +531,7 @@ int Report::TlvOutput::log(
   tlv::TransmissionManager m;
   m.add(tag++, file, strlen(file));
   m.add(tag++, static_cast<int32_t>(line));
+  m.add(tag++, function, strlen(function));
   m.add(tag++, level);
   m.add(tag++, temporary);
   m.add(tag++, static_cast<int32_t>(indent));
@@ -552,9 +560,11 @@ int Report::TlvManager::submit(uint16_t tag, size_t size, const char* val) {
   if (tag == tlv::log_start_tag + 5) {
     Level level = static_cast<Level>(_level);
     if (tl_report != NULL) {
-      tl_report->log(_file.c_str(), _line, level, _temp, _indent, "%s", val);
+      tl_report->log(_file.c_str(), _line, _function.c_str(), level, _temp,
+        _indent, "%s", val);
     }
-    report.log(_file.c_str(), _line, level, _temp, _indent, "%s", val);
+    report.log(_file.c_str(), _line, _file.c_str(), level, _temp,
+      _indent, "%s", val);
   }
   return 0;
 }
@@ -565,6 +575,8 @@ class Report::Filter::Condition {
   size_t      _file_name_length;
   size_t      _min_line;
   size_t      _max_line;
+  char        _function_name[FUNCTION_NAME_MAX + 1];
+  size_t      _function_name_length;
   Criticality _min_level;
   Criticality _max_level;
   size_t      _index;
@@ -575,25 +587,48 @@ public:
     strncpy(_file_name, f, FILE_NAME_MAX);
     _file_name[FILE_NAME_MAX] = '\0';
     _file_name_length = strlen(_file_name) + 1;
+    _function_name[0] = '\0';
+    _function_name_length = 1;
   }
-  bool matches(const char* file, size_t line, Level level) const {
+  Condition(Mode m, const char* f, const char* l, Level b, Level t, size_t i)
+  : _mode(m), _min_line(0), _max_line(0), _min_level(b), _max_level(t), _index(i) {
+    strncpy(_file_name, f, FILE_NAME_MAX);
+    _file_name[FILE_NAME_MAX] = '\0';
+    _file_name_length = strlen(_file_name) + 1;
+    strncpy(_function_name, l, FUNCTION_NAME_MAX);
+    _function_name[FUNCTION_NAME_MAX] = '\0';
+    _function_name_length = strlen(_function_name) + 1;
+  }
+  bool matches(const char* file, size_t line, const char* function, Level level) const {
     if ((level < _min_level) || (level > _max_level)) {
       return false;
     }
-    return ((_file_name_length == 1) ||
-            (memcmp(_file_name, file, _file_name_length) == 0)) &&
-           (line >= _min_line) && ((_max_line == 0) || (line <= _max_line));
+    if ((_file_name_length != 1) &&
+        (memcmp(_file_name, file, _file_name_length) != 0)) {
+      return false;
+    }
+    if (_function_name_length == 1) {
+      return (line >= _min_line) && ((_max_line == 0) || (line <= _max_line));
+    } else {
+      return memcmp(_function_name, function, _function_name_length) == 0;
+    }
   }
   void show(Level level, size_t indentation = 0) const {
+    char level_str[64] = "";
     if (_mode < accept) {
-      hlog_generic(level, false, indentation,
-        "%s '%s' %zu <= line <= %zu, %s <= level <= %s",
-        _mode > reject ? "ACCEPT" : "REJECT", _file_name, _min_line, _max_line,
+      sprintf(level_str, ", %s <= level <= %s",
         _min_level.toString(), _max_level.toString());
+    }
+    if (_function_name_length == 1) {
+      hlog_generic(level, false, indentation,
+        "%s '%s' %zu <= line <= %zu%s",
+        _mode > reject ? "ACCEPT" : "REJECT", _file_name, _min_line, _max_line,
+        level_str);
     } else {
       hlog_generic(level, false, indentation,
-        "%s '%s' %zu <= line <= %zu",
-        _mode > reject ? "ACCEPT" : "REJECT", _file_name, _min_line, _max_line);
+        "%s '%s' function = %s%s",
+        _mode > reject ? "ACCEPT" : "REJECT", _file_name, _function_name,
+        level_str);
     }
   }
 };
@@ -643,6 +678,18 @@ size_t Report::Filter::addCondition(
   return _index;
 }
 
+size_t Report::Filter::addCondition(
+    Mode            mode,
+    const char*     file_name,
+    const char*     function_name,
+    Level           min_level,
+    Level           max_level) {
+  _conditions.push_back(new Condition(mode, file_name,
+    function_name, min_level, max_level, ++_index));
+  notify();
+  return _index;
+}
+
 void Report::Filter::removeCondition(size_t index) {
   list<Condition*>::iterator it = _conditions.begin();
   while (it != _conditions.end()) {
@@ -660,6 +707,7 @@ void Report::Filter::removeCondition(size_t index) {
 int Report::Filter::log(
     const char*     file,
     size_t          line,
+    const char*     function,
     Level           level,
     bool            temp,
     size_t          indentation,
@@ -672,13 +720,13 @@ int Report::Filter::log(
       it != _conditions.end(); ++it) {
     Condition* c = *it;
     // If one matches, check whether it's an accept or a reject
-    if (c->matches(file, line, level) &&
+    if (c->matches(file, line, function, level) &&
         ((c->_mode < accept) || (level <= _output->level()))) {
       log_me = (*it)->_mode > reject;
     }
   }
   if (log_me) {
-    return _output->log(file, line, level, temp, indentation, format, args);
+    return _output->log(file, line, function, level, temp, indentation, format, args);
   }
   return 0;
 }

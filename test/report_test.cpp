@@ -329,106 +329,130 @@ int main(void) {
   report.add(&fil);
   report.show(info, 0, false);
   // Won't appear as level is info
-  report.log("file0", 20, verbose, false, 0, "file0:20: VERBOSE: filters not enabled");
+  report.log("file0", 20, "func0", verbose, false, 0, "file0:20:func0 VERBOSE: blah");
   // Will appear
-  report.log("file1", 2, info, false, 0, "file1:2: INFO: filter enabled");
-  report.log("file1", 10, info, false, 0, "file1:10: INFO: filter enabled");
-  report.log("file1", 20, info, false, 0, "file1:20: INFO: filters not enabled");
+  report.log("file1", 2, "func1", info, false, 0, "file1:2:func1 INFO: blah");
+  report.log("file1", 10, "func2", info, false, 0, "file1:10:func2 INFO: blah");
+  report.log("file1", 20, "func3", info, false, 0, "file1:20:func3 INFO: blah");
   // Won't appear as level is info
-  report.log("file1", 20, debug, false, 0, "file1:20: DEBUG: filter enabled");
-  report.log("file2", 10, debug, false, 0, "file2:10: DEBUG: filters not enabled");
+  report.log("file1", 20, "func4", debug, false, 0, "file1:20:func4 DEBUG: blah");
+  report.log("file2", 10, "func5", debug, false, 0, "file2:10:func5 DEBUG: blah");
   // Will appear
-  report.log("file2", 20, info, false, 0, "file2:20: INFO: filters not enabled");
+  report.log("file2", 20, "func6", info, false, 0, "file2:20:func6 INFO: blah");
+
   // Reject file2 altogether
   fil.addCondition(Report::Filter::reject, "file2");
   report.show(info, 0, false);
   // Won't appear as level is info
-  report.log("file0", 20, verbose, false, 0, "file0:20: VERBOSE: filters not enabled");
+  report.log("file0", 20, "func0", verbose, false, 0, "file0:20:func0 VERBOSE: blah");
   // Will appear
-  report.log("file1", 2, info, false, 0, "file1:2: INFO: filter enabled");
-  report.log("file1", 10, info, false, 0, "file1:10: INFO: filter enabled");
-  report.log("file1", 20, info, false, 0, "file1:20: INFO: filter enabled");
+  report.log("file1", 2, "func1", info, false, 0, "file1:2:func1 INFO: blah");
+  report.log("file1", 10, "func2", info, false, 0, "file1:10:func2 INFO: blah");
+  report.log("file1", 20, "func3", info, false, 0, "file1:20:func3 INFO: blah");
   // Won't appear as level is info
-  report.log("file1", 20, debug, false, 0, "file1:20: DEBUG: filter enabled");
+  report.log("file1", 20, "func4", debug, false, 0, "file1:20:func4 DEBUG: blah");
   // Filtered out
-  report.log("file2", 10, debug, false, 0, "file2:10: DEBUG: filters not enabled");
-  report.log("file2", 20, info, false, 0, "file2:20: INFO: filter enabled");
+  report.log("file2", 10, "func5", debug, false, 0, "file2:10:func5 DEBUG: blah");
+  report.log("file2", 20, "func6", info, false, 0, "file2:20:func6 INFO: blah");
+
   // Reject file1 line > 15
   fil.addCondition(Report::Filter::reject, "file1", 0, 15);
   report.show(info, 0, false);
   // Won't appear as level is info
-  report.log("file0", 20, verbose, false, 0, "file0:20: VERBOSE: filters not enabled");
+  report.log("file0", 20, "func0", verbose, false, 0, "file0:20:func0 VERBOSE: blah");
   // Filtered out
-  report.log("file1", 2, info, false, 0, "file1:2: INFO: filter enabled");
-  report.log("file1", 10, info, false, 0, "file1:10: INFO: filter enabled");
+  report.log("file1", 2, "func1", info, false, 0, "file1:2:func1 INFO: blah");
+  report.log("file1", 10, "func2", info, false, 0, "file1:10:func2 INFO: blah");
   // Will appear
-  report.log("file1", 20, info, false, 0, "file1:20: INFO: filter enabled");
+  report.log("file1", 20, "func3", info, false, 0, "file1:20:func3 INFO: blah");
   // Won't appear as level is info
-  report.log("file1", 20, debug, false, 0, "file1:20: DEBUG: filter enabled");
+  report.log("file1", 20, "func4", debug, false, 0, "file1:20:func4 DEBUG: blah");
   // Filtered out
-  report.log("file2", 10, debug, false, 0, "file2:10: DEBUG: filters not enabled");
-  report.log("file2", 20, info, false, 0, "file2:20: INFO: filter enabled");
+  report.log("file2", 10, "func5", debug, false, 0, "file2:10:func5 DEBUG: blah");
+  report.log("file2", 20, "func6", info, false, 0, "file2:20:func6 INFO: blah");
+
   // Accept file1 5 < line < 25 level >= debug
   size_t index_1 = fil.addCondition(Report::Filter::force, "file1", 5, 25, debug);
   report.show(info, 0, false);
   // Won't appear as level is info
-  report.log("file0", 20, verbose, false, 0, "file0:20: VERBOSE: filters not enabled");
+  report.log("file0", 20, "func0", verbose, false, 0, "file0:20:func0 VERBOSE: blah");
   // Filtered out
-  report.log("file1", 2, info, false, 0, "file1:2: INFO: filter enabled");
+  report.log("file1", 2, "func1", info, false, 0, "file1:2:func1 INFO: blah");
   // Will appear
-  report.log("file1", 10, info, false, 0, "file1:10: INFO: filter enabled");
-  report.log("file1", 20, info, false, 0, "file1:20: INFO: filter enabled");
-  report.log("file1", 20, debug, false, 0, "file1:20: DEBUG: filter enabled");
+  report.log("file1", 10, "func2", info, false, 0, "file1:10:func2 INFO: blah");
+  report.log("file1", 20, "func3", info, false, 0, "file1:20:func3 INFO: blah");
+  report.log("file1", 20, "func4", debug, false, 0, "file1:20:func4 DEBUG: blah");
   // Filtered out
-  report.log("file2", 10, debug, false, 0, "file2:10: DEBUG: filters not enabled");
-  report.log("file2", 20, info, false, 0, "file2:20: INFO: filter enabled");
+  report.log("file2", 10, "func5", debug, false, 0, "file2:10:func5 DEBUG: blah");
+  report.log("file2", 20, "func6", info, false, 0, "file2:20:func6 INFO: blah");
+
   // Accept all if level <= verbose
   size_t index_2 = fil.addCondition(Report::Filter::force,
     Report::Filter::ALL_FILES, 0, 0, alert, verbose);
   report.show(info, 0, false);
   // Will appear
-  report.log("file0", 20, verbose, false, 0, "file0:20: VERBOSE: filters not enabled");
+  report.log("file0", 20, "func0", verbose, false, 0, "file0:20:func0 VERBOSE: blah");
   // Filtered out
-  report.log("file1", 2, info, false, 0, "file1:2: INFO: filter enabled");
-  report.log("file1", 10, info, false, 0, "file1:10: INFO: filter enabled");
+  report.log("file1", 2, "func1", info, false, 0, "file1:2:func1 INFO: blah");
+  report.log("file1", 10, "func2", info, false, 0, "file1:10:func2 INFO: blah");
   // Will appear
-  report.log("file1", 20, info, false, 0, "file1:20: INFO: filter enabled");
-  report.log("file1", 20, debug, false, 0, "file1:20: DEBUG: filter enabled");
+  report.log("file1", 20, "func3", info, false, 0, "file1:20:func3 INFO: blah");
+  report.log("file1", 20, "func4", debug, false, 0, "file1:20:func4 DEBUG: blah");
   // Filtered out
-  report.log("file2", 10, debug, false, 0, "file2:10: DEBUG: filters not enabled");
+  report.log("file2", 10, "func5", debug, false, 0, "file2:10:func5 DEBUG: blah");
   // Will appear
-  report.log("file2", 20, info, false, 0, "file2:20: INFO: filter enabled");
+  report.log("file2", 20, "func6", info, false, 0, "file2:20:func6 INFO: blah");
+
   // Remove rule on debug
   fil.removeCondition(index_1);
   report.show(info, 0, false);
   // Will appear
-  report.log("file0", 20, verbose, false, 0, "file0:20: VERBOSE: filters not enabled");
-  report.log("file1", 2, info, false, 0, "file1:2: INFO: filter enabled");
-  report.log("file1", 10, info, false, 0, "file1:10: INFO: filter enabled");
-  report.log("file1", 20, info, false, 0, "file1:20: INFO: filter enabled");
+  report.log("file0", 20, "func0", verbose, false, 0, "file0:20:func0 VERBOSE: blah");
+  report.log("file1", 2, "func1", info, false, 0, "file1:2:func1 INFO: blah");
+  report.log("file1", 10, "func2", info, false, 0, "file1:10:func2 INFO: blah");
+  report.log("file1", 20, "func3", info, false, 0, "file1:20:func3 INFO: blah");
   // Filtered out
-  report.log("file1", 20, debug, false, 0, "file1:20: DEBUG: filter enabled");
-  report.log("file2", 10, debug, false, 0, "file2:10: DEBUG: filters not enabled");
+  report.log("file1", 20, "func4", debug, false, 0, "file1:20:func4 DEBUG: blah");
+  report.log("file2", 10, "func5", debug, false, 0, "file2:10:func5 DEBUG: blah");
   // Will appear
-  report.log("file2", 20, info, false, 0, "file2:20: INFO: filter enabled");
+  report.log("file2", 20, "func6", info, false, 0, "file2:20:func6 INFO: blah");
+
   // Remove rule for all files
   fil.removeCondition(index_2);
   // Add rule to accept file2
   fil.addCondition(Report::Filter::accept, "file2");
   report.show(info, 0, false);
   // Won't appear as level is info
-  report.log("file0", 20, verbose, false, 0, "file0:20: VERBOSE: filters not enabled");
+  report.log("file0", 20, "func0", verbose, false, 0, "file0:20:func0 VERBOSE: blah");
   // Filtered out
-  report.log("file1", 2, info, false, 0, "file1:2: INFO: filter enabled");
-  report.log("file1", 10, info, false, 0, "file1:10: INFO: filter enabled");
+  report.log("file1", 2, "func1", info, false, 0, "file1:2:func1 INFO: blah");
+  report.log("file1", 10, "func2", info, false, 0, "file1:10:func2 INFO: blah");
   // Will appear
-  report.log("file1", 20, info, false, 0, "file1:20: INFO: filter enabled");
+  report.log("file1", 20, "func3", info, false, 0, "file1:20:func3 INFO: blah");
   // Won't appear as level is info
-  report.log("file1", 20, debug, false, 0, "file1:20: DEBUG: filter enabled");
+  report.log("file1", 20, "func4", debug, false, 0, "file1:20:func4 DEBUG: blah");
   // Filtered out
-  report.log("file2", 10, debug, false, 0, "file2:10: DEBUG: filters not enabled");
+  report.log("file2", 10, "func5", debug, false, 0, "file2:10:func5 DEBUG: blah");
   // Will appear
-  report.log("file2", 20, info, false, 0, "file2:20: INFO: filter enabled");
+  report.log("file2", 20, "func6", info, false, 0, "file2:20:func6 INFO: blah");
+
+  // Accept func5 from file2 level >= debug
+  fil.addCondition(Report::Filter::force, "file2", "func5", debug, debug);
+  report.show(info, 0, false);
+  // Won't appear as level is info
+  report.log("file0", 20, "func0", verbose, false, 0, "file0:20:func0 VERBOSE: blah");
+  // Filtered out
+  report.log("file1", 2, "func1", info, false, 0, "file1:2:func1 INFO: blah");
+  report.log("file1", 10, "func2", info, false, 0, "file1:10:func2 INFO: blah");
+  // Will appear
+  report.log("file1", 20, "func3", info, false, 0, "file1:20:func3 INFO: blah");
+  // Won't appear as level is info
+  report.log("file1", 20, "func4", debug, false, 0, "file1:20:func4 DEBUG: blah");
+  // Filtered out
+  report.log("file2", 10, "func5", debug, false, 0, "file2:10:func5 DEBUG: blah");
+  // Will appear
+  report.log("file2", 20, "func6", info, false, 0, "file2:20:func6 INFO: blah");
+
   report.remove(&fil);
   hlog_info("should not appear");
   report.startConsoleLog();
