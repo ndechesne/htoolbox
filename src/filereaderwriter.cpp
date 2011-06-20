@@ -20,6 +20,7 @@
 #include <fcntl.h>
 #include <limits.h>
 #include <string.h>
+#include <errno.h>
 
 #include <filereaderwriter.h>
 
@@ -52,6 +53,10 @@ int FileReaderWriter::open() {
     _d->fd = ::open64(_d->path, O_WRONLY|O_CREAT|O_LARGEFILE|O_TRUNC, 0666);
   } else {
     _d->fd = ::open64(_d->path, O_RDONLY|O_NOATIME|O_LARGEFILE);
+    // Try without O_NOATIME
+    if ((_d->fd < 0) && (errno = EPERM)) {
+      _d->fd = ::open64(_d->path, O_RDONLY|O_LARGEFILE);
+    }
   }
   return _d->fd < 0 ? -1 : 0;
 }
