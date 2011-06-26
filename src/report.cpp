@@ -540,8 +540,6 @@ int Report::TlvOutput::log(
   buffer[sizeof(buffer) - 1] = '\0';
   m.add(tag++, buffer, len);
   if (m.send(_sender, false) < 0) {
-    hlog_error("Report::TlvOutput::log: %m logging for file='%s' line=%zu",
-      file, line);
     return -1;
   }
   return 0;
