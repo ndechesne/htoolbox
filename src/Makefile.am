@@ -17,6 +17,7 @@ libhtoolbox_la_SOURCES = \
   linereaderwriter.cpp \
   multiwriter.cpp \
   observer.cpp \
+  process_mutex.cpp \
   queue.cpp \
   report.cpp \
   share.cpp \

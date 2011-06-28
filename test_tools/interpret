@@ -37,6 +37,9 @@ case $1 in
   "ob" )
     export NAME="observer"
     ;;
+  "pm" )
+    export NAME="process_mutex"
+    ;;
   "rp" )
     export NAME="report"
     ;;

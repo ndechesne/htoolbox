@@ -13,6 +13,7 @@ htoolsinclude_HEADERS = \
   multiwriter.h \
   nullwriter.h \
   observer.h \
+  process_mutex.h \
   queue.h \
   report.h \
   share.h \
@@ -37,6 +38,7 @@ EXTRA_DIST = \
   multiwriter.h \
   nullwriter.h \
   observer.h \
+  process_mutex.h \
   queue.h \
   report.h \
   share.h \

@@ -16,6 +16,7 @@ check_PROGRAMS = \
   inet_socket_test \
   linereaderwriter_test \
   observer_test \
+  process_mutex_test \
   report_test \
   tlv_helper_test \
   tlv_test \
@@ -36,6 +37,7 @@ hasher_test_SOURCES = hasher_test.cpp
 inet_socket_test_SOURCES = inet_socket_test.cpp
 linereaderwriter_test_SOURCES = linereaderwriter_test.cpp
 observer_test_SOURCES = observer_test.cpp
+process_mutex_test_SOURCES = process_mutex_test.cpp
 report_test_SOURCES = report_test.cpp
 tlv_helper_test_SOURCES = tlv_helper_test.cpp
 tlv_test_SOURCES = tlv_test.cpp
@@ -78,6 +80,7 @@ check_SUCCESSES = \
   inet_socket.done \
   unix_socket.done \
   abstract_socket.done \
+  process_mutex.done \
   tlv.done \
   tlv_helper.done \
   linereaderwriter.done \
@@ -101,6 +104,7 @@ EXTRA_DIST = \
   inet_socket.exp \
   linereaderwriter.exp \
   observer.exp \
+  process_mutex.exp \
   report.exp \
   tlv_helper.exp \
   tlv.exp \
