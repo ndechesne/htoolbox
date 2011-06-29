@@ -29,6 +29,10 @@ int main() {
   ProcessMutex pm3("net/lucidia/process_mutex_test");
 
   if (! pm1.lock()) {
+    pm1.unlock();
+  }
+
+  if (! pm1.lock()) {
     if (! pm2.lock()) {
       if (! pm3.lock()) {
         pm3.unlock();
@@ -37,6 +41,11 @@ int main() {
     }
     pm1.unlock();
   }
+
+  pm1.lock();
+  pm1.lock();
+  pm1.unlock();
+  pm1.unlock();
 
   return 0;
 }

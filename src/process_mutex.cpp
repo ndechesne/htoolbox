@@ -56,6 +56,10 @@ int ProcessMutex::unlock() {
     errno = EBADF;
     return -1;
   }
+  if (lock_->release() < 0) {
+    hlog_error("%m unlocking %s", lock_->path());
+    return -1;
+  }
   locked_ = false;
   hlog_regression("%s unlocked", lock_->path());
   return 0;

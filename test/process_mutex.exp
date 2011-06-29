@@ -1,5 +1,11 @@
 @/net/lucidia/process_mutex_test locked
+@/net/lucidia/process_mutex_test unlocked
+@/net/lucidia/process_mutex_test locked
 @.../net/lucidia/process_mutex_test locked
 Error: Address already in use locking @.../net/lucidia/process_mutex_test
 @.../net/lucidia/process_mutex_test unlocked
 @/net/lucidia/process_mutex_test unlocked
+@/net/lucidia/process_mutex_test locked
+Error: Trying to lock @/net/lucidia/process_mutex_test twice
+@/net/lucidia/process_mutex_test unlocked
+Error: Trying to unlock while not locked
