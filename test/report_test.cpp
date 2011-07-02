@@ -67,6 +67,17 @@ int main(void) {
   hlog_debug_arrow(2, "debug 2 level");
   hlog_regression("regression level");
 
+  for (Level level = alert; level <= regression;
+      level = static_cast<Level>(level + 1)) {
+    hlog_generic(level, 0, 0, "%s level", Criticality(level).toString());
+    hlog_generic(level, Report::HLOG_TEMPORARY, 0,
+      "%s level, temp", Criticality(level).toString());
+    hlog_generic(level, Report::HLOG_NOPREFIX, 0,
+      "%s level, no prefix", Criticality(level).toString());
+    hlog_generic(level, Report::HLOG_TEMPORARY | Report::HLOG_NOPREFIX, 0,
+      "%s level, temp, no prefix", Criticality(level).toString());
+  }
+
   cout << endl << "String conversions" << endl;
   Criticality converted;
   converted.set(regression);
@@ -123,6 +134,17 @@ int main(void) {
   hlog_debug_arrow(2, "debug 2 level");
   hlog_regression("regression level");
 
+  for (Level level = alert; level <= regression;
+      level = static_cast<Level>(level + 1)) {
+    hlog_generic(level, 0, 0, "%s level", Criticality(level).toString());
+    hlog_generic(level, Report::HLOG_TEMPORARY, 0,
+      "%s level, temp", Criticality(level).toString());
+    hlog_generic(level, Report::HLOG_NOPREFIX, 0,
+      "%s level, no prefix", Criticality(level).toString());
+    hlog_generic(level, Report::HLOG_TEMPORARY | Report::HLOG_NOPREFIX, 0,
+      "%s level, temp, no prefix", Criticality(level).toString());
+  }
+
   cout << endl << "Verbosity level: error" << endl;
   report.setLevel(error);
   hlog_info("default level");
@@ -140,6 +162,17 @@ int main(void) {
   hlog_debug_arrow(1, "debug 1 level");
   hlog_debug_arrow(2, "debug 2 level");
   hlog_regression("regression level");
+
+  for (Level level = alert; level <= regression;
+      level = static_cast<Level>(level + 1)) {
+    hlog_generic(level, 0, 0, "%s level", Criticality(level).toString());
+    hlog_generic(level, Report::HLOG_TEMPORARY, 0,
+      "%s level, temp", Criticality(level).toString());
+    hlog_generic(level, Report::HLOG_NOPREFIX, 0,
+      "%s level, no prefix", Criticality(level).toString());
+    hlog_generic(level, Report::HLOG_TEMPORARY | Report::HLOG_NOPREFIX, 0,
+      "%s level, temp, no prefix", Criticality(level).toString());
+  }
 
   cout << endl << "Verbosity level: warning" << endl;
   report.setLevel(warning);
@@ -159,6 +192,17 @@ int main(void) {
   hlog_debug_arrow(2, "debug 2 level");
   hlog_regression("regression level");
 
+  for (Level level = alert; level <= regression;
+      level = static_cast<Level>(level + 1)) {
+    hlog_generic(level, 0, 0, "%s level", Criticality(level).toString());
+    hlog_generic(level, Report::HLOG_TEMPORARY, 0,
+      "%s level, temp", Criticality(level).toString());
+    hlog_generic(level, Report::HLOG_NOPREFIX, 0,
+      "%s level, no prefix", Criticality(level).toString());
+    hlog_generic(level, Report::HLOG_TEMPORARY | Report::HLOG_NOPREFIX, 0,
+      "%s level, temp, no prefix", Criticality(level).toString());
+  }
+
   cout << endl << "Verbosity level: info" << endl;
   report.setLevel(info);
   hlog_info("default level");
@@ -176,6 +220,17 @@ int main(void) {
   hlog_debug_arrow(1, "debug 1 level");
   hlog_debug_arrow(2, "debug 2 level");
   hlog_regression("regression level");
+
+  for (Level level = alert; level <= regression;
+      level = static_cast<Level>(level + 1)) {
+    hlog_generic(level, 0, 0, "%s level", Criticality(level).toString());
+    hlog_generic(level, Report::HLOG_TEMPORARY, 0,
+      "%s level, temp", Criticality(level).toString());
+    hlog_generic(level, Report::HLOG_NOPREFIX, 0,
+      "%s level, no prefix", Criticality(level).toString());
+    hlog_generic(level, Report::HLOG_TEMPORARY | Report::HLOG_NOPREFIX, 0,
+      "%s level, temp, no prefix", Criticality(level).toString());
+  }
 
   cout << endl << "Verbosity level: verbose" << endl;
   report.setLevel(verbose);
@@ -195,6 +250,17 @@ int main(void) {
   hlog_debug_arrow(2, "debug 2 level");
   hlog_regression("regression level");
 
+  for (Level level = alert; level <= regression;
+      level = static_cast<Level>(level + 1)) {
+    hlog_generic(level, 0, 0, "%s level", Criticality(level).toString());
+    hlog_generic(level, Report::HLOG_TEMPORARY, 0,
+      "%s level, temp", Criticality(level).toString());
+    hlog_generic(level, Report::HLOG_NOPREFIX, 0,
+      "%s level, no prefix", Criticality(level).toString());
+    hlog_generic(level, Report::HLOG_TEMPORARY | Report::HLOG_NOPREFIX, 0,
+      "%s level, temp, no prefix", Criticality(level).toString());
+  }
+
   cout << endl << "Verbosity level: debug" << endl;
   report.setLevel(debug);
   hlog_info("default level");
@@ -212,6 +278,17 @@ int main(void) {
   hlog_debug_arrow(1, "debug 1 level");
   hlog_debug_arrow(2, "debug 2 level");
   hlog_regression("regression level");
+
+  for (Level level = alert; level <= regression;
+      level = static_cast<Level>(level + 1)) {
+    hlog_generic(level, 0, 0, "%s level", Criticality(level).toString());
+    hlog_generic(level, Report::HLOG_TEMPORARY, 0,
+      "%s level, temp", Criticality(level).toString());
+    hlog_generic(level, Report::HLOG_NOPREFIX, 0,
+      "%s level, no prefix", Criticality(level).toString());
+    hlog_generic(level, Report::HLOG_TEMPORARY | Report::HLOG_NOPREFIX, 0,
+      "%s level, temp, no prefix", Criticality(level).toString());
+  }
 
   cout << endl << "Verbosity level: regression" << endl;
   report.setLevel(regression);
@@ -231,6 +308,17 @@ int main(void) {
   hlog_debug_arrow(2, "debug 2 level");
   hlog_regression("regression level");
 
+  for (Level level = alert; level <= regression;
+      level = static_cast<Level>(level + 1)) {
+    hlog_generic(level, 0, 0, "%s level", Criticality(level).toString());
+    hlog_generic(level, Report::HLOG_TEMPORARY, 0,
+      "%s level, temp", Criticality(level).toString());
+    hlog_generic(level, Report::HLOG_NOPREFIX, 0,
+      "%s level, no prefix", Criticality(level).toString());
+    hlog_generic(level, Report::HLOG_TEMPORARY | Report::HLOG_NOPREFIX, 0,
+      "%s level, temp, no prefix", Criticality(level).toString());
+  }
+
   cout << endl << "Verbosity level: regression, restricted" << endl;
   report.setLevel(regression);
   report.consoleFilter().addCondition(Report::Filter::reject, __FILE__, 0, 0, regression);
@@ -249,6 +337,17 @@ int main(void) {
   hlog_debug_arrow(1, "debug 1 level");
   hlog_debug_arrow(2, "debug 2 level");
   hlog_regression("regression level");
+
+  for (Level level = alert; level <= regression;
+      level = static_cast<Level>(level + 1)) {
+    hlog_generic(level, 0, 0, "%s level", Criticality(level).toString());
+    hlog_generic(level, Report::HLOG_TEMPORARY, 0,
+      "%s level, temp", Criticality(level).toString());
+    hlog_generic(level, Report::HLOG_NOPREFIX, 0,
+      "%s level, no prefix", Criticality(level).toString());
+    hlog_generic(level, Report::HLOG_TEMPORARY | Report::HLOG_NOPREFIX, 0,
+      "%s level, temp, no prefix", Criticality(level).toString());
+  }
 
   cout << endl << "Verbosity level: regression, file name, line restricted" << endl;
   report.setLevel(regression);
@@ -271,6 +370,17 @@ int main(void) {
   hlog_debug_arrow(2, "debug 2 level");
   hlog_regression("regression level");
 
+  for (Level level = alert; level <= regression;
+      level = static_cast<Level>(level + 1)) {
+    hlog_generic(level, 0, 0, "%s level", Criticality(level).toString());
+    hlog_generic(level, Report::HLOG_TEMPORARY, 0,
+      "%s level, temp", Criticality(level).toString());
+    hlog_generic(level, Report::HLOG_NOPREFIX, 0,
+      "%s level, no prefix", Criticality(level).toString());
+    hlog_generic(level, Report::HLOG_TEMPORARY | Report::HLOG_NOPREFIX, 0,
+      "%s level, temp, no prefix", Criticality(level).toString());
+  }
+
   cout << endl << "Verbosity level: regression, file name" << endl;
   report.setLevel(regression);
   report.consoleFilter().addCondition(Report::Filter::force, "report_test.cpp", regression);
@@ -291,7 +401,19 @@ int main(void) {
   hlog_debug_arrow(2, "debug 2 level");
   hlog_regression("regression level");
 
+  for (Level level = alert; level <= regression;
+      level = static_cast<Level>(level + 1)) {
+    hlog_generic(level, 0, 0, "%s level", Criticality(level).toString());
+    hlog_generic(level, Report::HLOG_TEMPORARY, 0,
+      "%s level, temp", Criticality(level).toString());
+    hlog_generic(level, Report::HLOG_NOPREFIX, 0,
+      "%s level, no prefix", Criticality(level).toString());
+    hlog_generic(level, Report::HLOG_TEMPORARY | Report::HLOG_NOPREFIX, 0,
+      "%s level, temp, no prefix", Criticality(level).toString());
+  }
+
   cout << endl << "Line autoblanking" << endl;
+  hlog_info("reset");
   hlog_info_temp("%s", "");
   hlog_info_temp("Short line");
   hlog_info_temp("A longer line");
@@ -456,6 +578,223 @@ int main(void) {
   report.remove(&fil);
   hlog_info("should not appear");
   report.startConsoleLog();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
   cout << endl << "Log to file" << endl;

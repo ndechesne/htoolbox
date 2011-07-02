@@ -249,6 +249,7 @@ namespace htoolbox {
     // Flags
     enum {
       HLOG_TEMPORARY  = 1 << 0,
+      HLOG_NOPREFIX   = 1 << 1,
     };
     // Display message on standard output
     int log(

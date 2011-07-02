@@ -185,13 +185,19 @@ int Report::ConsoleOutput::log(
   // prefix
   switch (level) {
     case alert:
-      offset += sprintf(&buffer[offset], "ALERT! ");
+      if (! (flags & HLOG_NOPREFIX)) {
+        offset += sprintf(&buffer[offset], "ALERT! ");
+      }
       break;
     case error:
-      offset += sprintf(&buffer[offset], "Error: ");
+      if (! (flags & HLOG_NOPREFIX)) {
+        offset += sprintf(&buffer[offset], "Error: ");
+      }
       break;
     case warning:
-      offset += sprintf(&buffer[offset], "Warning: ");
+      if (! (flags & HLOG_NOPREFIX)) {
+        offset += sprintf(&buffer[offset], "Warning: ");
+      }
       break;
     case info:
     case verbose:
