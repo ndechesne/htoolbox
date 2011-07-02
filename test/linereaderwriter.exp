@@ -18,9 +18,9 @@ Line[128] (4): 'ghi
 Line[128] (3): 'jkl'
 Compressed simple file, getDelim()
 Reading compressed file:
-Line[128] (7): 'abcdef'
+Line[128] (7): 'abcdef<'
 Line[128] (5): '
-ghi'
+ghi<'
 Line[128] (4): '
 jkl'
 Compressed huge file with huge lines, getDelim()

@@ -71,12 +71,24 @@ int main(void) {
       level = static_cast<Level>(level + 1)) {
     hlog_generic(level, 0, 0, "%s level", Criticality(level).toString());
     hlog_generic(level, Report::HLOG_TEMPORARY, 0,
-      "%s level, temp", Criticality(level).toString());
+      "%s level, temporary", Criticality(level).toString());
     hlog_generic(level, Report::HLOG_NOPREFIX, 0,
       "%s level, no prefix", Criticality(level).toString());
+    hlog_generic(level, Report::HLOG_NOLINEFEED, 0,
+      "%s level, no line feed", Criticality(level).toString());
+    hlog_generic(level, 0, 0, "...LF");
     hlog_generic(level, Report::HLOG_TEMPORARY | Report::HLOG_NOPREFIX, 0,
-      "%s level, temp, no prefix", Criticality(level).toString());
+      "%s level, temporary, no prefix", Criticality(level).toString());
+    hlog_generic(level, Report::HLOG_TEMPORARY | Report::HLOG_NOLINEFEED, 0,
+      "%s level, temporary, no LF", Criticality(level).toString());
+    hlog_generic(level, Report::HLOG_NOPREFIX | Report::HLOG_NOLINEFEED, 0,
+      "%s level, no prefix, no LF", Criticality(level).toString());
+    hlog_generic(level,
+      Report::HLOG_TEMPORARY | Report::HLOG_NOPREFIX | Report::HLOG_NOLINEFEED, 0,
+      "%s level, temporary, no prefix, no LF", Criticality(level).toString());
+    hlog_generic(level, Report::HLOG_TEMPORARY | Report::HLOG_NOLINEFEED, 0, ".");
   }
+  hlog_generic(alert, Report::HLOG_NOPREFIX, 0, "reset");
 
   cout << endl << "String conversions" << endl;
   Criticality converted;
@@ -138,12 +150,25 @@ int main(void) {
       level = static_cast<Level>(level + 1)) {
     hlog_generic(level, 0, 0, "%s level", Criticality(level).toString());
     hlog_generic(level, Report::HLOG_TEMPORARY, 0,
-      "%s level, temp", Criticality(level).toString());
+      "%s level, temporary", Criticality(level).toString());
     hlog_generic(level, Report::HLOG_NOPREFIX, 0,
       "%s level, no prefix", Criticality(level).toString());
+    hlog_generic(level, Report::HLOG_NOLINEFEED, 0,
+      "%s level, no line feed", Criticality(level).toString());
+    hlog_generic(level, 0, 0, "...LF");
     hlog_generic(level, Report::HLOG_TEMPORARY | Report::HLOG_NOPREFIX, 0,
-      "%s level, temp, no prefix", Criticality(level).toString());
+      "%s level, temporary, no prefix", Criticality(level).toString());
+    hlog_generic(level, Report::HLOG_TEMPORARY | Report::HLOG_NOLINEFEED, 0,
+      "%s level, temporary, no LF", Criticality(level).toString());
+    hlog_generic(level, Report::HLOG_NOPREFIX | Report::HLOG_NOLINEFEED, 0,
+      "%s level, no prefix, no LF", Criticality(level).toString());
+    hlog_generic(level,
+      Report::HLOG_TEMPORARY | Report::HLOG_NOPREFIX | Report::HLOG_NOLINEFEED, 0,
+      "%s level, temporary, no prefix, no LF", Criticality(level).toString());
+    hlog_generic(level, Report::HLOG_TEMPORARY | Report::HLOG_NOLINEFEED, 0, ".");
   }
+  // This one has an additional LF
+  hlog_generic(alert, Report::HLOG_NOPREFIX, 0, "\nreset");
 
   cout << endl << "Verbosity level: error" << endl;
   report.setLevel(error);
@@ -167,12 +192,24 @@ int main(void) {
       level = static_cast<Level>(level + 1)) {
     hlog_generic(level, 0, 0, "%s level", Criticality(level).toString());
     hlog_generic(level, Report::HLOG_TEMPORARY, 0,
-      "%s level, temp", Criticality(level).toString());
+      "%s level, temporary", Criticality(level).toString());
     hlog_generic(level, Report::HLOG_NOPREFIX, 0,
       "%s level, no prefix", Criticality(level).toString());
+    hlog_generic(level, Report::HLOG_NOLINEFEED, 0,
+      "%s level, no line feed", Criticality(level).toString());
+    hlog_generic(level, 0, 0, "...LF");
     hlog_generic(level, Report::HLOG_TEMPORARY | Report::HLOG_NOPREFIX, 0,
-      "%s level, temp, no prefix", Criticality(level).toString());
+      "%s level, temporary, no prefix", Criticality(level).toString());
+    hlog_generic(level, Report::HLOG_TEMPORARY | Report::HLOG_NOLINEFEED, 0,
+      "%s level, temporary, no LF", Criticality(level).toString());
+    hlog_generic(level, Report::HLOG_NOPREFIX | Report::HLOG_NOLINEFEED, 0,
+      "%s level, no prefix, no LF", Criticality(level).toString());
+    hlog_generic(level,
+      Report::HLOG_TEMPORARY | Report::HLOG_NOPREFIX | Report::HLOG_NOLINEFEED, 0,
+      "%s level, temporary, no prefix, no LF", Criticality(level).toString());
+    hlog_generic(level, Report::HLOG_TEMPORARY | Report::HLOG_NOLINEFEED, 0, ".");
   }
+  hlog_generic(alert, Report::HLOG_NOPREFIX, 0, "reset");
 
   cout << endl << "Verbosity level: warning" << endl;
   report.setLevel(warning);
@@ -196,12 +233,24 @@ int main(void) {
       level = static_cast<Level>(level + 1)) {
     hlog_generic(level, 0, 0, "%s level", Criticality(level).toString());
     hlog_generic(level, Report::HLOG_TEMPORARY, 0,
-      "%s level, temp", Criticality(level).toString());
+      "%s level, temporary", Criticality(level).toString());
     hlog_generic(level, Report::HLOG_NOPREFIX, 0,
       "%s level, no prefix", Criticality(level).toString());
+    hlog_generic(level, Report::HLOG_NOLINEFEED, 0,
+      "%s level, no line feed", Criticality(level).toString());
+    hlog_generic(level, 0, 0, "...LF");
     hlog_generic(level, Report::HLOG_TEMPORARY | Report::HLOG_NOPREFIX, 0,
-      "%s level, temp, no prefix", Criticality(level).toString());
+      "%s level, temporary, no prefix", Criticality(level).toString());
+    hlog_generic(level, Report::HLOG_TEMPORARY | Report::HLOG_NOLINEFEED, 0,
+      "%s level, temporary, no LF", Criticality(level).toString());
+    hlog_generic(level, Report::HLOG_NOPREFIX | Report::HLOG_NOLINEFEED, 0,
+      "%s level, no prefix, no LF", Criticality(level).toString());
+    hlog_generic(level,
+      Report::HLOG_TEMPORARY | Report::HLOG_NOPREFIX | Report::HLOG_NOLINEFEED, 0,
+      "%s level, temporary, no prefix, no LF", Criticality(level).toString());
+    hlog_generic(level, Report::HLOG_TEMPORARY | Report::HLOG_NOLINEFEED, 0, ".");
   }
+  hlog_generic(alert, Report::HLOG_NOPREFIX, 0, "reset");
 
   cout << endl << "Verbosity level: info" << endl;
   report.setLevel(info);
@@ -225,12 +274,24 @@ int main(void) {
       level = static_cast<Level>(level + 1)) {
     hlog_generic(level, 0, 0, "%s level", Criticality(level).toString());
     hlog_generic(level, Report::HLOG_TEMPORARY, 0,
-      "%s level, temp", Criticality(level).toString());
+      "%s level, temporary", Criticality(level).toString());
     hlog_generic(level, Report::HLOG_NOPREFIX, 0,
       "%s level, no prefix", Criticality(level).toString());
+    hlog_generic(level, Report::HLOG_NOLINEFEED, 0,
+      "%s level, no line feed", Criticality(level).toString());
+    hlog_generic(level, 0, 0, "...LF");
     hlog_generic(level, Report::HLOG_TEMPORARY | Report::HLOG_NOPREFIX, 0,
-      "%s level, temp, no prefix", Criticality(level).toString());
+      "%s level, temporary, no prefix", Criticality(level).toString());
+    hlog_generic(level, Report::HLOG_TEMPORARY | Report::HLOG_NOLINEFEED, 0,
+      "%s level, temporary, no LF", Criticality(level).toString());
+    hlog_generic(level, Report::HLOG_NOPREFIX | Report::HLOG_NOLINEFEED, 0,
+      "%s level, no prefix, no LF", Criticality(level).toString());
+    hlog_generic(level,
+      Report::HLOG_TEMPORARY | Report::HLOG_NOPREFIX | Report::HLOG_NOLINEFEED, 0,
+      "%s level, temporary, no prefix, no LF", Criticality(level).toString());
+    hlog_generic(level, Report::HLOG_TEMPORARY | Report::HLOG_NOLINEFEED, 0, ".");
   }
+  hlog_generic(alert, Report::HLOG_NOPREFIX, 0, "reset");
 
   cout << endl << "Verbosity level: verbose" << endl;
   report.setLevel(verbose);
@@ -254,12 +315,24 @@ int main(void) {
       level = static_cast<Level>(level + 1)) {
     hlog_generic(level, 0, 0, "%s level", Criticality(level).toString());
     hlog_generic(level, Report::HLOG_TEMPORARY, 0,
-      "%s level, temp", Criticality(level).toString());
+      "%s level, temporary", Criticality(level).toString());
     hlog_generic(level, Report::HLOG_NOPREFIX, 0,
       "%s level, no prefix", Criticality(level).toString());
+    hlog_generic(level, Report::HLOG_NOLINEFEED, 0,
+      "%s level, no line feed", Criticality(level).toString());
+    hlog_generic(level, 0, 0, "...LF");
     hlog_generic(level, Report::HLOG_TEMPORARY | Report::HLOG_NOPREFIX, 0,
-      "%s level, temp, no prefix", Criticality(level).toString());
+      "%s level, temporary, no prefix", Criticality(level).toString());
+    hlog_generic(level, Report::HLOG_TEMPORARY | Report::HLOG_NOLINEFEED, 0,
+      "%s level, temporary, no LF", Criticality(level).toString());
+    hlog_generic(level, Report::HLOG_NOPREFIX | Report::HLOG_NOLINEFEED, 0,
+      "%s level, no prefix, no LF", Criticality(level).toString());
+    hlog_generic(level,
+      Report::HLOG_TEMPORARY | Report::HLOG_NOPREFIX | Report::HLOG_NOLINEFEED, 0,
+      "%s level, temporary, no prefix, no LF", Criticality(level).toString());
+    hlog_generic(level, Report::HLOG_TEMPORARY | Report::HLOG_NOLINEFEED, 0, ".");
   }
+  hlog_generic(alert, Report::HLOG_NOPREFIX, 0, "reset");
 
   cout << endl << "Verbosity level: debug" << endl;
   report.setLevel(debug);
@@ -283,12 +356,24 @@ int main(void) {
       level = static_cast<Level>(level + 1)) {
     hlog_generic(level, 0, 0, "%s level", Criticality(level).toString());
     hlog_generic(level, Report::HLOG_TEMPORARY, 0,
-      "%s level, temp", Criticality(level).toString());
+      "%s level, temporary", Criticality(level).toString());
     hlog_generic(level, Report::HLOG_NOPREFIX, 0,
       "%s level, no prefix", Criticality(level).toString());
+    hlog_generic(level, Report::HLOG_NOLINEFEED, 0,
+      "%s level, no line feed", Criticality(level).toString());
+    hlog_generic(level, 0, 0, "...LF");
     hlog_generic(level, Report::HLOG_TEMPORARY | Report::HLOG_NOPREFIX, 0,
-      "%s level, temp, no prefix", Criticality(level).toString());
+      "%s level, temporary, no prefix", Criticality(level).toString());
+    hlog_generic(level, Report::HLOG_TEMPORARY | Report::HLOG_NOLINEFEED, 0,
+      "%s level, temporary, no LF", Criticality(level).toString());
+    hlog_generic(level, Report::HLOG_NOPREFIX | Report::HLOG_NOLINEFEED, 0,
+      "%s level, no prefix, no LF", Criticality(level).toString());
+    hlog_generic(level,
+      Report::HLOG_TEMPORARY | Report::HLOG_NOPREFIX | Report::HLOG_NOLINEFEED, 0,
+      "%s level, temporary, no prefix, no LF", Criticality(level).toString());
+    hlog_generic(level, Report::HLOG_TEMPORARY | Report::HLOG_NOLINEFEED, 0, ".");
   }
+  hlog_generic(alert, Report::HLOG_NOPREFIX, 0, "reset");
 
   cout << endl << "Verbosity level: regression" << endl;
   report.setLevel(regression);
@@ -312,12 +397,24 @@ int main(void) {
       level = static_cast<Level>(level + 1)) {
     hlog_generic(level, 0, 0, "%s level", Criticality(level).toString());
     hlog_generic(level, Report::HLOG_TEMPORARY, 0,
-      "%s level, temp", Criticality(level).toString());
+      "%s level, temporary", Criticality(level).toString());
     hlog_generic(level, Report::HLOG_NOPREFIX, 0,
       "%s level, no prefix", Criticality(level).toString());
+    hlog_generic(level, Report::HLOG_NOLINEFEED, 0,
+      "%s level, no line feed", Criticality(level).toString());
+    hlog_generic(level, 0, 0, "...LF");
     hlog_generic(level, Report::HLOG_TEMPORARY | Report::HLOG_NOPREFIX, 0,
-      "%s level, temp, no prefix", Criticality(level).toString());
+      "%s level, temporary, no prefix", Criticality(level).toString());
+    hlog_generic(level, Report::HLOG_TEMPORARY | Report::HLOG_NOLINEFEED, 0,
+      "%s level, temporary, no LF", Criticality(level).toString());
+    hlog_generic(level, Report::HLOG_NOPREFIX | Report::HLOG_NOLINEFEED, 0,
+      "%s level, no prefix, no LF", Criticality(level).toString());
+    hlog_generic(level,
+      Report::HLOG_TEMPORARY | Report::HLOG_NOPREFIX | Report::HLOG_NOLINEFEED, 0,
+      "%s level, temporary, no prefix, no LF", Criticality(level).toString());
+    hlog_generic(level, Report::HLOG_TEMPORARY | Report::HLOG_NOLINEFEED, 0, ".");
   }
+  hlog_generic(alert, Report::HLOG_NOPREFIX, 0, "reset");
 
   cout << endl << "Verbosity level: regression, restricted" << endl;
   report.setLevel(regression);
@@ -342,12 +439,24 @@ int main(void) {
       level = static_cast<Level>(level + 1)) {
     hlog_generic(level, 0, 0, "%s level", Criticality(level).toString());
     hlog_generic(level, Report::HLOG_TEMPORARY, 0,
-      "%s level, temp", Criticality(level).toString());
+      "%s level, temporary", Criticality(level).toString());
     hlog_generic(level, Report::HLOG_NOPREFIX, 0,
       "%s level, no prefix", Criticality(level).toString());
+    hlog_generic(level, Report::HLOG_NOLINEFEED, 0,
+      "%s level, no line feed", Criticality(level).toString());
+    hlog_generic(level, 0, 0, "...LF");
     hlog_generic(level, Report::HLOG_TEMPORARY | Report::HLOG_NOPREFIX, 0,
-      "%s level, temp, no prefix", Criticality(level).toString());
+      "%s level, temporary, no prefix", Criticality(level).toString());
+    hlog_generic(level, Report::HLOG_TEMPORARY | Report::HLOG_NOLINEFEED, 0,
+      "%s level, temporary, no LF", Criticality(level).toString());
+    hlog_generic(level, Report::HLOG_NOPREFIX | Report::HLOG_NOLINEFEED, 0,
+      "%s level, no prefix, no LF", Criticality(level).toString());
+    hlog_generic(level,
+      Report::HLOG_TEMPORARY | Report::HLOG_NOPREFIX | Report::HLOG_NOLINEFEED, 0,
+      "%s level, temporary, no prefix, no LF", Criticality(level).toString());
+    hlog_generic(level, Report::HLOG_TEMPORARY | Report::HLOG_NOLINEFEED, 0, ".");
   }
+  hlog_generic(alert, Report::HLOG_NOPREFIX, 0, "reset");
 
   cout << endl << "Verbosity level: regression, file name, line restricted" << endl;
   report.setLevel(regression);
@@ -374,12 +483,24 @@ int main(void) {
       level = static_cast<Level>(level + 1)) {
     hlog_generic(level, 0, 0, "%s level", Criticality(level).toString());
     hlog_generic(level, Report::HLOG_TEMPORARY, 0,
-      "%s level, temp", Criticality(level).toString());
+      "%s level, temporary", Criticality(level).toString());
     hlog_generic(level, Report::HLOG_NOPREFIX, 0,
       "%s level, no prefix", Criticality(level).toString());
+    hlog_generic(level, Report::HLOG_NOLINEFEED, 0,
+      "%s level, no line feed", Criticality(level).toString());
+    hlog_generic(level, 0, 0, "...LF");
     hlog_generic(level, Report::HLOG_TEMPORARY | Report::HLOG_NOPREFIX, 0,
-      "%s level, temp, no prefix", Criticality(level).toString());
+      "%s level, temporary, no prefix", Criticality(level).toString());
+    hlog_generic(level, Report::HLOG_TEMPORARY | Report::HLOG_NOLINEFEED, 0,
+      "%s level, temporary, no LF", Criticality(level).toString());
+    hlog_generic(level, Report::HLOG_NOPREFIX | Report::HLOG_NOLINEFEED, 0,
+      "%s level, no prefix, no LF", Criticality(level).toString());
+    hlog_generic(level,
+      Report::HLOG_TEMPORARY | Report::HLOG_NOPREFIX | Report::HLOG_NOLINEFEED, 0,
+      "%s level, temporary, no prefix, no LF", Criticality(level).toString());
+    hlog_generic(level, Report::HLOG_TEMPORARY | Report::HLOG_NOLINEFEED, 0, ".");
   }
+  hlog_generic(alert, Report::HLOG_NOPREFIX, 0, "reset");
 
   cout << endl << "Verbosity level: regression, file name" << endl;
   report.setLevel(regression);
@@ -405,15 +526,26 @@ int main(void) {
       level = static_cast<Level>(level + 1)) {
     hlog_generic(level, 0, 0, "%s level", Criticality(level).toString());
     hlog_generic(level, Report::HLOG_TEMPORARY, 0,
-      "%s level, temp", Criticality(level).toString());
+      "%s level, temporary", Criticality(level).toString());
     hlog_generic(level, Report::HLOG_NOPREFIX, 0,
       "%s level, no prefix", Criticality(level).toString());
+    hlog_generic(level, Report::HLOG_NOLINEFEED, 0,
+      "%s level, no line feed", Criticality(level).toString());
+    hlog_generic(level, 0, 0, "...LF");
     hlog_generic(level, Report::HLOG_TEMPORARY | Report::HLOG_NOPREFIX, 0,
-      "%s level, temp, no prefix", Criticality(level).toString());
+      "%s level, temporary, no prefix", Criticality(level).toString());
+    hlog_generic(level, Report::HLOG_TEMPORARY | Report::HLOG_NOLINEFEED, 0,
+      "%s level, temporary, no LF", Criticality(level).toString());
+    hlog_generic(level, Report::HLOG_NOPREFIX | Report::HLOG_NOLINEFEED, 0,
+      "%s level, no prefix, no LF", Criticality(level).toString());
+    hlog_generic(level,
+      Report::HLOG_TEMPORARY | Report::HLOG_NOPREFIX | Report::HLOG_NOLINEFEED, 0,
+      "%s level, temporary, no prefix, no LF", Criticality(level).toString());
+    hlog_generic(level, Report::HLOG_TEMPORARY | Report::HLOG_NOLINEFEED, 0, ".");
   }
+  hlog_generic(alert, Report::HLOG_NOPREFIX, 0, "reset");
 
   cout << endl << "Line autoblanking" << endl;
-  hlog_info("reset");
   hlog_info_temp("%s", "");
   hlog_info_temp("Short line");
   hlog_info_temp("A longer line");
@@ -423,6 +555,20 @@ int main(void) {
   hlog_info_temp("A longer line");
   hlog_info_temp("An even longer line");
   hlog_info("A normal line");
+  hlog_generic(info, Report::HLOG_TEMPORARY | Report::HLOG_NOLINEFEED, 0,
+    "A temp line with no LF");
+  hlog_generic(info, Report::HLOG_TEMPORARY, 0,
+    " and its end");
+  hlog_generic(info, Report::HLOG_TEMPORARY | Report::HLOG_NOLINEFEED, 0,
+    "Still temp: start...");
+  hlog_generic(info, Report::HLOG_TEMPORARY | Report::HLOG_NOLINEFEED, 0,
+    "middle...");
+  hlog_generic(info, Report::HLOG_TEMPORARY, 0,
+    "end");
+  hlog_generic(info, Report::HLOG_TEMPORARY | Report::HLOG_NOLINEFEED, 0,
+    "Again temp: start...");
+  hlog_generic(error, Report::HLOG_TEMPORARY, 0, "error");
+  hlog_generic(alert, 0, 0, "alert");
 
 
   cout << endl << "Macros" << endl;
@@ -651,152 +797,6 @@ int main(void) {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   cout << endl << "Log to file" << endl;
   Report::FileOutput log_file("report.log", 1, 5, true);
   if (log_file.open() < 0) {
@@ -866,7 +866,27 @@ int main(void) {
   hlog_alert("some message with a number %d", 9);
   hlog_info("message with a number %d", 10);
   hlog_debug("with a number %d", 11);
-  tl_report = &report;
+  tl_report = NULL;
+
+
+  cout << endl << "Log to file, no LF" << endl;
+  Report::FileOutput log_file2("report2.log");
+  if (log_file2.open() < 0) {
+    hlog_error("%s opening log file", strerror(errno));
+    return 0;
+  }
+  report.add(&log_file2);
+  report.stopConsoleLog();
+  report.setLevel(debug);
+  hlog_generic(info, Report::HLOG_NOLINEFEED, 0, "message start...");
+  hlog_generic(info, Report::HLOG_NOLINEFEED, 0, "middle...");
+  hlog_verbose("different level");
+  hlog_generic(info, Report::HLOG_NOLINEFEED, 0, "message start...");
+  hlog_info("end");
+  hlog_info("other message");
+  log_file2.close();
+  int sys_rc = 0;
+  sys_rc = system("cat report2.log");
 
 
   cout << endl << "End of tests" << endl;

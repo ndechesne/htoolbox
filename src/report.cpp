@@ -182,6 +182,32 @@ int Report::ConsoleOutput::log(
   FILE* fd = (level <= warning) ? stderr : stdout;
   char buffer[1024];
   size_t offset = 0;
+  // recover previous
+  if (_last_flags & HLOG_NOLINEFEED) {
+    // Level or temporary status change trigger a conclusion
+    if ((level != _last_level) || ((flags ^ _last_flags) & HLOG_TEMPORARY)) {
+      if (_last_flags & HLOG_TEMPORARY) {
+        fprintf(fd, "\r");
+      } else {
+        fprintf(fd, "\n");
+      }
+      _last_flags &= ~HLOG_NOLINEFEED;
+    } else {
+      // Don't repeat the prefix
+      flags |= HLOG_NOPREFIX;
+      // backspaces
+      char bsbuffer[64];
+      memset(bsbuffer, '\b', sizeof(bsbuffer));
+      while (_size_to_recover > 0) {
+        size_t size = sizeof(bsbuffer);
+        if (_size_to_recover < size) {
+          size = _size_to_recover;
+        }
+        _size_to_recover -= size;
+        fwrite(bsbuffer, size, 1, fd);
+      }
+    }
+  }
   // prefix
   switch (level) {
     case alert:
@@ -231,30 +257,38 @@ int Report::ConsoleOutput::log(
   if ((flags & HLOG_TEMPORARY) || (_size_to_overwrite != 0)) {
     size = utf8_len(buffer);
   }
-  // if previous length stored, overwrite end of previous line
-  if ((_size_to_overwrite != 0) && (_size_to_overwrite > size)) {
-    size_t diff = _size_to_overwrite - size;
-    if (diff > (buffer_size - offset)) {
-      diff = buffer_size - offset;
-    }
-    memset(&buffer[offset], ' ', diff);
-    offset += diff;
-  }
   // print
   fwrite(buffer, offset, 1, fd);
-  // end
-  if (flags & HLOG_TEMPORARY) {
-    fprintf(fd, "\r");
-  } else {
-    fprintf(fd, "\n");
+  // if previous line was temporary, overwrite the end of it
+  _size_to_recover = 0;
+  if ((_size_to_overwrite > size) && ! (_last_flags & HLOG_NOLINEFEED)) {
+    char format[16];
+    sprintf(format, "%%%zus", _size_to_overwrite - size);
+    fprintf(fd, format, "");
+    if (flags & HLOG_NOLINEFEED) {
+      _size_to_recover = _size_to_overwrite - size;
+    }
+  }
+  if (! (_last_flags & HLOG_NOLINEFEED)) {
+    _size_to_overwrite = 0;
+  }
+  if (! (flags & HLOG_NOLINEFEED)) {
+    // end
+    if (flags & HLOG_TEMPORARY) {
+      fprintf(fd, "\r");
+    } else {
+      fprintf(fd, "\n");
+    }
   }
   fflush(fd);
-  // if temporary, store length (should be UTF-8 length...)
+  // if temporary, store/update length
   if (flags & HLOG_TEMPORARY) {
-    _size_to_overwrite = size;
+    _size_to_overwrite += size;
   } else {
     _size_to_overwrite = 0;
   }
+  _last_flags = flags;
+  _last_level = level;
   return static_cast<int>(offset);
 }
 
@@ -271,6 +305,8 @@ struct Report::FileOutput::Private {
   size_t          max_files;
   bool            zip_backups;
   size_t          lines;
+  int             last_flags;
+  Level           last_level;
   Private(FileOutput& p) : parent(p), fd(NULL) {}
 
   int checkRotate(bool init = false) {
@@ -427,6 +463,7 @@ const char* Report::FileOutput::name() const {
 
 int Report::FileOutput::open() {
   _d->lines = 0;
+  _d->last_flags = 0;
   if (_d->checkRotate(true) < 0) {
     return -1;
   }
@@ -466,52 +503,62 @@ int Report::FileOutput::log(
     return -1;
   }
   int rc = 0;
-  // time
-  time_t epoch = time(NULL);
-  struct tm date;
-  localtime_r(&epoch, &date); // voluntarily ignore error case
-  rc += fprintf(_d->fd, "%04d-%02d-%02d %02d:%02d:%02d ", date.tm_year + 1900,
-    date.tm_mon + 1, date.tm_mday, date.tm_hour, date.tm_min, date.tm_sec);
-  // level
-  switch (level) {
-    case alert:
-      rc += fprintf(_d->fd, "ALERT ");
-      break;
-    case error:
-      rc += fprintf(_d->fd, "ERROR ");
-      break;
-    case warning:
-      rc += fprintf(_d->fd, "WARN  ");
-      break;
-    case info:
-      rc += fprintf(_d->fd, "INFO  ");
-      break;
-    case verbose:
-      rc += fprintf(_d->fd, "VERB  ");
-      break;
-    case debug:
-      rc += fprintf(_d->fd, "DEBUG ");
-      break;
-    case regression:
-      rc += fprintf(_d->fd, "REGR  ");
-      break;
+  if ((_d->last_flags & HLOG_NOLINEFEED) && (_d->last_level != level)) {
+    rc += fprintf(_d->fd, "\n");
+    _d->last_flags &= ~HLOG_NOLINEFEED;
   }
-  // location
-  rc += fprintf(_d->fd, "%s:%zd ", file, line);
-  // indentation
-  if (indentation > 0) {
-    char indent[] = "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t";
-    if (indentation < sizeof(indent)) {
-      indent[indentation] = '\0';
+  if (! (_d->last_flags & HLOG_NOLINEFEED)) {
+    // time
+    time_t epoch = time(NULL);
+    struct tm date;
+    localtime_r(&epoch, &date); // voluntarily ignore error case
+    rc += fprintf(_d->fd, "%04d-%02d-%02d %02d:%02d:%02d ", date.tm_year + 1900,
+      date.tm_mon + 1, date.tm_mday, date.tm_hour, date.tm_min, date.tm_sec);
+    // level
+    switch (level) {
+      case alert:
+        rc += fprintf(_d->fd, "ALERT ");
+        break;
+      case error:
+        rc += fprintf(_d->fd, "ERROR ");
+        break;
+      case warning:
+        rc += fprintf(_d->fd, "WARN  ");
+        break;
+      case info:
+        rc += fprintf(_d->fd, "INFO  ");
+        break;
+      case verbose:
+        rc += fprintf(_d->fd, "VERB  ");
+        break;
+      case debug:
+        rc += fprintf(_d->fd, "DEBUG ");
+        break;
+      case regression:
+        rc += fprintf(_d->fd, "REGR  ");
+        break;
     }
-    rc += fprintf(_d->fd, "%s", indent);
+    // location
+    rc += fprintf(_d->fd, "%s:%zd ", file, line);
+    // indentation
+    if (indentation > 0) {
+      char indent[] = "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t";
+      if (indentation < sizeof(indent)) {
+        indent[indentation] = '\0';
+      }
+      rc += fprintf(_d->fd, "%s", indent);
+    }
   }
   // message
   rc += vfprintf(_d->fd, format, *args);
   // end
-  rc += fprintf(_d->fd, "\n");
+  if (! (flags & HLOG_NOLINEFEED)) {
+    rc += fprintf(_d->fd, "\n");
+  }
   fflush(_d->fd);
   ++_d->lines;
+  _d->last_flags = flags;
+  _d->last_level = level;
   return rc;
 }
 

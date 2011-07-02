@@ -8,24 +8,41 @@ Warning: warning level
 info level
 report, info level
 ALERT! alert level
-ALERT! alert level, temp\r
-alert level, no prefix  
-alert level, temp, no prefix\r
-Error: error level          
-Error: error level, temp\r
-error level, no prefix  
-error level, temp, no prefix\r
-Warning: warning level      
-Warning: warning level, temp\r
-warning level, no prefix    
-warning level, temp, no prefix\r
-info level                    
-info level, temp\r
+ALERT! alert level, temporary\r
+alert level, no prefix       
+ALERT! alert level, no line feed...LF
+alert level, temporary, no prefix\r
+ALERT! alert level, temporary, no LF\r
+alert level, no prefix, no LF       
+alert level, temporary, no prefix, no LF.\r
+Error: error level                       
+Error: error level, temporary\r
+error level, no prefix       
+Error: error level, no line feed...LF
+error level, temporary, no prefix\r
+Error: error level, temporary, no LF\r
+error level, no prefix, no LF       
+error level, temporary, no prefix, no LF.\r
+Warning: warning level                   
+Warning: warning level, temporary\r
+warning level, no prefix         
+Warning: warning level, no line feed...LF
+warning level, temporary, no prefix\r
+Warning: warning level, temporary, no LF\r
+warning level, no prefix, no LF         
+warning level, temporary, no prefix, no LF.\r
+info level                                 
+info level, temporary\r
 info level, no prefix
-info level, temp, no prefix\r
+info level, no line feed...LF
+info level, temporary, no prefix\r
+info level, temporary, no LF    \r
+info level, no prefix, no LF
+info level, temporary, no prefix, no LF.\r
+reset                                   
 
 String conversions
-alert                      
+alert
 error
 warning
 info
@@ -42,65 +59,110 @@ ALERT! level should be debug, is debug
 Verbosity level: alert
 ALERT! alert level
 ALERT! alert level
-ALERT! alert level, temp\r
-alert level, no prefix  
-alert level, temp, no prefix\r
+ALERT! alert level, temporary\r
+alert level, no prefix       
+ALERT! alert level, no line feed...LF
+alert level, temporary, no prefix\r
+ALERT! alert level, temporary, no LF\r
+alert level, no prefix, no LF       
+alert level, temporary, no prefix, no LF.\r
+
+reset                                   
 
 Verbosity level: error
-ALERT! alert level          
+ALERT! alert level
 Error: error level
 ALERT! alert level
-ALERT! alert level, temp\r
-alert level, no prefix  
-alert level, temp, no prefix\r
-Error: error level          
-Error: error level, temp\r
-error level, no prefix  
-error level, temp, no prefix\r
+ALERT! alert level, temporary\r
+alert level, no prefix       
+ALERT! alert level, no line feed...LF
+alert level, temporary, no prefix\r
+ALERT! alert level, temporary, no LF\r
+alert level, no prefix, no LF       
+alert level, temporary, no prefix, no LF.\r
+Error: error level                       
+Error: error level, temporary\r
+error level, no prefix       
+Error: error level, no line feed...LF
+error level, temporary, no prefix\r
+Error: error level, temporary, no LF\r
+error level, no prefix, no LF       
+error level, temporary, no prefix, no LF.\r
+reset                                    
 
 Verbosity level: warning
-ALERT! alert level          
+ALERT! alert level
 Error: error level
 Warning: warning level
 ALERT! alert level
-ALERT! alert level, temp\r
-alert level, no prefix  
-alert level, temp, no prefix\r
-Error: error level          
-Error: error level, temp\r
-error level, no prefix  
-error level, temp, no prefix\r
-Warning: warning level      
-Warning: warning level, temp\r
-warning level, no prefix    
-warning level, temp, no prefix\r
+ALERT! alert level, temporary\r
+alert level, no prefix       
+ALERT! alert level, no line feed...LF
+alert level, temporary, no prefix\r
+ALERT! alert level, temporary, no LF\r
+alert level, no prefix, no LF       
+alert level, temporary, no prefix, no LF.\r
+Error: error level                       
+Error: error level, temporary\r
+error level, no prefix       
+Error: error level, no line feed...LF
+error level, temporary, no prefix\r
+Error: error level, temporary, no LF\r
+error level, no prefix, no LF       
+error level, temporary, no prefix, no LF.\r
+Warning: warning level                   
+Warning: warning level, temporary\r
+warning level, no prefix         
+Warning: warning level, no line feed...LF
+warning level, temporary, no prefix\r
+Warning: warning level, temporary, no LF\r
+warning level, no prefix, no LF         
+warning level, temporary, no prefix, no LF.\r
+reset                                      
 
 Verbosity level: info
-default level                 
+default level
 ALERT! alert level
 Error: error level
 Warning: warning level
 info level
 report, info level
 ALERT! alert level
-ALERT! alert level, temp\r
-alert level, no prefix  
-alert level, temp, no prefix\r
-Error: error level          
-Error: error level, temp\r
-error level, no prefix  
-error level, temp, no prefix\r
-Warning: warning level      
-Warning: warning level, temp\r
-warning level, no prefix    
-warning level, temp, no prefix\r
-info level                    
-info level, temp\r
+ALERT! alert level, temporary\r
+alert level, no prefix       
+ALERT! alert level, no line feed...LF
+alert level, temporary, no prefix\r
+ALERT! alert level, temporary, no LF\r
+alert level, no prefix, no LF       
+alert level, temporary, no prefix, no LF.\r
+Error: error level                       
+Error: error level, temporary\r
+error level, no prefix       
+Error: error level, no line feed...LF
+error level, temporary, no prefix\r
+Error: error level, temporary, no LF\r
+error level, no prefix, no LF       
+error level, temporary, no prefix, no LF.\r
+Warning: warning level                   
+Warning: warning level, temporary\r
+warning level, no prefix         
+Warning: warning level, no line feed...LF
+warning level, temporary, no prefix\r
+Warning: warning level, temporary, no LF\r
+warning level, no prefix, no LF         
+warning level, temporary, no prefix, no LF.\r
+info level                                 
+info level, temporary\r
 info level, no prefix
-info level, temp, no prefix\r
+info level, no line feed...LF
+info level, temporary, no prefix\r
+info level, temporary, no LF    \r
+info level, no prefix, no LF
+info level, temporary, no prefix, no LF.\r
+reset                                   
 
 Verbosity level: verbose
-default level              
+default level
 ALERT! alert level
 Error: error level
 Warning: warning level
@@ -111,28 +173,49 @@ verbose 0 level
  -> verbose 1 level
  --> verbose 2 level
 ALERT! alert level
-ALERT! alert level, temp\r
-alert level, no prefix  
-alert level, temp, no prefix\r
-Error: error level          
-Error: error level, temp\r
-error level, no prefix  
-error level, temp, no prefix\r
-Warning: warning level      
-Warning: warning level, temp\r
-warning level, no prefix    
-warning level, temp, no prefix\r
-info level                    
-info level, temp\r
+ALERT! alert level, temporary\r
+alert level, no prefix       
+ALERT! alert level, no line feed...LF
+alert level, temporary, no prefix\r
+ALERT! alert level, temporary, no LF\r
+alert level, no prefix, no LF       
+alert level, temporary, no prefix, no LF.\r
+Error: error level                       
+Error: error level, temporary\r
+error level, no prefix       
+Error: error level, no line feed...LF
+error level, temporary, no prefix\r
+Error: error level, temporary, no LF\r
+error level, no prefix, no LF       
+error level, temporary, no prefix, no LF.\r
+Warning: warning level                   
+Warning: warning level, temporary\r
+warning level, no prefix         
+Warning: warning level, no line feed...LF
+warning level, temporary, no prefix\r
+Warning: warning level, temporary, no LF\r
+warning level, no prefix, no LF         
+warning level, temporary, no prefix, no LF.\r
+info level                                 
+info level, temporary\r
 info level, no prefix
-info level, temp, no prefix\r
-verbose level              
-verbose level, temp\r
+info level, no line feed...LF
+info level, temporary, no prefix\r
+info level, temporary, no LF    \r
+info level, no prefix, no LF
+info level, temporary, no prefix, no LF.\r
+verbose level                           
+verbose level, temporary\r
 verbose level, no prefix
-verbose level, temp, no prefix\r
+verbose level, no line feed...LF
+verbose level, temporary, no prefix\r
+verbose level, temporary, no LF    \r
+verbose level, no prefix, no LF
+verbose level, temporary, no prefix, no LF.\r
+reset                                      
 
 Verbosity level: debug
-default level                 
+default level
 ALERT! alert level
 Error: error level
 Warning: warning level
@@ -147,32 +230,57 @@ debug 0 level
  -> debug 1 level
  --> debug 2 level
 ALERT! alert level
-ALERT! alert level, temp\r
-alert level, no prefix  
-alert level, temp, no prefix\r
-Error: error level          
-Error: error level, temp\r
-error level, no prefix  
-error level, temp, no prefix\r
-Warning: warning level      
-Warning: warning level, temp\r
-warning level, no prefix    
-warning level, temp, no prefix\r
-info level                    
-info level, temp\r
+ALERT! alert level, temporary\r
+alert level, no prefix       
+ALERT! alert level, no line feed...LF
+alert level, temporary, no prefix\r
+ALERT! alert level, temporary, no LF\r
+alert level, no prefix, no LF       
+alert level, temporary, no prefix, no LF.\r
+Error: error level                       
+Error: error level, temporary\r
+error level, no prefix       
+Error: error level, no line feed...LF
+error level, temporary, no prefix\r
+Error: error level, temporary, no LF\r
+error level, no prefix, no LF       
+error level, temporary, no prefix, no LF.\r
+Warning: warning level                   
+Warning: warning level, temporary\r
+warning level, no prefix         
+Warning: warning level, no line feed...LF
+warning level, temporary, no prefix\r
+Warning: warning level, temporary, no LF\r
+warning level, no prefix, no LF         
+warning level, temporary, no prefix, no LF.\r
+info level                                 
+info level, temporary\r
 info level, no prefix
-info level, temp, no prefix\r
-verbose level              
-verbose level, temp\r
+info level, no line feed...LF
+info level, temporary, no prefix\r
+info level, temporary, no LF    \r
+info level, no prefix, no LF
+info level, temporary, no prefix, no LF.\r
+verbose level                           
+verbose level, temporary\r
 verbose level, no prefix
-verbose level, temp, no prefix\r
-debug level                   
-debug level, temp\r
+verbose level, no line feed...LF
+verbose level, temporary, no prefix\r
+verbose level, temporary, no LF    \r
+verbose level, no prefix, no LF
+verbose level, temporary, no prefix, no LF.\r
+debug level                                
+debug level, temporary\r
 debug level, no prefix
-debug level, temp, no prefix\r
+debug level, no line feed...LF
+debug level, temporary, no prefix\r
+debug level, temporary, no LF    \r
+debug level, no prefix, no LF
+debug level, temporary, no prefix, no LF.\r
+reset                                    
 
 Verbosity level: regression
-default level               
+default level
 ALERT! alert level
 Error: error level
 Warning: warning level
@@ -188,76 +296,64 @@ debug 0 level
  --> debug 2 level
 regression level
 ALERT! alert level
-ALERT! alert level, temp\r
-alert level, no prefix  
-alert level, temp, no prefix\r
-Error: error level          
-Error: error level, temp\r
-error level, no prefix  
-error level, temp, no prefix\r
-Warning: warning level      
-Warning: warning level, temp\r
-warning level, no prefix    
-warning level, temp, no prefix\r
-info level                    
-info level, temp\r
+ALERT! alert level, temporary\r
+alert level, no prefix       
+ALERT! alert level, no line feed...LF
+alert level, temporary, no prefix\r
+ALERT! alert level, temporary, no LF\r
+alert level, no prefix, no LF       
+alert level, temporary, no prefix, no LF.\r
+Error: error level                       
+Error: error level, temporary\r
+error level, no prefix       
+Error: error level, no line feed...LF
+error level, temporary, no prefix\r
+Error: error level, temporary, no LF\r
+error level, no prefix, no LF       
+error level, temporary, no prefix, no LF.\r
+Warning: warning level                   
+Warning: warning level, temporary\r
+warning level, no prefix         
+Warning: warning level, no line feed...LF
+warning level, temporary, no prefix\r
+Warning: warning level, temporary, no LF\r
+warning level, no prefix, no LF         
+warning level, temporary, no prefix, no LF.\r
+info level                                 
+info level, temporary\r
 info level, no prefix
-info level, temp, no prefix\r
-verbose level              
-verbose level, temp\r
+info level, no line feed...LF
+info level, temporary, no prefix\r
+info level, temporary, no LF    \r
+info level, no prefix, no LF
+info level, temporary, no prefix, no LF.\r
+verbose level                           
+verbose level, temporary\r
 verbose level, no prefix
-verbose level, temp, no prefix\r
-debug level                   
-debug level, temp\r
+verbose level, no line feed...LF
+verbose level, temporary, no prefix\r
+verbose level, temporary, no LF    \r
+verbose level, no prefix, no LF
+verbose level, temporary, no prefix, no LF.\r
+debug level                                
+debug level, temporary\r
 debug level, no prefix
-debug level, temp, no prefix\r
-regression level            
-regression level, temp\r
+debug level, no line feed...LF
+debug level, temporary, no prefix\r
+debug level, temporary, no LF    \r
+debug level, no prefix, no LF
+debug level, temporary, no prefix, no LF.\r
+regression level                         
+regression level, temporary\r
 regression level, no prefix
-regression level, temp, no prefix\r
+regression level, no line feed...LF
+regression level, temporary, no prefix\r
+regression level, temporary, no LF    \r
+regression level, no prefix, no LF
+regression level, temporary, no prefix, no LF.\r
+reset                                         
 
 Verbosity level: regression, restricted
-default level                    
-ALERT! alert level
-Error: error level
-Warning: warning level
-info level
-report, info level
-verbose level
-verbose 0 level
- -> verbose 1 level
- --> verbose 2 level
-debug level
-debug 0 level
- -> debug 1 level
- --> debug 2 level
-ALERT! alert level
-ALERT! alert level, temp\r
-alert level, no prefix  
-alert level, temp, no prefix\r
-Error: error level          
-Error: error level, temp\r
-error level, no prefix  
-error level, temp, no prefix\r
-Warning: warning level      
-Warning: warning level, temp\r
-warning level, no prefix    
-warning level, temp, no prefix\r
-info level                    
-info level, temp\r
-info level, no prefix
-info level, temp, no prefix\r
-verbose level              
-verbose level, temp\r
-verbose level, no prefix
-verbose level, temp, no prefix\r
-debug level                   
-debug level, temp\r
-debug level, no prefix
-debug level, temp, no prefix\r
-
-Verbosity level: regression, file name, line restricted
-regression level            
 default level
 ALERT! alert level
 Error: error level
@@ -273,32 +369,123 @@ debug 0 level
  -> debug 1 level
  --> debug 2 level
 ALERT! alert level
-ALERT! alert level, temp\r
-alert level, no prefix  
-alert level, temp, no prefix\r
-Error: error level          
-Error: error level, temp\r
-error level, no prefix  
-error level, temp, no prefix\r
-Warning: warning level      
-Warning: warning level, temp\r
-warning level, no prefix    
-warning level, temp, no prefix\r
-info level                    
-info level, temp\r
+ALERT! alert level, temporary\r
+alert level, no prefix       
+ALERT! alert level, no line feed...LF
+alert level, temporary, no prefix\r
+ALERT! alert level, temporary, no LF\r
+alert level, no prefix, no LF       
+alert level, temporary, no prefix, no LF.\r
+Error: error level                       
+Error: error level, temporary\r
+error level, no prefix       
+Error: error level, no line feed...LF
+error level, temporary, no prefix\r
+Error: error level, temporary, no LF\r
+error level, no prefix, no LF       
+error level, temporary, no prefix, no LF.\r
+Warning: warning level                   
+Warning: warning level, temporary\r
+warning level, no prefix         
+Warning: warning level, no line feed...LF
+warning level, temporary, no prefix\r
+Warning: warning level, temporary, no LF\r
+warning level, no prefix, no LF         
+warning level, temporary, no prefix, no LF.\r
+info level                                 
+info level, temporary\r
 info level, no prefix
-info level, temp, no prefix\r
-verbose level              
-verbose level, temp\r
+info level, no line feed...LF
+info level, temporary, no prefix\r
+info level, temporary, no LF    \r
+info level, no prefix, no LF
+info level, temporary, no prefix, no LF.\r
+verbose level                           
+verbose level, temporary\r
 verbose level, no prefix
-verbose level, temp, no prefix\r
-debug level                   
-debug level, temp\r
+verbose level, no line feed...LF
+verbose level, temporary, no prefix\r
+verbose level, temporary, no LF    \r
+verbose level, no prefix, no LF
+verbose level, temporary, no prefix, no LF.\r
+debug level                                
+debug level, temporary\r
 debug level, no prefix
-debug level, temp, no prefix\r
+debug level, no line feed...LF
+debug level, temporary, no prefix\r
+debug level, temporary, no LF    \r
+debug level, no prefix, no LF
+debug level, temporary, no prefix, no LF.\r
+reset                                    
+
+Verbosity level: regression, file name, line restricted
+regression level
+default level
+ALERT! alert level
+Error: error level
+Warning: warning level
+info level
+report, info level
+verbose level
+verbose 0 level
+ -> verbose 1 level
+ --> verbose 2 level
+debug level
+debug 0 level
+ -> debug 1 level
+ --> debug 2 level
+ALERT! alert level
+ALERT! alert level, temporary\r
+alert level, no prefix       
+ALERT! alert level, no line feed...LF
+alert level, temporary, no prefix\r
+ALERT! alert level, temporary, no LF\r
+alert level, no prefix, no LF       
+alert level, temporary, no prefix, no LF.\r
+Error: error level                       
+Error: error level, temporary\r
+error level, no prefix       
+Error: error level, no line feed...LF
+error level, temporary, no prefix\r
+Error: error level, temporary, no LF\r
+error level, no prefix, no LF       
+error level, temporary, no prefix, no LF.\r
+Warning: warning level                   
+Warning: warning level, temporary\r
+warning level, no prefix         
+Warning: warning level, no line feed...LF
+warning level, temporary, no prefix\r
+Warning: warning level, temporary, no LF\r
+warning level, no prefix, no LF         
+warning level, temporary, no prefix, no LF.\r
+info level                                 
+info level, temporary\r
+info level, no prefix
+info level, no line feed...LF
+info level, temporary, no prefix\r
+info level, temporary, no LF    \r
+info level, no prefix, no LF
+info level, temporary, no prefix, no LF.\r
+verbose level                           
+verbose level, temporary\r
+verbose level, no prefix
+verbose level, no line feed...LF
+verbose level, temporary, no prefix\r
+verbose level, temporary, no LF    \r
+verbose level, no prefix, no LF
+verbose level, temporary, no prefix, no LF.\r
+debug level                                
+debug level, temporary\r
+debug level, no prefix
+debug level, no line feed...LF
+debug level, temporary, no prefix\r
+debug level, temporary, no LF    \r
+debug level, no prefix, no LF
+debug level, temporary, no prefix, no LF.\r
+reset                                    
 
 Verbosity level: regression, file name
-regression level            
+regression level
 default level
 ALERT! alert level
 Error: error level
@@ -315,36 +502,64 @@ debug 0 level
  --> debug 2 level
 regression level
 ALERT! alert level
-ALERT! alert level, temp\r
-alert level, no prefix  
-alert level, temp, no prefix\r
-Error: error level          
-Error: error level, temp\r
-error level, no prefix  
-error level, temp, no prefix\r
-Warning: warning level      
-Warning: warning level, temp\r
-warning level, no prefix    
-warning level, temp, no prefix\r
-info level                    
-info level, temp\r
+ALERT! alert level, temporary\r
+alert level, no prefix       
+ALERT! alert level, no line feed...LF
+alert level, temporary, no prefix\r
+ALERT! alert level, temporary, no LF\r
+alert level, no prefix, no LF       
+alert level, temporary, no prefix, no LF.\r
+Error: error level                       
+Error: error level, temporary\r
+error level, no prefix       
+Error: error level, no line feed...LF
+error level, temporary, no prefix\r
+Error: error level, temporary, no LF\r
+error level, no prefix, no LF       
+error level, temporary, no prefix, no LF.\r
+Warning: warning level                   
+Warning: warning level, temporary\r
+warning level, no prefix         
+Warning: warning level, no line feed...LF
+warning level, temporary, no prefix\r
+Warning: warning level, temporary, no LF\r
+warning level, no prefix, no LF         
+warning level, temporary, no prefix, no LF.\r
+info level                                 
+info level, temporary\r
 info level, no prefix
-info level, temp, no prefix\r
-verbose level              
-verbose level, temp\r
+info level, no line feed...LF
+info level, temporary, no prefix\r
+info level, temporary, no LF    \r
+info level, no prefix, no LF
+info level, temporary, no prefix, no LF.\r
+verbose level                           
+verbose level, temporary\r
 verbose level, no prefix
-verbose level, temp, no prefix\r
-debug level                   
-debug level, temp\r
+verbose level, no line feed...LF
+verbose level, temporary, no prefix\r
+verbose level, temporary, no LF    \r
+verbose level, no prefix, no LF
+verbose level, temporary, no prefix, no LF.\r
+debug level                                
+debug level, temporary\r
 debug level, no prefix
-debug level, temp, no prefix\r
-regression level            
-regression level, temp\r
+debug level, no line feed...LF
+debug level, temporary, no prefix\r
+debug level, temporary, no LF    \r
+debug level, no prefix, no LF
+debug level, temporary, no prefix, no LF.\r
+regression level                         
+regression level, temporary\r
 regression level, no prefix
-regression level, temp, no prefix\r
+regression level, no line feed...LF
+regression level, temporary, no prefix\r
+regression level, temporary, no LF    \r
+regression level, no prefix, no LF
+regression level, temporary, no prefix, no LF.\r
+reset                                         
 
 Line autoblanking
-reset                            
 \r
 Short line\r
 A longer line\r
@@ -354,6 +569,11 @@ Tiny one                                                                        
 A longer line\r
 An even longer line\r
 A normal line      
+A temp line with no LF and its end\r
+Still temp: start...              <<<<<<<<<<<<<<middle...end\r
+Again temp: start...            \r
+Error: error        \r
+ALERT! alert
 
 Macros
 ALERT! message: alert
@@ -550,5 +770,11 @@ report.log-5.gz
 Specific report
 ALERT! some message with a number 9
 message with a number 10
+
+Log to file, no LF
+2009-08-07 06:05:04 INFO  report_test.cpp:881 message start...middle...
+2009-08-07 06:05:04 VERB  report_test.cpp:883 different level
+2009-08-07 06:05:04 INFO  report_test.cpp:884 message start...end
+2009-08-07 06:05:04 INFO  report_test.cpp:886 other message
 
 End of tests

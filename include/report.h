@@ -78,9 +78,12 @@ namespace htoolbox {
 
     class ConsoleOutput : public IOutput {
       size_t            _size_to_overwrite;
+      size_t            _size_to_recover;
+      int               _last_flags;
+      Level             _last_level;
     public:
-      ConsoleOutput(const char* name) :
-        IOutput(name), _size_to_overwrite(0) {}
+      ConsoleOutput(const char* name) : IOutput(name),
+        _size_to_overwrite(0), _last_flags(0), _last_level(alert) {}
       int log(
         const char*     file,
         size_t          line,
@@ -250,6 +253,7 @@ namespace htoolbox {
     enum {
       HLOG_TEMPORARY  = 1 << 0,
       HLOG_NOPREFIX   = 1 << 1,
+      HLOG_NOLINEFEED = 1 << 2,
     };
     // Display message on standard output
     int log(

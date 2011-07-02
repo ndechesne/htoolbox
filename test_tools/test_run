@@ -28,7 +28,7 @@ export PATH=../../../test_tools:$PATH
 rm -f "$output" "$success"
 
 # Run
-TZ=CET "$executable" 2>&1 | sed "s/\r/\\\r\n/g" | sed "s%$PWD%...%g" > "$output"
+TZ=CET "$executable" 2>&1 | sed "s/\r/\\\r\n/g" | sed 's/'`echo -e "\010"`'/</g' | sed "s%$PWD%...%g" > "$output"
 
 # Revert path
 PATH=$OLD_PATH
