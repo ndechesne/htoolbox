@@ -70,10 +70,10 @@ namespace htoolbox {
         const char*     function,
         Level           level,
         int             flags,
-        size_t          indentation,
+        int             indentation,
         const char*     format,
         va_list*        args) = 0;
-      virtual void show(Level level, size_t indentation) const = 0;
+      virtual void show(Level level, int indentation) const = 0;
     };
 
     class ConsoleOutput : public IOutput {
@@ -90,10 +90,10 @@ namespace htoolbox {
         const char*     function,
         Level           level,
         int             flags,
-        size_t          indentation,
+        int             indentation,
         const char*     format,
         va_list*        args);
-      void show(Level level, size_t indentation = 0) const;
+      void show(Level level, int indentation = 0) const;
     };
 
     class FileOutput : public IOutput {
@@ -116,10 +116,10 @@ namespace htoolbox {
         const char*     function,
         Level           level,
         int             flags,
-        size_t          indentation,
+        int             indentation,
         const char*     format,
         va_list*        args);
-      void show(Level level, size_t indentation = 0) const;
+      void show(Level level, int indentation = 0) const;
     };
 
     class TlvOutput : public IOutput {
@@ -136,10 +136,10 @@ namespace htoolbox {
         const char*     function,
         Level           level,
         int             flags,
-        size_t          indentation,
+        int             indentation,
         const char*     format,
         va_list*        args);
-      void show(Level level, size_t indentation = 0) const;
+      void show(Level level, int indentation = 0) const;
     };
 
     class TlvManager : public tlv::IReceptionManager {
@@ -148,7 +148,7 @@ namespace htoolbox {
       std::string           _function;
       int                   _level;
       int                   _flags;
-      size_t                _indent;
+      int                   _indent;
       tlv::ReceptionManager _manager;
     public:
       TlvManager(IReceptionManager* next = NULL): _manager(next) {
@@ -220,10 +220,10 @@ namespace htoolbox {
         const char*     function,
         Level           level,
         int             flags,
-        size_t          indent,
+        int             indentation,
         const char*     format,
         va_list*        args);
-      void show(Level level, size_t indentation = 0) const;
+      void show(Level level, int indentation = 0) const;
     };
 
     // Log to console
@@ -262,10 +262,10 @@ namespace htoolbox {
       const char*     function,
       Level           level,
       int             flags,
-      size_t          indent,      // text indentation
+      int             indentation,
       const char*     format,
       ...) __attribute__ ((format (printf, 8, 9)));
-    void show(Level level, size_t indentation = 0, bool show_closed = true) const;
+    void show(Level level, int indentation = 0, bool show_closed = true) const;
   private:
     ConsoleOutput     _console;
     Filter            _con_filter;
@@ -295,7 +295,7 @@ namespace htoolbox {
   } while (0);
 
 #define hlog_report(level, format, ...) \
-  hlog_generic((level),0,0,(format),##__VA_ARGS__)
+  hlog_generic((level),0,-1,(format),##__VA_ARGS__)
 
 #define hlog_alert(format, ...) \
   hlog_report(htoolbox::alert,(format),##__VA_ARGS__)
@@ -320,13 +320,13 @@ namespace htoolbox {
 
 
 #define hlog_info_temp(format, ...) \
-  hlog_generic(htoolbox::info,htoolbox::Report::HLOG_TEMPORARY,0,(format),##__VA_ARGS__)
+  hlog_generic(htoolbox::info,htoolbox::Report::HLOG_TEMPORARY,-1,(format),##__VA_ARGS__)
 
 #define hlog_verbose_temp(format, ...) \
-  hlog_generic(htoolbox::verbose,htoolbox::Report::HLOG_TEMPORARY,0,(format),##__VA_ARGS__)
+  hlog_generic(htoolbox::verbose,htoolbox::Report::HLOG_TEMPORARY,-1,(format),##__VA_ARGS__)
 
 #define hlog_debug_temp(format, ...) \
-  hlog_generic(htoolbox::debug,htoolbox::Report::HLOG_TEMPORARY,0,(format),##__VA_ARGS__)
+  hlog_generic(htoolbox::debug,htoolbox::Report::HLOG_TEMPORARY,-1,(format),##__VA_ARGS__)
 
 
 #define hlog_verbose_arrow(indent, format, ...) \
@@ -345,7 +345,7 @@ namespace htoolbox {
   : 0
 
 #define hlog_global_report(level, format, ...) \
-  hlog_global_generic((level),0,0,(format),##__VA_ARGS__)
+  hlog_global_generic((level),0,-1,(format),##__VA_ARGS__)
 
 #define hlog_global_alert(format, ...) \
   hlog_global_report(htoolbox::alert,(format),##__VA_ARGS__)
@@ -370,13 +370,13 @@ namespace htoolbox {
 
 
 #define hlog_global_info_temp(format, ...) \
-  hlog_global_generic(htoolbox::info,htoolbox::Report::HLOG_TEMPORARY,0,(format),##__VA_ARGS__)
+  hlog_global_generic(htoolbox::info,htoolbox::Report::HLOG_TEMPORARY,-1,(format),##__VA_ARGS__)
 
 #define hlog_global_verbose_temp(format, ...) \
-  hlog_global_generic(htoolbox::verbose,htoolbox::Report::HLOG_TEMPORARY,0,(format),##__VA_ARGS__)
+  hlog_global_generic(htoolbox::verbose,htoolbox::Report::HLOG_TEMPORARY,-1,(format),##__VA_ARGS__)
 
 #define hlog_global_debug_temp(format, ...) \
-  hlog_global_generic(htoolbox::debug,htoolbox::Report::HLOG_TEMPORARY,0,(format),##__VA_ARGS__)
+  hlog_global_generic(htoolbox::debug,htoolbox::Report::HLOG_TEMPORARY,-1,(format),##__VA_ARGS__)
 
 
 #define hlog_global_verbose_arrow(indent, format, ...) \

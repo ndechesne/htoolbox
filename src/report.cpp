@@ -128,7 +128,7 @@ int Report::log(
     const char*     function,
     Level           level,
     int             flags,
-    size_t          indentation,
+    int             indentation,
     const char*     format,
     ...) {
   va_list ap;
@@ -155,7 +155,7 @@ int Report::log(
   return rc;
 }
 
-void Report::show(Level level, size_t indentation, bool show_closed) const {
+void Report::show(Level level, int indentation, bool show_closed) const {
   hlog_generic(level, false, indentation, "report '%s' [%s]:", name(),
     this->level().toString());
   for (list<Observee*>::const_iterator it = _observees.begin();
@@ -173,7 +173,7 @@ int Report::ConsoleOutput::log(
     const char*     function,
     Level           level,
     int             flags,
-    size_t          indentation,
+    int             indentation,
     const char*     format,
     va_list*        args) {
   (void) file;
@@ -208,38 +208,34 @@ int Report::ConsoleOutput::log(
       }
     }
   }
-  // prefix
-  switch (level) {
-    case alert:
-      if (! (flags & HLOG_NOPREFIX)) {
+  if (! (flags & HLOG_NOPREFIX)) {
+    // prefix
+    switch (level) {
+      case alert:
         offset += sprintf(&buffer[offset], "ALERT! ");
-      }
-      break;
-    case error:
-      if (! (flags & HLOG_NOPREFIX)) {
+        break;
+      case error:
         offset += sprintf(&buffer[offset], "Error: ");
-      }
-      break;
-    case warning:
-      if (! (flags & HLOG_NOPREFIX)) {
+        break;
+      case warning:
         offset += sprintf(&buffer[offset], "Warning: ");
-      }
-      break;
-    case info:
-    case verbose:
-    case debug:
-    case regression:
-      // add arrow
-      if (indentation > 0) {
-        /* " --n--> " */
-        buffer[offset++] = ' ';
-        for (size_t i = 0; i < indentation; ++i) {
-          buffer[offset++] = '-';
+        break;
+      case info:
+      case verbose:
+      case debug:
+      case regression:
+        // add arrow
+        if (indentation >= 0) {
+          /* " --n--> " */
+          buffer[offset++] = ' ';
+          for (int i = 0; i < indentation; ++i) {
+            buffer[offset++] = '-';
+          }
+          buffer[offset++] = '>';
+          buffer[offset++] = ' ';
         }
-        buffer[offset++] = '>';
-        buffer[offset++] = ' ';
-      }
-      break;
+        break;
+    }
   }
   // message
   offset += vsnprintf(&buffer[offset], sizeof(buffer) - offset, format, *args);
@@ -292,7 +288,7 @@ int Report::ConsoleOutput::log(
   return static_cast<int>(offset);
 }
 
-void Report::ConsoleOutput::show(Level level, size_t indentation) const {
+void Report::ConsoleOutput::show(Level level, int indentation) const {
   hlog_generic(level, false, indentation, "console '%s' (%s) [%s]", name(),
     isOpen() ? "open" : "closed", this->level().toString());
 }
@@ -491,7 +487,7 @@ int Report::FileOutput::log(
     const char*     function,
     Level           level,
     int             flags,
-    size_t          indentation,
+    int             indentation,
     const char*     format,
     va_list*        args) {
   (void) function;
@@ -541,9 +537,9 @@ int Report::FileOutput::log(
     // location
     rc += fprintf(_d->fd, "%s:%zd ", file, line);
     // indentation
-    if (indentation > 0) {
+    if (indentation >= 0) {
       char indent[] = "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t";
-      if (indentation < sizeof(indent)) {
+      if (indentation < static_cast<int>(sizeof(indent))) {
         indent[indentation] = '\0';
       }
       rc += fprintf(_d->fd, "%s", indent);
@@ -562,7 +558,7 @@ int Report::FileOutput::log(
   return rc;
 }
 
-void Report::FileOutput::show(Level level, size_t indentation) const {
+void Report::FileOutput::show(Level level, int indentation) const {
   hlog_generic(level, false, indentation, "file '%s' (%s) [%s]:", name(),
     isOpen() ? "open" : "closed", this->level().toString());
   hlog_generic(level, false, indentation + 1, "name: '%s'", _d->name);
@@ -578,7 +574,7 @@ int Report::TlvOutput::log(
     const char*     function,
     Level           level,
     int             flags,
-    size_t          indent,
+    int             indent,
     const char*     format,
     va_list*        args) {
   uint16_t tag = tlv::log_start_tag;
@@ -588,7 +584,7 @@ int Report::TlvOutput::log(
   m.add(tag++, function, strlen(function));
   m.add(tag++, level);
   m.add(tag++, flags);
-  m.add(tag++, static_cast<int32_t>(indent));
+  m.add(tag++, indent);
   char buffer[65536];
   int len = vsnprintf(buffer, sizeof(buffer), format, *args);
   buffer[sizeof(buffer) - 1] = '\0';
@@ -599,7 +595,7 @@ int Report::TlvOutput::log(
   return 0;
 }
 
-void Report::TlvOutput::show(Level level, size_t indentation) const {
+void Report::TlvOutput::show(Level level, int indentation) const {
   hlog_generic(level, false, indentation, "tlv '%s' (%s) [%s]", name(),
     isOpen() ? "open" : "closed", this->level().toString());
 }
@@ -665,7 +661,7 @@ public:
       return memcmp(_function_name, function, _function_name_length) == 0;
     }
   }
-  void show(Level level, size_t indentation = 0) const {
+  void show(Level level, int indentation = 0) const {
     char level_str[64] = "";
     if (_mode < accept) {
       sprintf(level_str, ", %s <= level <= %s",
@@ -762,7 +758,7 @@ int Report::Filter::log(
     const char*     function,
     Level           level,
     int             flags,
-    size_t          indentation,
+    int             indentation,
     const char*     format,
     va_list*        args) {
   // If the level is loggable, accept
@@ -783,7 +779,7 @@ int Report::Filter::log(
   return 0;
 }
 
-void Report::Filter::show(Level level, size_t indentation) const {
+void Report::Filter::show(Level level, int indentation) const {
   hlog_generic(level, false, indentation, "filter '%s' (%s) [%s]:", name(),
     isOpen() ? "open" : "closed", this->level().toString());
   if (_conditions.empty()) {

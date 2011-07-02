@@ -69,26 +69,26 @@ int main(void) {
 
   for (Level level = alert; level <= regression;
       level = static_cast<Level>(level + 1)) {
-    hlog_generic(level, 0, 0, "%s level", Criticality(level).toString());
-    hlog_generic(level, Report::HLOG_TEMPORARY, 0,
+    hlog_generic(level, 0, -1, "%s level", Criticality(level).toString());
+    hlog_generic(level, Report::HLOG_TEMPORARY, -1,
       "%s level, temporary", Criticality(level).toString());
-    hlog_generic(level, Report::HLOG_NOPREFIX, 0,
+    hlog_generic(level, Report::HLOG_NOPREFIX, -1,
       "%s level, no prefix", Criticality(level).toString());
-    hlog_generic(level, Report::HLOG_NOLINEFEED, 0,
+    hlog_generic(level, Report::HLOG_NOLINEFEED, -1,
       "%s level, no line feed", Criticality(level).toString());
     hlog_generic(level, 0, 0, "...LF");
-    hlog_generic(level, Report::HLOG_TEMPORARY | Report::HLOG_NOPREFIX, 0,
+    hlog_generic(level, Report::HLOG_TEMPORARY | Report::HLOG_NOPREFIX, -1,
       "%s level, temporary, no prefix", Criticality(level).toString());
-    hlog_generic(level, Report::HLOG_TEMPORARY | Report::HLOG_NOLINEFEED, 0,
+    hlog_generic(level, Report::HLOG_TEMPORARY | Report::HLOG_NOLINEFEED, -1,
       "%s level, temporary, no LF", Criticality(level).toString());
-    hlog_generic(level, Report::HLOG_NOPREFIX | Report::HLOG_NOLINEFEED, 0,
+    hlog_generic(level, Report::HLOG_NOPREFIX | Report::HLOG_NOLINEFEED, -1,
       "%s level, no prefix, no LF", Criticality(level).toString());
     hlog_generic(level,
-      Report::HLOG_TEMPORARY | Report::HLOG_NOPREFIX | Report::HLOG_NOLINEFEED, 0,
+      Report::HLOG_TEMPORARY | Report::HLOG_NOPREFIX | Report::HLOG_NOLINEFEED, -1,
       "%s level, temporary, no prefix, no LF", Criticality(level).toString());
-    hlog_generic(level, Report::HLOG_TEMPORARY | Report::HLOG_NOLINEFEED, 0, ".");
+    hlog_generic(level, Report::HLOG_TEMPORARY | Report::HLOG_NOLINEFEED, -1, ".");
   }
-  hlog_generic(alert, Report::HLOG_NOPREFIX, 0, "reset");
+  hlog_generic(alert, Report::HLOG_NOPREFIX, -1, "reset");
 
   cout << endl << "String conversions" << endl;
   Criticality converted;
@@ -148,27 +148,27 @@ int main(void) {
 
   for (Level level = alert; level <= regression;
       level = static_cast<Level>(level + 1)) {
-    hlog_generic(level, 0, 0, "%s level", Criticality(level).toString());
-    hlog_generic(level, Report::HLOG_TEMPORARY, 0,
+    hlog_generic(level, 0, -1, "%s level", Criticality(level).toString());
+    hlog_generic(level, Report::HLOG_TEMPORARY, -1,
       "%s level, temporary", Criticality(level).toString());
-    hlog_generic(level, Report::HLOG_NOPREFIX, 0,
+    hlog_generic(level, Report::HLOG_NOPREFIX, -1,
       "%s level, no prefix", Criticality(level).toString());
-    hlog_generic(level, Report::HLOG_NOLINEFEED, 0,
+    hlog_generic(level, Report::HLOG_NOLINEFEED, -1,
       "%s level, no line feed", Criticality(level).toString());
     hlog_generic(level, 0, 0, "...LF");
-    hlog_generic(level, Report::HLOG_TEMPORARY | Report::HLOG_NOPREFIX, 0,
+    hlog_generic(level, Report::HLOG_TEMPORARY | Report::HLOG_NOPREFIX, -1,
       "%s level, temporary, no prefix", Criticality(level).toString());
-    hlog_generic(level, Report::HLOG_TEMPORARY | Report::HLOG_NOLINEFEED, 0,
+    hlog_generic(level, Report::HLOG_TEMPORARY | Report::HLOG_NOLINEFEED, -1,
       "%s level, temporary, no LF", Criticality(level).toString());
-    hlog_generic(level, Report::HLOG_NOPREFIX | Report::HLOG_NOLINEFEED, 0,
+    hlog_generic(level, Report::HLOG_NOPREFIX | Report::HLOG_NOLINEFEED, -1,
       "%s level, no prefix, no LF", Criticality(level).toString());
     hlog_generic(level,
-      Report::HLOG_TEMPORARY | Report::HLOG_NOPREFIX | Report::HLOG_NOLINEFEED, 0,
+      Report::HLOG_TEMPORARY | Report::HLOG_NOPREFIX | Report::HLOG_NOLINEFEED, -1,
       "%s level, temporary, no prefix, no LF", Criticality(level).toString());
-    hlog_generic(level, Report::HLOG_TEMPORARY | Report::HLOG_NOLINEFEED, 0, ".");
+    hlog_generic(level, Report::HLOG_TEMPORARY | Report::HLOG_NOLINEFEED, -1, ".");
   }
   // This one has an additional LF
-  hlog_generic(alert, Report::HLOG_NOPREFIX, 0, "\nreset");
+  hlog_generic(alert, Report::HLOG_NOPREFIX, -1, "\nreset");
 
   cout << endl << "Verbosity level: error" << endl;
   report.setLevel(error);
@@ -190,26 +190,26 @@ int main(void) {
 
   for (Level level = alert; level <= regression;
       level = static_cast<Level>(level + 1)) {
-    hlog_generic(level, 0, 0, "%s level", Criticality(level).toString());
-    hlog_generic(level, Report::HLOG_TEMPORARY, 0,
+    hlog_generic(level, 0, -1, "%s level", Criticality(level).toString());
+    hlog_generic(level, Report::HLOG_TEMPORARY, -1,
       "%s level, temporary", Criticality(level).toString());
-    hlog_generic(level, Report::HLOG_NOPREFIX, 0,
+    hlog_generic(level, Report::HLOG_NOPREFIX, -1,
       "%s level, no prefix", Criticality(level).toString());
-    hlog_generic(level, Report::HLOG_NOLINEFEED, 0,
+    hlog_generic(level, Report::HLOG_NOLINEFEED, -1,
       "%s level, no line feed", Criticality(level).toString());
     hlog_generic(level, 0, 0, "...LF");
-    hlog_generic(level, Report::HLOG_TEMPORARY | Report::HLOG_NOPREFIX, 0,
+    hlog_generic(level, Report::HLOG_TEMPORARY | Report::HLOG_NOPREFIX, -1,
       "%s level, temporary, no prefix", Criticality(level).toString());
-    hlog_generic(level, Report::HLOG_TEMPORARY | Report::HLOG_NOLINEFEED, 0,
+    hlog_generic(level, Report::HLOG_TEMPORARY | Report::HLOG_NOLINEFEED, -1,
       "%s level, temporary, no LF", Criticality(level).toString());
-    hlog_generic(level, Report::HLOG_NOPREFIX | Report::HLOG_NOLINEFEED, 0,
+    hlog_generic(level, Report::HLOG_NOPREFIX | Report::HLOG_NOLINEFEED, -1,
       "%s level, no prefix, no LF", Criticality(level).toString());
     hlog_generic(level,
-      Report::HLOG_TEMPORARY | Report::HLOG_NOPREFIX | Report::HLOG_NOLINEFEED, 0,
+      Report::HLOG_TEMPORARY | Report::HLOG_NOPREFIX | Report::HLOG_NOLINEFEED, -1,
       "%s level, temporary, no prefix, no LF", Criticality(level).toString());
-    hlog_generic(level, Report::HLOG_TEMPORARY | Report::HLOG_NOLINEFEED, 0, ".");
+    hlog_generic(level, Report::HLOG_TEMPORARY | Report::HLOG_NOLINEFEED, -1, ".");
   }
-  hlog_generic(alert, Report::HLOG_NOPREFIX, 0, "reset");
+  hlog_generic(alert, Report::HLOG_NOPREFIX, -1, "reset");
 
   cout << endl << "Verbosity level: warning" << endl;
   report.setLevel(warning);
@@ -231,26 +231,26 @@ int main(void) {
 
   for (Level level = alert; level <= regression;
       level = static_cast<Level>(level + 1)) {
-    hlog_generic(level, 0, 0, "%s level", Criticality(level).toString());
-    hlog_generic(level, Report::HLOG_TEMPORARY, 0,
+    hlog_generic(level, 0, -1, "%s level", Criticality(level).toString());
+    hlog_generic(level, Report::HLOG_TEMPORARY, -1,
       "%s level, temporary", Criticality(level).toString());
-    hlog_generic(level, Report::HLOG_NOPREFIX, 0,
+    hlog_generic(level, Report::HLOG_NOPREFIX, -1,
       "%s level, no prefix", Criticality(level).toString());
-    hlog_generic(level, Report::HLOG_NOLINEFEED, 0,
+    hlog_generic(level, Report::HLOG_NOLINEFEED, -1,
       "%s level, no line feed", Criticality(level).toString());
     hlog_generic(level, 0, 0, "...LF");
-    hlog_generic(level, Report::HLOG_TEMPORARY | Report::HLOG_NOPREFIX, 0,
+    hlog_generic(level, Report::HLOG_TEMPORARY | Report::HLOG_NOPREFIX, -1,
       "%s level, temporary, no prefix", Criticality(level).toString());
-    hlog_generic(level, Report::HLOG_TEMPORARY | Report::HLOG_NOLINEFEED, 0,
+    hlog_generic(level, Report::HLOG_TEMPORARY | Report::HLOG_NOLINEFEED, -1,
       "%s level, temporary, no LF", Criticality(level).toString());
-    hlog_generic(level, Report::HLOG_NOPREFIX | Report::HLOG_NOLINEFEED, 0,
+    hlog_generic(level, Report::HLOG_NOPREFIX | Report::HLOG_NOLINEFEED, -1,
       "%s level, no prefix, no LF", Criticality(level).toString());
     hlog_generic(level,
-      Report::HLOG_TEMPORARY | Report::HLOG_NOPREFIX | Report::HLOG_NOLINEFEED, 0,
+      Report::HLOG_TEMPORARY | Report::HLOG_NOPREFIX | Report::HLOG_NOLINEFEED, -1,
       "%s level, temporary, no prefix, no LF", Criticality(level).toString());
-    hlog_generic(level, Report::HLOG_TEMPORARY | Report::HLOG_NOLINEFEED, 0, ".");
+    hlog_generic(level, Report::HLOG_TEMPORARY | Report::HLOG_NOLINEFEED, -1, ".");
   }
-  hlog_generic(alert, Report::HLOG_NOPREFIX, 0, "reset");
+  hlog_generic(alert, Report::HLOG_NOPREFIX, -1, "reset");
 
   cout << endl << "Verbosity level: info" << endl;
   report.setLevel(info);
@@ -272,26 +272,26 @@ int main(void) {
 
   for (Level level = alert; level <= regression;
       level = static_cast<Level>(level + 1)) {
-    hlog_generic(level, 0, 0, "%s level", Criticality(level).toString());
-    hlog_generic(level, Report::HLOG_TEMPORARY, 0,
+    hlog_generic(level, 0, -1, "%s level", Criticality(level).toString());
+    hlog_generic(level, Report::HLOG_TEMPORARY, -1,
       "%s level, temporary", Criticality(level).toString());
-    hlog_generic(level, Report::HLOG_NOPREFIX, 0,
+    hlog_generic(level, Report::HLOG_NOPREFIX, -1,
       "%s level, no prefix", Criticality(level).toString());
-    hlog_generic(level, Report::HLOG_NOLINEFEED, 0,
+    hlog_generic(level, Report::HLOG_NOLINEFEED, -1,
       "%s level, no line feed", Criticality(level).toString());
     hlog_generic(level, 0, 0, "...LF");
-    hlog_generic(level, Report::HLOG_TEMPORARY | Report::HLOG_NOPREFIX, 0,
+    hlog_generic(level, Report::HLOG_TEMPORARY | Report::HLOG_NOPREFIX, -1,
       "%s level, temporary, no prefix", Criticality(level).toString());
-    hlog_generic(level, Report::HLOG_TEMPORARY | Report::HLOG_NOLINEFEED, 0,
+    hlog_generic(level, Report::HLOG_TEMPORARY | Report::HLOG_NOLINEFEED, -1,
       "%s level, temporary, no LF", Criticality(level).toString());
-    hlog_generic(level, Report::HLOG_NOPREFIX | Report::HLOG_NOLINEFEED, 0,
+    hlog_generic(level, Report::HLOG_NOPREFIX | Report::HLOG_NOLINEFEED, -1,
       "%s level, no prefix, no LF", Criticality(level).toString());
     hlog_generic(level,
-      Report::HLOG_TEMPORARY | Report::HLOG_NOPREFIX | Report::HLOG_NOLINEFEED, 0,
+      Report::HLOG_TEMPORARY | Report::HLOG_NOPREFIX | Report::HLOG_NOLINEFEED, -1,
       "%s level, temporary, no prefix, no LF", Criticality(level).toString());
-    hlog_generic(level, Report::HLOG_TEMPORARY | Report::HLOG_NOLINEFEED, 0, ".");
+    hlog_generic(level, Report::HLOG_TEMPORARY | Report::HLOG_NOLINEFEED, -1, ".");
   }
-  hlog_generic(alert, Report::HLOG_NOPREFIX, 0, "reset");
+  hlog_generic(alert, Report::HLOG_NOPREFIX, -1, "reset");
 
   cout << endl << "Verbosity level: verbose" << endl;
   report.setLevel(verbose);
@@ -313,26 +313,26 @@ int main(void) {
 
   for (Level level = alert; level <= regression;
       level = static_cast<Level>(level + 1)) {
-    hlog_generic(level, 0, 0, "%s level", Criticality(level).toString());
-    hlog_generic(level, Report::HLOG_TEMPORARY, 0,
+    hlog_generic(level, 0, -1, "%s level", Criticality(level).toString());
+    hlog_generic(level, Report::HLOG_TEMPORARY, -1,
       "%s level, temporary", Criticality(level).toString());
-    hlog_generic(level, Report::HLOG_NOPREFIX, 0,
+    hlog_generic(level, Report::HLOG_NOPREFIX, -1,
       "%s level, no prefix", Criticality(level).toString());
-    hlog_generic(level, Report::HLOG_NOLINEFEED, 0,
+    hlog_generic(level, Report::HLOG_NOLINEFEED, -1,
       "%s level, no line feed", Criticality(level).toString());
     hlog_generic(level, 0, 0, "...LF");
-    hlog_generic(level, Report::HLOG_TEMPORARY | Report::HLOG_NOPREFIX, 0,
+    hlog_generic(level, Report::HLOG_TEMPORARY | Report::HLOG_NOPREFIX, -1,
       "%s level, temporary, no prefix", Criticality(level).toString());
-    hlog_generic(level, Report::HLOG_TEMPORARY | Report::HLOG_NOLINEFEED, 0,
+    hlog_generic(level, Report::HLOG_TEMPORARY | Report::HLOG_NOLINEFEED, -1,
       "%s level, temporary, no LF", Criticality(level).toString());
-    hlog_generic(level, Report::HLOG_NOPREFIX | Report::HLOG_NOLINEFEED, 0,
+    hlog_generic(level, Report::HLOG_NOPREFIX | Report::HLOG_NOLINEFEED, -1,
       "%s level, no prefix, no LF", Criticality(level).toString());
     hlog_generic(level,
-      Report::HLOG_TEMPORARY | Report::HLOG_NOPREFIX | Report::HLOG_NOLINEFEED, 0,
+      Report::HLOG_TEMPORARY | Report::HLOG_NOPREFIX | Report::HLOG_NOLINEFEED, -1,
       "%s level, temporary, no prefix, no LF", Criticality(level).toString());
-    hlog_generic(level, Report::HLOG_TEMPORARY | Report::HLOG_NOLINEFEED, 0, ".");
+    hlog_generic(level, Report::HLOG_TEMPORARY | Report::HLOG_NOLINEFEED, -1, ".");
   }
-  hlog_generic(alert, Report::HLOG_NOPREFIX, 0, "reset");
+  hlog_generic(alert, Report::HLOG_NOPREFIX, -1, "reset");
 
   cout << endl << "Verbosity level: debug" << endl;
   report.setLevel(debug);
@@ -354,26 +354,26 @@ int main(void) {
 
   for (Level level = alert; level <= regression;
       level = static_cast<Level>(level + 1)) {
-    hlog_generic(level, 0, 0, "%s level", Criticality(level).toString());
-    hlog_generic(level, Report::HLOG_TEMPORARY, 0,
+    hlog_generic(level, 0, -1, "%s level", Criticality(level).toString());
+    hlog_generic(level, Report::HLOG_TEMPORARY, -1,
       "%s level, temporary", Criticality(level).toString());
-    hlog_generic(level, Report::HLOG_NOPREFIX, 0,
+    hlog_generic(level, Report::HLOG_NOPREFIX, -1,
       "%s level, no prefix", Criticality(level).toString());
-    hlog_generic(level, Report::HLOG_NOLINEFEED, 0,
+    hlog_generic(level, Report::HLOG_NOLINEFEED, -1,
       "%s level, no line feed", Criticality(level).toString());
     hlog_generic(level, 0, 0, "...LF");
-    hlog_generic(level, Report::HLOG_TEMPORARY | Report::HLOG_NOPREFIX, 0,
+    hlog_generic(level, Report::HLOG_TEMPORARY | Report::HLOG_NOPREFIX, -1,
       "%s level, temporary, no prefix", Criticality(level).toString());
-    hlog_generic(level, Report::HLOG_TEMPORARY | Report::HLOG_NOLINEFEED, 0,
+    hlog_generic(level, Report::HLOG_TEMPORARY | Report::HLOG_NOLINEFEED, -1,
       "%s level, temporary, no LF", Criticality(level).toString());
-    hlog_generic(level, Report::HLOG_NOPREFIX | Report::HLOG_NOLINEFEED, 0,
+    hlog_generic(level, Report::HLOG_NOPREFIX | Report::HLOG_NOLINEFEED, -1,
       "%s level, no prefix, no LF", Criticality(level).toString());
     hlog_generic(level,
-      Report::HLOG_TEMPORARY | Report::HLOG_NOPREFIX | Report::HLOG_NOLINEFEED, 0,
+      Report::HLOG_TEMPORARY | Report::HLOG_NOPREFIX | Report::HLOG_NOLINEFEED, -1,
       "%s level, temporary, no prefix, no LF", Criticality(level).toString());
-    hlog_generic(level, Report::HLOG_TEMPORARY | Report::HLOG_NOLINEFEED, 0, ".");
+    hlog_generic(level, Report::HLOG_TEMPORARY | Report::HLOG_NOLINEFEED, -1, ".");
   }
-  hlog_generic(alert, Report::HLOG_NOPREFIX, 0, "reset");
+  hlog_generic(alert, Report::HLOG_NOPREFIX, -1, "reset");
 
   cout << endl << "Verbosity level: regression" << endl;
   report.setLevel(regression);
@@ -395,26 +395,26 @@ int main(void) {
 
   for (Level level = alert; level <= regression;
       level = static_cast<Level>(level + 1)) {
-    hlog_generic(level, 0, 0, "%s level", Criticality(level).toString());
-    hlog_generic(level, Report::HLOG_TEMPORARY, 0,
+    hlog_generic(level, 0, -1, "%s level", Criticality(level).toString());
+    hlog_generic(level, Report::HLOG_TEMPORARY, -1,
       "%s level, temporary", Criticality(level).toString());
-    hlog_generic(level, Report::HLOG_NOPREFIX, 0,
+    hlog_generic(level, Report::HLOG_NOPREFIX, -1,
       "%s level, no prefix", Criticality(level).toString());
-    hlog_generic(level, Report::HLOG_NOLINEFEED, 0,
+    hlog_generic(level, Report::HLOG_NOLINEFEED, -1,
       "%s level, no line feed", Criticality(level).toString());
     hlog_generic(level, 0, 0, "...LF");
-    hlog_generic(level, Report::HLOG_TEMPORARY | Report::HLOG_NOPREFIX, 0,
+    hlog_generic(level, Report::HLOG_TEMPORARY | Report::HLOG_NOPREFIX, -1,
       "%s level, temporary, no prefix", Criticality(level).toString());
-    hlog_generic(level, Report::HLOG_TEMPORARY | Report::HLOG_NOLINEFEED, 0,
+    hlog_generic(level, Report::HLOG_TEMPORARY | Report::HLOG_NOLINEFEED, -1,
       "%s level, temporary, no LF", Criticality(level).toString());
-    hlog_generic(level, Report::HLOG_NOPREFIX | Report::HLOG_NOLINEFEED, 0,
+    hlog_generic(level, Report::HLOG_NOPREFIX | Report::HLOG_NOLINEFEED, -1,
       "%s level, no prefix, no LF", Criticality(level).toString());
     hlog_generic(level,
-      Report::HLOG_TEMPORARY | Report::HLOG_NOPREFIX | Report::HLOG_NOLINEFEED, 0,
+      Report::HLOG_TEMPORARY | Report::HLOG_NOPREFIX | Report::HLOG_NOLINEFEED, -1,
       "%s level, temporary, no prefix, no LF", Criticality(level).toString());
-    hlog_generic(level, Report::HLOG_TEMPORARY | Report::HLOG_NOLINEFEED, 0, ".");
+    hlog_generic(level, Report::HLOG_TEMPORARY | Report::HLOG_NOLINEFEED, -1, ".");
   }
-  hlog_generic(alert, Report::HLOG_NOPREFIX, 0, "reset");
+  hlog_generic(alert, Report::HLOG_NOPREFIX, -1, "reset");
 
   cout << endl << "Verbosity level: regression, restricted" << endl;
   report.setLevel(regression);
@@ -437,26 +437,26 @@ int main(void) {
 
   for (Level level = alert; level <= regression;
       level = static_cast<Level>(level + 1)) {
-    hlog_generic(level, 0, 0, "%s level", Criticality(level).toString());
-    hlog_generic(level, Report::HLOG_TEMPORARY, 0,
+    hlog_generic(level, 0, -1, "%s level", Criticality(level).toString());
+    hlog_generic(level, Report::HLOG_TEMPORARY, -1,
       "%s level, temporary", Criticality(level).toString());
-    hlog_generic(level, Report::HLOG_NOPREFIX, 0,
+    hlog_generic(level, Report::HLOG_NOPREFIX, -1,
       "%s level, no prefix", Criticality(level).toString());
-    hlog_generic(level, Report::HLOG_NOLINEFEED, 0,
+    hlog_generic(level, Report::HLOG_NOLINEFEED, -1,
       "%s level, no line feed", Criticality(level).toString());
     hlog_generic(level, 0, 0, "...LF");
-    hlog_generic(level, Report::HLOG_TEMPORARY | Report::HLOG_NOPREFIX, 0,
+    hlog_generic(level, Report::HLOG_TEMPORARY | Report::HLOG_NOPREFIX, -1,
       "%s level, temporary, no prefix", Criticality(level).toString());
-    hlog_generic(level, Report::HLOG_TEMPORARY | Report::HLOG_NOLINEFEED, 0,
+    hlog_generic(level, Report::HLOG_TEMPORARY | Report::HLOG_NOLINEFEED, -1,
       "%s level, temporary, no LF", Criticality(level).toString());
-    hlog_generic(level, Report::HLOG_NOPREFIX | Report::HLOG_NOLINEFEED, 0,
+    hlog_generic(level, Report::HLOG_NOPREFIX | Report::HLOG_NOLINEFEED, -1,
       "%s level, no prefix, no LF", Criticality(level).toString());
     hlog_generic(level,
-      Report::HLOG_TEMPORARY | Report::HLOG_NOPREFIX | Report::HLOG_NOLINEFEED, 0,
+      Report::HLOG_TEMPORARY | Report::HLOG_NOPREFIX | Report::HLOG_NOLINEFEED, -1,
       "%s level, temporary, no prefix, no LF", Criticality(level).toString());
-    hlog_generic(level, Report::HLOG_TEMPORARY | Report::HLOG_NOLINEFEED, 0, ".");
+    hlog_generic(level, Report::HLOG_TEMPORARY | Report::HLOG_NOLINEFEED, -1, ".");
   }
-  hlog_generic(alert, Report::HLOG_NOPREFIX, 0, "reset");
+  hlog_generic(alert, Report::HLOG_NOPREFIX, -1, "reset");
 
   cout << endl << "Verbosity level: regression, file name, line restricted" << endl;
   report.setLevel(regression);
@@ -481,26 +481,26 @@ int main(void) {
 
   for (Level level = alert; level <= regression;
       level = static_cast<Level>(level + 1)) {
-    hlog_generic(level, 0, 0, "%s level", Criticality(level).toString());
-    hlog_generic(level, Report::HLOG_TEMPORARY, 0,
+    hlog_generic(level, 0, -1, "%s level", Criticality(level).toString());
+    hlog_generic(level, Report::HLOG_TEMPORARY, -1,
       "%s level, temporary", Criticality(level).toString());
-    hlog_generic(level, Report::HLOG_NOPREFIX, 0,
+    hlog_generic(level, Report::HLOG_NOPREFIX, -1,
       "%s level, no prefix", Criticality(level).toString());
-    hlog_generic(level, Report::HLOG_NOLINEFEED, 0,
+    hlog_generic(level, Report::HLOG_NOLINEFEED, -1,
       "%s level, no line feed", Criticality(level).toString());
     hlog_generic(level, 0, 0, "...LF");
-    hlog_generic(level, Report::HLOG_TEMPORARY | Report::HLOG_NOPREFIX, 0,
+    hlog_generic(level, Report::HLOG_TEMPORARY | Report::HLOG_NOPREFIX, -1,
       "%s level, temporary, no prefix", Criticality(level).toString());
-    hlog_generic(level, Report::HLOG_TEMPORARY | Report::HLOG_NOLINEFEED, 0,
+    hlog_generic(level, Report::HLOG_TEMPORARY | Report::HLOG_NOLINEFEED, -1,
       "%s level, temporary, no LF", Criticality(level).toString());
-    hlog_generic(level, Report::HLOG_NOPREFIX | Report::HLOG_NOLINEFEED, 0,
+    hlog_generic(level, Report::HLOG_NOPREFIX | Report::HLOG_NOLINEFEED, -1,
       "%s level, no prefix, no LF", Criticality(level).toString());
     hlog_generic(level,
-      Report::HLOG_TEMPORARY | Report::HLOG_NOPREFIX | Report::HLOG_NOLINEFEED, 0,
+      Report::HLOG_TEMPORARY | Report::HLOG_NOPREFIX | Report::HLOG_NOLINEFEED, -1,
       "%s level, temporary, no prefix, no LF", Criticality(level).toString());
-    hlog_generic(level, Report::HLOG_TEMPORARY | Report::HLOG_NOLINEFEED, 0, ".");
+    hlog_generic(level, Report::HLOG_TEMPORARY | Report::HLOG_NOLINEFEED, -1, ".");
   }
-  hlog_generic(alert, Report::HLOG_NOPREFIX, 0, "reset");
+  hlog_generic(alert, Report::HLOG_NOPREFIX, -1, "reset");
 
   cout << endl << "Verbosity level: regression, file name" << endl;
   report.setLevel(regression);
@@ -524,26 +524,26 @@ int main(void) {
 
   for (Level level = alert; level <= regression;
       level = static_cast<Level>(level + 1)) {
-    hlog_generic(level, 0, 0, "%s level", Criticality(level).toString());
-    hlog_generic(level, Report::HLOG_TEMPORARY, 0,
+    hlog_generic(level, 0, -1, "%s level", Criticality(level).toString());
+    hlog_generic(level, Report::HLOG_TEMPORARY, -1,
       "%s level, temporary", Criticality(level).toString());
-    hlog_generic(level, Report::HLOG_NOPREFIX, 0,
+    hlog_generic(level, Report::HLOG_NOPREFIX, -1,
       "%s level, no prefix", Criticality(level).toString());
-    hlog_generic(level, Report::HLOG_NOLINEFEED, 0,
+    hlog_generic(level, Report::HLOG_NOLINEFEED, -1,
       "%s level, no line feed", Criticality(level).toString());
     hlog_generic(level, 0, 0, "...LF");
-    hlog_generic(level, Report::HLOG_TEMPORARY | Report::HLOG_NOPREFIX, 0,
+    hlog_generic(level, Report::HLOG_TEMPORARY | Report::HLOG_NOPREFIX, -1,
       "%s level, temporary, no prefix", Criticality(level).toString());
-    hlog_generic(level, Report::HLOG_TEMPORARY | Report::HLOG_NOLINEFEED, 0,
+    hlog_generic(level, Report::HLOG_TEMPORARY | Report::HLOG_NOLINEFEED, -1,
       "%s level, temporary, no LF", Criticality(level).toString());
-    hlog_generic(level, Report::HLOG_NOPREFIX | Report::HLOG_NOLINEFEED, 0,
+    hlog_generic(level, Report::HLOG_NOPREFIX | Report::HLOG_NOLINEFEED, -1,
       "%s level, no prefix, no LF", Criticality(level).toString());
     hlog_generic(level,
-      Report::HLOG_TEMPORARY | Report::HLOG_NOPREFIX | Report::HLOG_NOLINEFEED, 0,
+      Report::HLOG_TEMPORARY | Report::HLOG_NOPREFIX | Report::HLOG_NOLINEFEED, -1,
       "%s level, temporary, no prefix, no LF", Criticality(level).toString());
-    hlog_generic(level, Report::HLOG_TEMPORARY | Report::HLOG_NOLINEFEED, 0, ".");
+    hlog_generic(level, Report::HLOG_TEMPORARY | Report::HLOG_NOLINEFEED, -1, ".");
   }
-  hlog_generic(alert, Report::HLOG_NOPREFIX, 0, "reset");
+  hlog_generic(alert, Report::HLOG_NOPREFIX, -1, "reset");
 
   cout << endl << "Line autoblanking" << endl;
   hlog_info_temp("%s", "");
@@ -555,17 +555,17 @@ int main(void) {
   hlog_info_temp("A longer line");
   hlog_info_temp("An even longer line");
   hlog_info("A normal line");
-  hlog_generic(info, Report::HLOG_TEMPORARY | Report::HLOG_NOLINEFEED, 0,
+  hlog_generic(info, Report::HLOG_TEMPORARY | Report::HLOG_NOLINEFEED, -1,
     "A temp line with no LF");
   hlog_generic(info, Report::HLOG_TEMPORARY, 0,
     " and its end");
-  hlog_generic(info, Report::HLOG_TEMPORARY | Report::HLOG_NOLINEFEED, 0,
+  hlog_generic(info, Report::HLOG_TEMPORARY | Report::HLOG_NOLINEFEED, -1,
     "Still temp: start...");
-  hlog_generic(info, Report::HLOG_TEMPORARY | Report::HLOG_NOLINEFEED, 0,
+  hlog_generic(info, Report::HLOG_TEMPORARY | Report::HLOG_NOLINEFEED, -1,
     "middle...");
   hlog_generic(info, Report::HLOG_TEMPORARY, 0,
     "end");
-  hlog_generic(info, Report::HLOG_TEMPORARY | Report::HLOG_NOLINEFEED, 0,
+  hlog_generic(info, Report::HLOG_TEMPORARY | Report::HLOG_NOLINEFEED, -1,
     "Again temp: start...");
   hlog_generic(error, Report::HLOG_TEMPORARY, 0, "error");
   hlog_generic(alert, 0, 0, "alert");
@@ -597,93 +597,93 @@ int main(void) {
   report.add(&fil);
   report.show(info, 0, false);
   // Won't appear as level is info
-  report.log("file0", 20, "func0", verbose, false, 0, "file0:20:func0 VERBOSE: blah");
+  report.log("file0", 20, "func0", verbose, false, -1, "file0:20:func0 VERBOSE: blah");
   // Will appear
-  report.log("file1", 2, "func1", info, false, 0, "file1:2:func1 INFO: blah");
-  report.log("file1", 10, "func2", info, false, 0, "file1:10:func2 INFO: blah");
-  report.log("file1", 20, "func3", info, false, 0, "file1:20:func3 INFO: blah");
+  report.log("file1", 2, "func1", info, false, -1, "file1:2:func1 INFO: blah");
+  report.log("file1", 10, "func2", info, false, -1, "file1:10:func2 INFO: blah");
+  report.log("file1", 20, "func3", info, false, -1, "file1:20:func3 INFO: blah");
   // Won't appear as level is info
-  report.log("file1", 20, "func4", debug, false, 0, "file1:20:func4 DEBUG: blah");
-  report.log("file2", 10, "func5", debug, false, 0, "file2:10:func5 DEBUG: blah");
+  report.log("file1", 20, "func4", debug, false, -1, "file1:20:func4 DEBUG: blah");
+  report.log("file2", 10, "func5", debug, false, -1, "file2:10:func5 DEBUG: blah");
   // Will appear
-  report.log("file2", 20, "func6", info, false, 0, "file2:20:func6 INFO: blah");
+  report.log("file2", 20, "func6", info, false, -1, "file2:20:func6 INFO: blah");
 
   // Reject file2 altogether
   fil.addCondition(Report::Filter::reject, "file2");
   report.show(info, 0, false);
   // Won't appear as level is info
-  report.log("file0", 20, "func0", verbose, false, 0, "file0:20:func0 VERBOSE: blah");
+  report.log("file0", 20, "func0", verbose, false, -1, "file0:20:func0 VERBOSE: blah");
   // Will appear
-  report.log("file1", 2, "func1", info, false, 0, "file1:2:func1 INFO: blah");
-  report.log("file1", 10, "func2", info, false, 0, "file1:10:func2 INFO: blah");
-  report.log("file1", 20, "func3", info, false, 0, "file1:20:func3 INFO: blah");
+  report.log("file1", 2, "func1", info, false, -1, "file1:2:func1 INFO: blah");
+  report.log("file1", 10, "func2", info, false, -1, "file1:10:func2 INFO: blah");
+  report.log("file1", 20, "func3", info, false, -1, "file1:20:func3 INFO: blah");
   // Won't appear as level is info
-  report.log("file1", 20, "func4", debug, false, 0, "file1:20:func4 DEBUG: blah");
+  report.log("file1", 20, "func4", debug, false, -1, "file1:20:func4 DEBUG: blah");
   // Filtered out
-  report.log("file2", 10, "func5", debug, false, 0, "file2:10:func5 DEBUG: blah");
-  report.log("file2", 20, "func6", info, false, 0, "file2:20:func6 INFO: blah");
+  report.log("file2", 10, "func5", debug, false, -1, "file2:10:func5 DEBUG: blah");
+  report.log("file2", 20, "func6", info, false, -1, "file2:20:func6 INFO: blah");
 
   // Reject file1 line > 15
   fil.addCondition(Report::Filter::reject, "file1", 0, 15);
   report.show(info, 0, false);
   // Won't appear as level is info
-  report.log("file0", 20, "func0", verbose, false, 0, "file0:20:func0 VERBOSE: blah");
+  report.log("file0", 20, "func0", verbose, false, -1, "file0:20:func0 VERBOSE: blah");
   // Filtered out
-  report.log("file1", 2, "func1", info, false, 0, "file1:2:func1 INFO: blah");
-  report.log("file1", 10, "func2", info, false, 0, "file1:10:func2 INFO: blah");
+  report.log("file1", 2, "func1", info, false, -1, "file1:2:func1 INFO: blah");
+  report.log("file1", 10, "func2", info, false, -1, "file1:10:func2 INFO: blah");
   // Will appear
-  report.log("file1", 20, "func3", info, false, 0, "file1:20:func3 INFO: blah");
+  report.log("file1", 20, "func3", info, false, -1, "file1:20:func3 INFO: blah");
   // Won't appear as level is info
-  report.log("file1", 20, "func4", debug, false, 0, "file1:20:func4 DEBUG: blah");
+  report.log("file1", 20, "func4", debug, false, -1, "file1:20:func4 DEBUG: blah");
   // Filtered out
-  report.log("file2", 10, "func5", debug, false, 0, "file2:10:func5 DEBUG: blah");
-  report.log("file2", 20, "func6", info, false, 0, "file2:20:func6 INFO: blah");
+  report.log("file2", 10, "func5", debug, false, -1, "file2:10:func5 DEBUG: blah");
+  report.log("file2", 20, "func6", info, false, -1, "file2:20:func6 INFO: blah");
 
   // Accept file1 5 < line < 25 level >= debug
   size_t index_1 = fil.addCondition(Report::Filter::force, "file1", 5, 25, debug);
   report.show(info, 0, false);
   // Won't appear as level is info
-  report.log("file0", 20, "func0", verbose, false, 0, "file0:20:func0 VERBOSE: blah");
+  report.log("file0", 20, "func0", verbose, false, -1, "file0:20:func0 VERBOSE: blah");
   // Filtered out
-  report.log("file1", 2, "func1", info, false, 0, "file1:2:func1 INFO: blah");
+  report.log("file1", 2, "func1", info, false, -1, "file1:2:func1 INFO: blah");
   // Will appear
-  report.log("file1", 10, "func2", info, false, 0, "file1:10:func2 INFO: blah");
-  report.log("file1", 20, "func3", info, false, 0, "file1:20:func3 INFO: blah");
-  report.log("file1", 20, "func4", debug, false, 0, "file1:20:func4 DEBUG: blah");
+  report.log("file1", 10, "func2", info, false, -1, "file1:10:func2 INFO: blah");
+  report.log("file1", 20, "func3", info, false, -1, "file1:20:func3 INFO: blah");
+  report.log("file1", 20, "func4", debug, false, -1, "file1:20:func4 DEBUG: blah");
   // Filtered out
-  report.log("file2", 10, "func5", debug, false, 0, "file2:10:func5 DEBUG: blah");
-  report.log("file2", 20, "func6", info, false, 0, "file2:20:func6 INFO: blah");
+  report.log("file2", 10, "func5", debug, false, -1, "file2:10:func5 DEBUG: blah");
+  report.log("file2", 20, "func6", info, false, -1, "file2:20:func6 INFO: blah");
 
   // Accept all if level <= verbose
   size_t index_2 = fil.addCondition(Report::Filter::force,
     Report::Filter::ALL_FILES, 0, 0, alert, verbose);
   report.show(info, 0, false);
   // Will appear
-  report.log("file0", 20, "func0", verbose, false, 0, "file0:20:func0 VERBOSE: blah");
+  report.log("file0", 20, "func0", verbose, false, -1, "file0:20:func0 VERBOSE: blah");
   // Filtered out
-  report.log("file1", 2, "func1", info, false, 0, "file1:2:func1 INFO: blah");
-  report.log("file1", 10, "func2", info, false, 0, "file1:10:func2 INFO: blah");
+  report.log("file1", 2, "func1", info, false, -1, "file1:2:func1 INFO: blah");
+  report.log("file1", 10, "func2", info, false, -1, "file1:10:func2 INFO: blah");
   // Will appear
-  report.log("file1", 20, "func3", info, false, 0, "file1:20:func3 INFO: blah");
-  report.log("file1", 20, "func4", debug, false, 0, "file1:20:func4 DEBUG: blah");
+  report.log("file1", 20, "func3", info, false, -1, "file1:20:func3 INFO: blah");
+  report.log("file1", 20, "func4", debug, false, -1, "file1:20:func4 DEBUG: blah");
   // Filtered out
-  report.log("file2", 10, "func5", debug, false, 0, "file2:10:func5 DEBUG: blah");
+  report.log("file2", 10, "func5", debug, false, -1, "file2:10:func5 DEBUG: blah");
   // Will appear
-  report.log("file2", 20, "func6", info, false, 0, "file2:20:func6 INFO: blah");
+  report.log("file2", 20, "func6", info, false, -1, "file2:20:func6 INFO: blah");
 
   // Remove rule on debug
   fil.removeCondition(index_1);
   report.show(info, 0, false);
   // Will appear
-  report.log("file0", 20, "func0", verbose, false, 0, "file0:20:func0 VERBOSE: blah");
-  report.log("file1", 2, "func1", info, false, 0, "file1:2:func1 INFO: blah");
-  report.log("file1", 10, "func2", info, false, 0, "file1:10:func2 INFO: blah");
-  report.log("file1", 20, "func3", info, false, 0, "file1:20:func3 INFO: blah");
+  report.log("file0", 20, "func0", verbose, false, -1, "file0:20:func0 VERBOSE: blah");
+  report.log("file1", 2, "func1", info, false, -1, "file1:2:func1 INFO: blah");
+  report.log("file1", 10, "func2", info, false, -1, "file1:10:func2 INFO: blah");
+  report.log("file1", 20, "func3", info, false, -1, "file1:20:func3 INFO: blah");
   // Filtered out
-  report.log("file1", 20, "func4", debug, false, 0, "file1:20:func4 DEBUG: blah");
-  report.log("file2", 10, "func5", debug, false, 0, "file2:10:func5 DEBUG: blah");
+  report.log("file1", 20, "func4", debug, false, -1, "file1:20:func4 DEBUG: blah");
+  report.log("file2", 10, "func5", debug, false, -1, "file2:10:func5 DEBUG: blah");
   // Will appear
-  report.log("file2", 20, "func6", info, false, 0, "file2:20:func6 INFO: blah");
+  report.log("file2", 20, "func6", info, false, -1, "file2:20:func6 INFO: blah");
 
   // Remove rule for all files
   fil.removeCondition(index_2);
@@ -691,35 +691,35 @@ int main(void) {
   fil.addCondition(Report::Filter::accept, "file2");
   report.show(info, 0, false);
   // Won't appear as level is info
-  report.log("file0", 20, "func0", verbose, false, 0, "file0:20:func0 VERBOSE: blah");
+  report.log("file0", 20, "func0", verbose, false, -1, "file0:20:func0 VERBOSE: blah");
   // Filtered out
-  report.log("file1", 2, "func1", info, false, 0, "file1:2:func1 INFO: blah");
-  report.log("file1", 10, "func2", info, false, 0, "file1:10:func2 INFO: blah");
+  report.log("file1", 2, "func1", info, false, -1, "file1:2:func1 INFO: blah");
+  report.log("file1", 10, "func2", info, false, -1, "file1:10:func2 INFO: blah");
   // Will appear
-  report.log("file1", 20, "func3", info, false, 0, "file1:20:func3 INFO: blah");
+  report.log("file1", 20, "func3", info, false, -1, "file1:20:func3 INFO: blah");
   // Won't appear as level is info
-  report.log("file1", 20, "func4", debug, false, 0, "file1:20:func4 DEBUG: blah");
+  report.log("file1", 20, "func4", debug, false, -1, "file1:20:func4 DEBUG: blah");
   // Filtered out
-  report.log("file2", 10, "func5", debug, false, 0, "file2:10:func5 DEBUG: blah");
+  report.log("file2", 10, "func5", debug, false, -1, "file2:10:func5 DEBUG: blah");
   // Will appear
-  report.log("file2", 20, "func6", info, false, 0, "file2:20:func6 INFO: blah");
+  report.log("file2", 20, "func6", info, false, -1, "file2:20:func6 INFO: blah");
 
   // Accept func5 from file2 level >= debug
   fil.addCondition(Report::Filter::force, "file2", "func5", debug, debug);
   report.show(info, 0, false);
   // Won't appear as level is info
-  report.log("file0", 20, "func0", verbose, false, 0, "file0:20:func0 VERBOSE: blah");
+  report.log("file0", 20, "func0", verbose, false, -1, "file0:20:func0 VERBOSE: blah");
   // Filtered out
-  report.log("file1", 2, "func1", info, false, 0, "file1:2:func1 INFO: blah");
-  report.log("file1", 10, "func2", info, false, 0, "file1:10:func2 INFO: blah");
+  report.log("file1", 2, "func1", info, false, -1, "file1:2:func1 INFO: blah");
+  report.log("file1", 10, "func2", info, false, -1, "file1:10:func2 INFO: blah");
   // Will appear
-  report.log("file1", 20, "func3", info, false, 0, "file1:20:func3 INFO: blah");
+  report.log("file1", 20, "func3", info, false, -1, "file1:20:func3 INFO: blah");
   // Won't appear as level is info
-  report.log("file1", 20, "func4", debug, false, 0, "file1:20:func4 DEBUG: blah");
+  report.log("file1", 20, "func4", debug, false, -1, "file1:20:func4 DEBUG: blah");
   // Filtered out
-  report.log("file2", 10, "func5", debug, false, 0, "file2:10:func5 DEBUG: blah");
+  report.log("file2", 10, "func5", debug, false, -1, "file2:10:func5 DEBUG: blah");
   // Will appear
-  report.log("file2", 20, "func6", info, false, 0, "file2:20:func6 INFO: blah");
+  report.log("file2", 20, "func6", info, false, -1, "file2:20:func6 INFO: blah");
 
   report.remove(&fil);
   hlog_info("should not appear");
@@ -878,10 +878,10 @@ int main(void) {
   report.add(&log_file2);
   report.stopConsoleLog();
   report.setLevel(debug);
-  hlog_generic(info, Report::HLOG_NOLINEFEED, 0, "message start...");
-  hlog_generic(info, Report::HLOG_NOLINEFEED, 0, "middle...");
+  hlog_generic(info, Report::HLOG_NOLINEFEED, -1, "message start...");
+  hlog_generic(info, Report::HLOG_NOLINEFEED, -1, "middle...");
   hlog_verbose("different level");
-  hlog_generic(info, Report::HLOG_NOLINEFEED, 0, "message start...");
+  hlog_generic(info, Report::HLOG_NOLINEFEED, -1, "message start...");
   hlog_info("end");
   hlog_info("other message");
   log_file2.close();

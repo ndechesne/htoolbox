@@ -169,7 +169,7 @@ Warning: warning level
 info level
 report, info level
 verbose level
-verbose 0 level
+ > verbose 0 level
  -> verbose 1 level
  --> verbose 2 level
 ALERT! alert level
@@ -222,11 +222,11 @@ Warning: warning level
 info level
 report, info level
 verbose level
-verbose 0 level
+ > verbose 0 level
  -> verbose 1 level
  --> verbose 2 level
 debug level
-debug 0 level
+ > debug 0 level
  -> debug 1 level
  --> debug 2 level
 ALERT! alert level
@@ -287,11 +287,11 @@ Warning: warning level
 info level
 report, info level
 verbose level
-verbose 0 level
+ > verbose 0 level
  -> verbose 1 level
  --> verbose 2 level
 debug level
-debug 0 level
+ > debug 0 level
  -> debug 1 level
  --> debug 2 level
 regression level
@@ -361,11 +361,11 @@ Warning: warning level
 info level
 report, info level
 verbose level
-verbose 0 level
+ > verbose 0 level
  -> verbose 1 level
  --> verbose 2 level
 debug level
-debug 0 level
+ > debug 0 level
  -> debug 1 level
  --> debug 2 level
 ALERT! alert level
@@ -427,11 +427,11 @@ Warning: warning level
 info level
 report, info level
 verbose level
-verbose 0 level
+ > verbose 0 level
  -> verbose 1 level
  --> verbose 2 level
 debug level
-debug 0 level
+ > debug 0 level
  -> debug 1 level
  --> debug 2 level
 ALERT! alert level
@@ -493,11 +493,11 @@ Warning: warning level
 info level
 report, info level
 verbose level
-verbose 0 level
+ > verbose 0 level
  -> verbose 1 level
  --> verbose 2 level
 debug level
-debug 0 level
+ > debug 0 level
  -> debug 1 level
  --> debug 2 level
 regression level
@@ -589,7 +589,7 @@ temporary message: debug  \r
                         \r
 
 Filters
-report 'default report' [info]:
+ > report 'default report' [info]:
  -> filter 'filter 1' (open) [info]:
  --> no conditions
  --> output:
@@ -598,7 +598,7 @@ file1:2:func1 INFO: blah
 file1:10:func2 INFO: blah
 file1:20:func3 INFO: blah
 file2:20:func6 INFO: blah
-report 'default report' [info]:
+ > report 'default report' [info]:
  -> filter 'filter 1' (open) [info]:
  --> conditions:
  ---> REJECT 'file2' 0 <= line <= 0, alert <= level <= regression
@@ -607,7 +607,7 @@ report 'default report' [info]:
 file1:2:func1 INFO: blah
 file1:10:func2 INFO: blah
 file1:20:func3 INFO: blah
-report 'default report' [info]:
+ > report 'default report' [info]:
  -> filter 'filter 1' (open) [info]:
  --> conditions:
  ---> REJECT 'file2' 0 <= line <= 0, alert <= level <= regression
@@ -615,7 +615,7 @@ report 'default report' [info]:
  --> output:
  ---> console 'local console' (open) [info]
 file1:20:func3 INFO: blah
-report 'default report' [regression]:
+ > report 'default report' [regression]:
  -> filter 'filter 1' (open) [regression]:
  --> conditions:
  ---> REJECT 'file2' 0 <= line <= 0, alert <= level <= regression
@@ -625,7 +625,7 @@ report 'default report' [regression]:
  ---> console 'local console' (open) [info]
 file1:20:func3 INFO: blah
 file1:20:func4 DEBUG: blah
-report 'default report' [regression]:
+ > report 'default report' [regression]:
  -> filter 'filter 1' (open) [regression]:
  --> conditions:
  ---> REJECT 'file2' 0 <= line <= 0, alert <= level <= regression
@@ -640,7 +640,7 @@ file1:10:func2 INFO: blah
 file1:20:func3 INFO: blah
 file1:20:func4 DEBUG: blah
 file2:20:func6 INFO: blah
-report 'default report' [verbose]:
+ > report 'default report' [verbose]:
  -> filter 'filter 1' (open) [verbose]:
  --> conditions:
  ---> REJECT 'file2' 0 <= line <= 0, alert <= level <= regression
@@ -653,7 +653,7 @@ file1:2:func1 INFO: blah
 file1:10:func2 INFO: blah
 file1:20:func3 INFO: blah
 file2:20:func6 INFO: blah
-report 'default report' [info]:
+ > report 'default report' [info]:
  -> filter 'filter 1' (open) [info]:
  --> conditions:
  ---> REJECT 'file2' 0 <= line <= 0, alert <= level <= regression
@@ -663,7 +663,7 @@ report 'default report' [info]:
  ---> console 'local console' (open) [info]
 file1:20:func3 INFO: blah
 file2:20:func6 INFO: blah
-report 'default report' [debug]:
+ > report 'default report' [debug]:
  -> filter 'filter 1' (open) [debug]:
  --> conditions:
  ---> REJECT 'file2' 0 <= line <= 0, alert <= level <= regression
