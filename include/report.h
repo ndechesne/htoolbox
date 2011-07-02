@@ -293,25 +293,25 @@ namespace htoolbox {
   hlog_generic((level),0,0,(format),##__VA_ARGS__)
 
 #define hlog_alert(format, ...) \
-  hlog_generic(htoolbox::alert,0,0,(format),##__VA_ARGS__)
+  hlog_report(htoolbox::alert,(format),##__VA_ARGS__)
 
 #define hlog_error(format, ...) \
-  hlog_generic(htoolbox::error,0,0,(format),##__VA_ARGS__)
+  hlog_report(htoolbox::error,(format),##__VA_ARGS__)
 
 #define hlog_warning(format, ...) \
-  hlog_generic(htoolbox::warning,0,0,(format),##__VA_ARGS__)
+  hlog_report(htoolbox::warning,(format),##__VA_ARGS__)
 
 #define hlog_info(format, ...) \
-  hlog_generic(htoolbox::info,0,0,(format),##__VA_ARGS__)
+  hlog_report(htoolbox::info,(format),##__VA_ARGS__)
 
 #define hlog_verbose(format, ...) \
-  hlog_generic(htoolbox::verbose,0,0,(format),##__VA_ARGS__)
+  hlog_report(htoolbox::verbose,(format),##__VA_ARGS__)
 
 #define hlog_debug(format, ...) \
-  hlog_generic(htoolbox::debug,0,0,(format),##__VA_ARGS__)
+  hlog_report(htoolbox::debug,(format),##__VA_ARGS__)
 
 #define hlog_regression(format, ...) \
-  hlog_generic(htoolbox::regression,0,0,(format),##__VA_ARGS__)
+  hlog_report(htoolbox::regression,(format),##__VA_ARGS__)
 
 
 #define hlog_info_temp(format, ...) \
@@ -343,25 +343,25 @@ namespace htoolbox {
   hlog_global_generic((level),0,0,(format),##__VA_ARGS__)
 
 #define hlog_global_alert(format, ...) \
-  hlog_global_generic(htoolbox::alert,0,0,(format),##__VA_ARGS__)
+  hlog_global_report(htoolbox::alert,(format),##__VA_ARGS__)
 
 #define hlog_global_error(format, ...) \
-  hlog_global_generic(htoolbox::error,0,0,(format),##__VA_ARGS__)
+  hlog_global_report(htoolbox::error,(format),##__VA_ARGS__)
 
 #define hlog_global_warning(format, ...) \
-  hlog_global_generic(htoolbox::warning,0,0,(format),##__VA_ARGS__)
+  hlog_global_report(htoolbox::warning,(format),##__VA_ARGS__)
 
 #define hlog_global_info(format, ...) \
-  hlog_global_generic(htoolbox::info,0,0,(format),##__VA_ARGS__)
+  hlog_global_report(htoolbox::info,(format),##__VA_ARGS__)
 
 #define hlog_global_verbose(format, ...) \
-  hlog_global_generic(htoolbox::verbose,0,0,(format),##__VA_ARGS__)
+  hlog_global_report(htoolbox::verbose,(format),##__VA_ARGS__)
 
 #define hlog_global_debug(format, ...) \
-  hlog_global_generic(htoolbox::debug,0,0,(format),##__VA_ARGS__)
+  hlog_global_report(htoolbox::debug,(format),##__VA_ARGS__)
 
 #define hlog_global_regression(format, ...) \
-  hlog_global_generic(htoolbox::regression,0,0,(format),##__VA_ARGS__)
+  hlog_global_report(htoolbox::regression,(format),##__VA_ARGS__)
 
 
 #define hlog_global_info_temp(format, ...) \
