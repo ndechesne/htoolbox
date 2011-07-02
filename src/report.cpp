@@ -127,7 +127,7 @@ int Report::log(
     size_t          line,
     const char*     function,
     Level           level,
-    bool            temp,
+    int             flags,
     size_t          indentation,
     const char*     format,
     ...) {
@@ -142,7 +142,8 @@ int Report::log(
     if (output->isOpen() && (level <= output->level())) {
       va_list aq;
       va_copy(aq, ap);
-      if (output->log(file, line, function, level, temp, indentation, format, &aq) < 0) {
+      if (output->log(file, line, function, level, flags, indentation, format,
+          &aq) < 0) {
         rc = -1;
       }
       va_end(aq);
@@ -171,7 +172,7 @@ int Report::ConsoleOutput::log(
     size_t          line,
     const char*     function,
     Level           level,
-    bool            temporary,
+    int             flags,
     size_t          indentation,
     const char*     format,
     va_list*        args) {
@@ -221,7 +222,7 @@ int Report::ConsoleOutput::log(
   buffer[buffer_size] = '\0';
   // compute UTF-8 string length
   size_t size = 0;
-  if (temporary || (_size_to_overwrite != 0)) {
+  if ((flags & HLOG_TEMPORARY) || (_size_to_overwrite != 0)) {
     size = utf8_len(buffer);
   }
   // if previous length stored, overwrite end of previous line
@@ -236,14 +237,14 @@ int Report::ConsoleOutput::log(
   // print
   fwrite(buffer, offset, 1, fd);
   // end
-  if (temporary) {
+  if (flags & HLOG_TEMPORARY) {
     fprintf(fd, "\r");
   } else {
     fprintf(fd, "\n");
   }
   fflush(fd);
-  // if temp, store length (should be UTF-8 length...)
-  if (temporary) {
+  // if temporary, store length (should be UTF-8 length...)
+  if (flags & HLOG_TEMPORARY) {
     _size_to_overwrite = size;
   } else {
     _size_to_overwrite = 0;
@@ -446,13 +447,13 @@ int Report::FileOutput::log(
     size_t          line,
     const char*     function,
     Level           level,
-    bool            temporary,
+    int             flags,
     size_t          indentation,
     const char*     format,
     va_list*        args) {
   (void) function;
   // print only if required
-  if (temporary) {
+  if (flags & HLOG_TEMPORARY) {
     return 0;
   }
   if (_d->checkRotate() < 0) {
@@ -523,7 +524,7 @@ int Report::TlvOutput::log(
     size_t          line,
     const char*     function,
     Level           level,
-    bool            temporary,
+    int             flags,
     size_t          indent,
     const char*     format,
     va_list*        args) {
@@ -533,7 +534,7 @@ int Report::TlvOutput::log(
   m.add(tag++, static_cast<int32_t>(line));
   m.add(tag++, function, strlen(function));
   m.add(tag++, level);
-  m.add(tag++, temporary);
+  m.add(tag++, flags);
   m.add(tag++, static_cast<int32_t>(indent));
   char buffer[65536];
   int len = vsnprintf(buffer, sizeof(buffer), format, *args);
@@ -558,10 +559,10 @@ int Report::TlvManager::submit(uint16_t tag, size_t size, const char* val) {
   if (tag == tlv::log_start_tag + 6) {
     Level level = static_cast<Level>(_level);
     if (tl_report != NULL) {
-      tl_report->log(_file.c_str(), _line, _function.c_str(), level, _temp,
+      tl_report->log(_file.c_str(), _line, _function.c_str(), level, _flags,
         _indent, "%s", val);
     }
-    report.log(_file.c_str(), _line, _file.c_str(), level, _temp,
+    report.log(_file.c_str(), _line, _file.c_str(), level, _flags,
       _indent, "%s", val);
   }
   return 0;
@@ -707,7 +708,7 @@ int Report::Filter::log(
     size_t          line,
     const char*     function,
     Level           level,
-    bool            temp,
+    int             flags,
     size_t          indentation,
     const char*     format,
     va_list*        args) {
@@ -724,7 +725,7 @@ int Report::Filter::log(
     }
   }
   if (log_me) {
-    return _output->log(file, line, function, level, temp, indentation, format, args);
+    return _output->log(file, line, function, level, flags, indentation, format, args);
   }
   return 0;
 }

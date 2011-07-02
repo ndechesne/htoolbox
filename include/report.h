@@ -69,7 +69,7 @@ namespace htoolbox {
         size_t          line,
         const char*     function,
         Level           level,
-        bool            temporary,
+        int             flags,
         size_t          indentation,
         const char*     format,
         va_list*        args) = 0;
@@ -86,7 +86,7 @@ namespace htoolbox {
         size_t          line,
         const char*     function,
         Level           level,
-        bool            temporary,
+        int             flags,
         size_t          indentation,
         const char*     format,
         va_list*        args);
@@ -112,7 +112,7 @@ namespace htoolbox {
         size_t          line,
         const char*     function,
         Level           level,
-        bool            temporary,
+        int             flags,
         size_t          indentation,
         const char*     format,
         va_list*        args);
@@ -132,7 +132,7 @@ namespace htoolbox {
         size_t          line,
         const char*     function,
         Level           level,
-        bool            temporary,
+        int             flags,
         size_t          indentation,
         const char*     format,
         va_list*        args);
@@ -144,7 +144,7 @@ namespace htoolbox {
       size_t                _line;
       std::string           _function;
       int                   _level;
-      bool                  _temp;
+      int                   _flags;
       size_t                _indent;
       tlv::ReceptionManager _manager;
     public:
@@ -153,7 +153,7 @@ namespace htoolbox {
         _manager.add(tlv::log_start_tag + 1, &_line);
         _manager.add(tlv::log_start_tag + 2, _function);
         _manager.add(tlv::log_start_tag + 3, &_level);
-        _manager.add(tlv::log_start_tag + 4, &_temp);
+        _manager.add(tlv::log_start_tag + 4, &_flags);
         _manager.add(tlv::log_start_tag + 5, &_indent);
         _manager.add(tlv::log_start_tag + 6);
       }
@@ -216,7 +216,7 @@ namespace htoolbox {
         size_t          line,
         const char*     function,
         Level           level,
-        bool            temp,
+        int             flags,
         size_t          indent,
         const char*     format,
         va_list*        args);
@@ -246,13 +246,17 @@ namespace htoolbox {
     void setLevel(Level level);
     // Get current output verbosity level
     Criticality level() const { return _level; }
+    // Flags
+    enum {
+      HLOG_TEMPORARY  = 1 << 0,
+    };
     // Display message on standard output
     int log(
       const char*     file,
       size_t          line,
       const char*     function,
       Level           level,
-      bool            temporary,  // erase this message with next one
+      int             flags,
       size_t          indent,      // text indentation
       const char*     format,
       ...) __attribute__ ((format (printf, 8, 9)));
@@ -286,45 +290,45 @@ namespace htoolbox {
   } while (0);
 
 #define hlog_report(level, format, ...) \
-  hlog_generic((level),false,0,(format),##__VA_ARGS__)
+  hlog_generic((level),0,0,(format),##__VA_ARGS__)
 
 #define hlog_alert(format, ...) \
-  hlog_generic(htoolbox::alert,false,0,(format),##__VA_ARGS__)
+  hlog_generic(htoolbox::alert,0,0,(format),##__VA_ARGS__)
 
 #define hlog_error(format, ...) \
-  hlog_generic(htoolbox::error,false,0,(format),##__VA_ARGS__)
+  hlog_generic(htoolbox::error,0,0,(format),##__VA_ARGS__)
 
 #define hlog_warning(format, ...) \
-  hlog_generic(htoolbox::warning,false,0,(format),##__VA_ARGS__)
+  hlog_generic(htoolbox::warning,0,0,(format),##__VA_ARGS__)
 
 #define hlog_info(format, ...) \
-  hlog_generic(htoolbox::info,false,0,(format),##__VA_ARGS__)
+  hlog_generic(htoolbox::info,0,0,(format),##__VA_ARGS__)
 
 #define hlog_verbose(format, ...) \
-  hlog_generic(htoolbox::verbose,false,0,(format),##__VA_ARGS__)
+  hlog_generic(htoolbox::verbose,0,0,(format),##__VA_ARGS__)
 
 #define hlog_debug(format, ...) \
-  hlog_generic(htoolbox::debug,false,0,(format),##__VA_ARGS__)
+  hlog_generic(htoolbox::debug,0,0,(format),##__VA_ARGS__)
 
 #define hlog_regression(format, ...) \
-  hlog_generic(htoolbox::regression,false,0,(format),##__VA_ARGS__)
+  hlog_generic(htoolbox::regression,0,0,(format),##__VA_ARGS__)
 
 
 #define hlog_info_temp(format, ...) \
-  hlog_generic(htoolbox::info,true,0,(format),##__VA_ARGS__)
+  hlog_generic(htoolbox::info,htoolbox::Report::HLOG_TEMPORARY,0,(format),##__VA_ARGS__)
 
 #define hlog_verbose_temp(format, ...) \
-  hlog_generic(htoolbox::verbose,true,0,(format),##__VA_ARGS__)
+  hlog_generic(htoolbox::verbose,htoolbox::Report::HLOG_TEMPORARY,0,(format),##__VA_ARGS__)
 
 #define hlog_debug_temp(format, ...) \
-  hlog_generic(htoolbox::debug,true,0,(format),##__VA_ARGS__)
+  hlog_generic(htoolbox::debug,htoolbox::Report::HLOG_TEMPORARY,0,(format),##__VA_ARGS__)
 
 
 #define hlog_verbose_arrow(indent, format, ...) \
-  hlog_generic(htoolbox::verbose,false,(indent),(format),##__VA_ARGS__)
+  hlog_generic(htoolbox::verbose,0,(indent),(format),##__VA_ARGS__)
 
 #define hlog_debug_arrow(indent, format, ...) \
-  hlog_generic(htoolbox::debug,false,(indent),(format),##__VA_ARGS__)
+  hlog_generic(htoolbox::debug,0,(indent),(format),##__VA_ARGS__)
 
 
 #define hlog_global_is_worth(l) \
@@ -336,44 +340,44 @@ namespace htoolbox {
   : 0
 
 #define hlog_global_report(level, format, ...) \
-  hlog_global_generic((level),false,0,(format),##__VA_ARGS__)
+  hlog_global_generic((level),0,0,(format),##__VA_ARGS__)
 
 #define hlog_global_alert(format, ...) \
-  hlog_global_generic(htoolbox::alert,false,0,(format),##__VA_ARGS__)
+  hlog_global_generic(htoolbox::alert,0,0,(format),##__VA_ARGS__)
 
 #define hlog_global_error(format, ...) \
-  hlog_global_generic(htoolbox::error,false,0,(format),##__VA_ARGS__)
+  hlog_global_generic(htoolbox::error,0,0,(format),##__VA_ARGS__)
 
 #define hlog_global_warning(format, ...) \
-  hlog_global_generic(htoolbox::warning,false,0,(format),##__VA_ARGS__)
+  hlog_global_generic(htoolbox::warning,0,0,(format),##__VA_ARGS__)
 
 #define hlog_global_info(format, ...) \
-  hlog_global_generic(htoolbox::info,false,0,(format),##__VA_ARGS__)
+  hlog_global_generic(htoolbox::info,0,0,(format),##__VA_ARGS__)
 
 #define hlog_global_verbose(format, ...) \
-  hlog_global_generic(htoolbox::verbose,false,0,(format),##__VA_ARGS__)
+  hlog_global_generic(htoolbox::verbose,0,0,(format),##__VA_ARGS__)
 
 #define hlog_global_debug(format, ...) \
-  hlog_global_generic(htoolbox::debug,false,0,(format),##__VA_ARGS__)
+  hlog_global_generic(htoolbox::debug,0,0,(format),##__VA_ARGS__)
 
 #define hlog_global_regression(format, ...) \
-  hlog_global_generic(htoolbox::regression,false,0,(format),##__VA_ARGS__)
+  hlog_global_generic(htoolbox::regression,0,0,(format),##__VA_ARGS__)
 
 
 #define hlog_global_info_temp(format, ...) \
-  hlog_global_generic(htoolbox::info,true,0,(format),##__VA_ARGS__)
+  hlog_global_generic(htoolbox::info,htoolbox::Report::HLOG_TEMPORARY,0,(format),##__VA_ARGS__)
 
 #define hlog_global_verbose_temp(format, ...) \
-  hlog_global_generic(htoolbox::verbose,true,0,(format),##__VA_ARGS__)
+  hlog_global_generic(htoolbox::verbose,htoolbox::Report::HLOG_TEMPORARY,0,(format),##__VA_ARGS__)
 
 #define hlog_global_debug_temp(format, ...) \
-  hlog_global_generic(htoolbox::debug,true,0,(format),##__VA_ARGS__)
+  hlog_global_generic(htoolbox::debug,htoolbox::Report::HLOG_TEMPORARY,0,(format),##__VA_ARGS__)
 
 
 #define hlog_global_verbose_arrow(indent, format, ...) \
-  hlog_global_generic(htoolbox::verbose,false,(indent),(format),##__VA_ARGS__)
+  hlog_global_generic(htoolbox::verbose,0,(indent),(format),##__VA_ARGS__)
 
 #define hlog_global_debug_arrow(indent, format, ...) \
-  hlog_global_generic(htoolbox::debug,false,(indent),(format),##__VA_ARGS__)
+  hlog_global_generic(htoolbox::debug,0,(indent),(format),##__VA_ARGS__)
 
 #endif  // _HREPORT_H
