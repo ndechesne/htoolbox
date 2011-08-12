@@ -1,0 +1,403 @@
+list:
+structure:
+-
+adding abcd
+structure:
+ -> [a] abcd
+list:
+  meta: abcd
+-
+adding abce
+structure:
+ -> [a] (node)
+ --> [b] (node)
+ ---> [c] (node)
+ ----> [d] abcd
+ ----> [e] abce
+list:
+  meta: abcd
+  meta: abce
+-
+adding 0123
+structure:
+ -> [0] 0123
+ -> [a] (node)
+ --> [b] (node)
+ ---> [c] (node)
+ ----> [d] abcd
+ ----> [e] abce
+list:
+  meta: 0123
+  meta: abcd
+  meta: abce
+-
+adding 0023
+structure:
+ -> [0] (node)
+ --> [0] 0023
+ --> [1] 0123
+ -> [a] (node)
+ --> [b] (node)
+ ---> [c] (node)
+ ----> [d] abcd
+ ----> [e] abce
+list:
+  meta: 0023
+  meta: 0123
+  meta: abcd
+  meta: abce
+list without hint:
+  meta: 0023
+  meta: 0123
+  meta: abcd
+  meta: abce
+-
+adding 0000
+structure:
+ -> [0] (node)
+ --> [0] (node)
+ ---> [0] 0000
+ ---> [2] 0023
+ --> [1] 0123
+ -> [a] (node)
+ --> [b] (node)
+ ---> [c] (node)
+ ----> [d] abcd
+ ----> [e] abce
+list:
+  meta: 0000
+  meta: 0023
+  meta: 0123
+  meta: abcd
+  meta: abce
+list without hint:
+  meta: 0000
+  meta: 0023
+  meta: 0123
+  meta: abcd
+  meta: abce
+-
+adding FFFF
+structure:
+ -> [0] (node)
+ --> [0] (node)
+ ---> [0] 0000
+ ---> [2] 0023
+ --> [1] 0123
+ -> [a] (node)
+ --> [b] (node)
+ ---> [c] (node)
+ ----> [d] abcd
+ ----> [e] abce
+ -> [f] FFFF
+list:
+  meta: 0000
+  meta: 0023
+  meta: 0123
+  meta: abcd
+  meta: abce
+  meta: FFFF
+list without hint:
+  meta: 0000
+  meta: 0023
+  meta: 0123
+  meta: abcd
+  meta: abce
+  meta: FFFF
+-
+adding ABC0
+structure:
+ -> [0] (node)
+ --> [0] (node)
+ ---> [0] 0000
+ ---> [2] 0023
+ --> [1] 0123
+ -> [a] (node)
+ --> [b] (node)
+ ---> [c] (node)
+ ----> [0] ABC0
+ ----> [d] abcd
+ ----> [e] abce
+ -> [f] FFFF
+list:
+  meta: 0000
+  meta: 0023
+  meta: 0123
+  meta: ABC0
+  meta: abcd
+  meta: abce
+  meta: FFFF
+list without hint:
+  meta: 0000
+  meta: 0023
+  meta: 0123
+  meta: ABC0
+  meta: abcd
+  meta: abce
+  meta: FFFF
+-
+adding 0001
+structure:
+ -> [0] (node)
+ --> [0] (node)
+ ---> [0] (node)
+ ----> [0] 0000
+ ----> [1] 0001
+ ---> [2] 0023
+ --> [1] 0123
+ -> [a] (node)
+ --> [b] (node)
+ ---> [c] (node)
+ ----> [0] ABC0
+ ----> [d] abcd
+ ----> [e] abce
+ -> [f] FFFF
+list:
+  meta: 0000
+  meta: 0001
+  meta: 0023
+  meta: 0123
+  meta: ABC0
+  meta: abcd
+  meta: abce
+  meta: FFFF
+list without hint:
+  meta: 0000
+  meta: 0001
+  meta: 0023
+  meta: 0123
+  meta: ABC0
+  meta: abcd
+  meta: abce
+  meta: FFFF
+-
+adding 1234
+structure:
+ -> [0] (node)
+ --> [0] (node)
+ ---> [0] (node)
+ ----> [0] 0000
+ ----> [1] 0001
+ ---> [2] 0023
+ --> [1] 0123
+ -> [1] 1234
+ -> [a] (node)
+ --> [b] (node)
+ ---> [c] (node)
+ ----> [0] ABC0
+ ----> [d] abcd
+ ----> [e] abce
+ -> [f] FFFF
+list:
+  meta: 0000
+  meta: 0001
+  meta: 0023
+  meta: 0123
+  meta: 1234
+  meta: ABC0
+  meta: abcd
+  meta: abce
+  meta: FFFF
+list without hint:
+  meta: 0000
+  meta: 0001
+  meta: 0023
+  meta: 0123
+  meta: 1234
+  meta: ABC0
+  meta: abcd
+  meta: abce
+  meta: FFFF
+-
+finding 1234
+found h=1234
+finding 0123
+found h=0123
+finding 0023
+found h=0023
+finding abce
+found h=abce
+finding abcd
+found h=abcd
+finding abc0
+found h=ABC0
+finding 0001
+found h=0001
+finding 0000
+found h=0000
+finding ffff
+found h=FFFF
+finding 0002
+not found
+finding 5555
+not found
+finding FFFE
+not found
+removing 1234
+found h=1234
+structure:
+ -> [0] (node)
+ --> [0] (node)
+ ---> [0] (node)
+ ----> [0] 0000
+ ----> [1] 0001
+ ---> [2] 0023
+ --> [1] 0123
+ -> [a] (node)
+ --> [b] (node)
+ ---> [c] (node)
+ ----> [0] ABC0
+ ----> [d] abcd
+ ----> [e] abce
+ -> [f] FFFF
+list:
+  meta: 0000
+  meta: 0001
+  meta: 0023
+  meta: 0123
+  meta: ABC0
+  meta: abcd
+  meta: abce
+  meta: FFFF
+-
+removing 0123
+found h=0123
+structure:
+ -> [0] (node)
+ --> [0] (node)
+ ---> [0] (node)
+ ----> [0] 0000
+ ----> [1] 0001
+ ---> [2] 0023
+ -> [a] (node)
+ --> [b] (node)
+ ---> [c] (node)
+ ----> [0] ABC0
+ ----> [d] abcd
+ ----> [e] abce
+ -> [f] FFFF
+list:
+  meta: 0000
+  meta: 0001
+  meta: 0023
+  meta: ABC0
+  meta: abcd
+  meta: abce
+  meta: FFFF
+-
+removing 0023
+found h=0023
+structure:
+ -> [0] (node)
+ --> [0] (node)
+ ---> [0] (node)
+ ----> [0] 0000
+ ----> [1] 0001
+ -> [a] (node)
+ --> [b] (node)
+ ---> [c] (node)
+ ----> [0] ABC0
+ ----> [d] abcd
+ ----> [e] abce
+ -> [f] FFFF
+list:
+  meta: 0000
+  meta: 0001
+  meta: ABC0
+  meta: abcd
+  meta: abce
+  meta: FFFF
+-
+removing abce
+found h=abce
+structure:
+ -> [0] (node)
+ --> [0] (node)
+ ---> [0] (node)
+ ----> [0] 0000
+ ----> [1] 0001
+ -> [a] (node)
+ --> [b] (node)
+ ---> [c] (node)
+ ----> [0] ABC0
+ ----> [d] abcd
+ -> [f] FFFF
+list:
+  meta: 0000
+  meta: 0001
+  meta: ABC0
+  meta: abcd
+  meta: FFFF
+-
+removing abcd
+found h=abcd
+structure:
+ -> [0] (node)
+ --> [0] (node)
+ ---> [0] (node)
+ ----> [0] 0000
+ ----> [1] 0001
+ -> [a] (node)
+ --> [b] (node)
+ ---> [c] (node)
+ ----> [0] ABC0
+ -> [f] FFFF
+list:
+  meta: 0000
+  meta: 0001
+  meta: ABC0
+  meta: FFFF
+-
+removing abc0
+found h=ABC0
+structure:
+ -> [0] (node)
+ --> [0] (node)
+ ---> [0] (node)
+ ----> [0] 0000
+ ----> [1] 0001
+ -> [f] FFFF
+list:
+  meta: 0000
+  meta: 0001
+  meta: FFFF
+-
+removing 0001
+found h=0001
+structure:
+ -> [0] (node)
+ --> [0] (node)
+ ---> [0] (node)
+ ----> [0] 0000
+ -> [f] FFFF
+list:
+  meta: 0000
+  meta: FFFF
+-
+removing 0000
+found h=0000
+structure:
+ -> [f] FFFF
+list:
+  meta: FFFF
+-
+removing ffff
+found h=FFFF
+structure:
+list:
+-
+removing 0002
+not found
+structure:
+list:
+-
+removing 5555
+not found
+structure:
+list:
+-
+removing FFFE
+not found
+structure:
+list:
+-

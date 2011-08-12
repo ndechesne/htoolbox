@@ -28,6 +28,9 @@ case $1 in
   "hh" )
     export NAME="hasher"
     ;;
+  "ht" )
+    export NAME="hash_tree"
+    ;;
   "is" )
     export NAME="inet_socket"
     ;;

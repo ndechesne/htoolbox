@@ -12,6 +12,7 @@ check_PROGRAMS = \
   criticality_test \
   filereaderwriter_test \
   files_test \
+  hash_tree_test \
   hasher_test \
   inet_socket_test \
   linereaderwriter_test \
@@ -33,6 +34,7 @@ copier_test_SOURCES = copier_test.cpp
 criticality_test_SOURCES = criticality_test.cpp
 filereaderwriter_test_SOURCES = filereaderwriter_test.cpp
 files_test_SOURCES = files_test.cpp
+hash_tree_test_SOURCES = hash_tree_test.cpp
 hasher_test_SOURCES = hasher_test.cpp
 inet_socket_test_SOURCES = inet_socket_test.cpp
 linereaderwriter_test_SOURCES = linereaderwriter_test.cpp
@@ -74,6 +76,7 @@ inet_socket.done: inet_socket_test.cpp
 unix_socket.done: unix_socket_test.cpp
 
 check_SUCCESSES = \
+  hash_tree.done \
   observer.done \
   configuration.done \
   filereaderwriter.done \
@@ -100,6 +103,7 @@ EXTRA_DIST = \
   criticality.exp \
   files.exp \
   filereaderwriter.exp \
+  hash_tree.exp \
   hasher.exp \
   inet_socket.exp \
   linereaderwriter.exp \
