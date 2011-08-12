@@ -16,10 +16,10 @@
      Boston, MA 02111-1307, USA.
 */
 
-#ifndef _DATA_NODE_H
-#define _DATA_NODE_H
+#ifndef _HASH_TREE_H
+#define _HASH_TREE_H
 
-namespace hbackend {
+namespace htoolbox {
 
 // The class T must implement the following operator for this to work:
 //   operator const char*() const { return hash; }
@@ -75,7 +75,7 @@ public:
 template<class T>
 T* HashTree<T>::add(T* hobj) {
   HashTree<T>* node;
-  T* found = find(hobj, &node);
+  T* found = find(*hobj, &node);
   int i = getIndex((*hobj)[node->_level]);
   hlog_regression("adding %s, i=%d, level=%d, found=%p node=%p this=%p",
     static_cast<const char*>(*hobj), i, node->_level, found, node, this);
@@ -231,4 +231,4 @@ void HashTree<T>::show(int level) const {
 
 }
 
-#endif // _DATA_NODE_H
+#endif // _HASH_TREE_H

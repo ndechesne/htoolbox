@@ -6,7 +6,7 @@ using namespace htoolbox;
 
 #include "hash_tree.h"
 
-using namespace hbackend;
+using namespace htoolbox;
 
 struct TestClass {
   char h[5];
