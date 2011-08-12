@@ -21,6 +21,9 @@
 
 namespace hbackend {
 
+// The class T must implement the following operator for this to work:
+//   operator const char*() const { return hash; }
+
 template<class T>
 class HashTree {
   HashTree<T>*    _parent;
@@ -28,7 +31,7 @@ class HashTree {
     HashTree<T>*  nodes[16];
     T*            hobjs[16];
   } child;
-  int16_t _mask;      // Bit mask: 1 means child is metadata
+  int16_t _mask;      // Bit mask: 1 means child is hobj
   int16_t _level;
   int8_t size() const;
   static int getIndex(char c) {
@@ -53,10 +56,19 @@ public:
     }
   }
   // Return existing leaf
-  T* add(T* meta);
-  T* find(const T* meta, HashTree** node = NULL);
-  T* remove(const T* meta);
-  T* next(const T* meta, HashTree** hint = NULL);
+  T* add(T* hobj);
+  T* find(const char* hash, HashTree<T>** node = NULL);
+  T* find(const T* hobj, HashTree<T>** node = NULL) {
+    return this->find(static_cast<const char*>(*hobj), node);
+  }
+  T* remove(const char* hash);
+  T* remove(const T* hobj) {
+    return this->remove(static_cast<const char*>(*hobj));
+  }
+  T* next(const char* hash, HashTree<T>** hint = NULL);
+  T* next(const T* hobj, HashTree<T>** hint = NULL) {
+    return this->next(static_cast<const char*>(*hobj), hint);
+  }
   void show(int level = 0) const;
 };
 
@@ -87,18 +99,18 @@ T* HashTree<T>::add(T* hobj) {
 }
 
 template<class T>
-T* HashTree<T>::find(const T* hobj, HashTree<T>** node_p) {
+T* HashTree<T>::find(const char* hash, HashTree<T>** node_p) {
   if (node_p != NULL) {
     *node_p = this;
   }
-  int i = getIndex((*hobj)[_level]);
+  int i = getIndex(hash[_level]);
   if (child.hobjs[i] == NULL) {
     return NULL;
   } else
   if ((_mask & (1 << i)) == 0) {
-    return child.nodes[i]->find(hobj, node_p);
+    return child.nodes[i]->find(hash, node_p);
   } else
-  if (strcasecmp(static_cast<const char*>(*child.hobjs[i]), (*hobj)) != 0) {
+  if (strcasecmp(static_cast<const char*>(*child.hobjs[i]), hash) != 0) {
     return NULL;
   } else
   {
@@ -107,17 +119,17 @@ T* HashTree<T>::find(const T* hobj, HashTree<T>** node_p) {
 }
 
 template<class T>
-T* HashTree<T>::remove(const T* hobj) {
+T* HashTree<T>::remove(const char* hash) {
   HashTree<T>* node;
-  T* obsolete = find(hobj, &node);
+  T* obsolete = find(hash, &node);
   if (obsolete == NULL) {
     return NULL;
   }
-  int i = getIndex((*hobj)[node->_level]);
+  int i = getIndex(hash[node->_level]);
   node->child.nodes[i] = NULL;
   while ((node->_parent != NULL) && (node->size() == 0)) {
     node = node->_parent;
-    i = getIndex((*hobj)[node->_level]);
+    i = getIndex(hash[node->_level]);
     delete node->child.nodes[i];
     node->child.nodes[i] = NULL;
   }
@@ -125,9 +137,9 @@ T* HashTree<T>::remove(const T* hobj) {
 }
 
 template<class T>
-T* HashTree<T>::next(const T* hobj, HashTree<T>** hint) {
+T* HashTree<T>::next(const char* hash, HashTree<T>** hint) {
   HashTree<T>* node = this;
-  if (hobj == NULL) {
+  if (hash == NULL) {
     hlog_regression("find first");
     do {
       int i;
@@ -151,21 +163,20 @@ T* HashTree<T>::next(const T* hobj, HashTree<T>** hint) {
     return NULL;
   }
   bool found;
-  hlog_regression("find next from %s", static_cast<const char*>(*hobj));
+  hlog_regression("find next from %s", hash);
   if (hint == NULL) {
     hlog_regression("hint invalid");
-    // Find hint (leaf that contains/would contain the hobj)
-    found = find(hobj, &node) != NULL;
+    // Find hint (leaf that contains/would contain the hash)
+    found = find(hash, &node) != NULL;
     hlog_regression("found %p, level=%d", node, node != NULL ? node->_level : -1);
   } else {
     found = true;
   }
   // Find next
-  int i = getIndex((*hobj)[node->_level]) + (found ? 1 : 0);
+  int i = getIndex(hash[node->_level]) + (found ? 1 : 0);
   do {
     for (; i < 16; ++i) {
-      hlog_regression("i=%d, level=%d, hash=%s", i, node->_level,
-        static_cast<const char*>(*hobj));
+      hlog_regression("i=%d, level=%d, hash=%s", i, node->_level, hash);
       if (node->child.nodes[i] != NULL) {
         if ((node->_mask & (1 << i)) == 0) {
           node = node->child.nodes[i];
@@ -184,7 +195,7 @@ T* HashTree<T>::next(const T* hobj, HashTree<T>** hint) {
     }
     node = node->_parent;
     if (node != NULL) {
-      i = getIndex((*hobj)[node->_level]) + 1;
+      i = getIndex(hash[node->_level]) + 1;
     }
     hlog_regression("sgo up, level=%d", node != NULL ? node->_level : -1);
   } while (node != NULL);
