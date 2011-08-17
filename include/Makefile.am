@@ -18,6 +18,7 @@ htoolsinclude_HEADERS = \
   queue.h \
   report.h \
   share.h \
+  shared_path.h \
   socket.h \
   stackhelper.h \
   tlv.h \
@@ -44,6 +45,7 @@ EXTRA_DIST = \
   queue.h \
   report.h \
   share.h \
+  shared_path.h \
   socket.h \
   stackhelper.h \
   tlv.h \

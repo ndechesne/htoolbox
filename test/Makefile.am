@@ -19,6 +19,7 @@ check_PROGRAMS = \
   observer_test \
   process_mutex_test \
   report_test \
+  shared_path_test \
   tlv_helper_test \
   tlv_test \
   unix_socket_test \
@@ -41,6 +42,7 @@ linereaderwriter_test_SOURCES = linereaderwriter_test.cpp
 observer_test_SOURCES = observer_test.cpp
 process_mutex_test_SOURCES = process_mutex_test.cpp
 report_test_SOURCES = report_test.cpp
+shared_path_test_SOURCES = shared_path_test.cpp
 tlv_helper_test_SOURCES = tlv_helper_test.cpp
 tlv_test_SOURCES = tlv_test.cpp
 unix_socket_test_SOURCES = unix_socket_test.cpp
@@ -77,6 +79,7 @@ unix_socket.done: unix_socket_test.cpp
 
 check_SUCCESSES = \
   hash_tree.done \
+  shared_path.done \
   observer.done \
   configuration.done \
   filereaderwriter.done \
@@ -110,6 +113,7 @@ EXTRA_DIST = \
   observer.exp \
   process_mutex.exp \
   report.exp \
+  shared_path.exp \
   tlv_helper.exp \
   tlv.exp \
   unix_socket.exp \

@@ -46,6 +46,9 @@ case $1 in
   "rp" )
     export NAME="report"
     ;;
+  "sp" )
+    export NAME="shared_path"
+    ;;
   "th" )
     export NAME="tlv_helper"
     ;;
