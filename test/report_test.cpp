@@ -860,6 +860,15 @@ int main(void) {
   _unused = system("ls report.log*");
 
 
+  cout << endl << "Remove last logs" << endl;
+  Report::FileOutput log_file3("report.log", 1, 2, true);
+  _unused = system("echo \"1\" > report.log");
+  log_file3.open();
+  log_file3.close();
+  show_logs();
+  _unused = system("ls report.log*");
+
+
   cout << endl << "Specific report" << endl;
   Report my_report("my report");
   tl_report = &my_report;

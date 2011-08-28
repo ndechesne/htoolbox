@@ -432,6 +432,22 @@ struct Report::FileOutput::Private {
         }
       }
     } while (i-- != 0);
+    /* Remove files if max_files was reduced */
+    i = max_files + 1;
+    do {
+      // Complete name
+      int length = sprintf(&old_name[len], "-%zu", i);
+      const char* extensions[] = { "", ".gz", NULL };
+      int no = Node::findExtension(old_name, extensions, len + length);
+      if (no >= 0) {
+        /* File found: remove */
+        ::remove(old_name);
+      } else {
+        /* File not found: give up */
+        break;
+      }
+      ++i;
+    } while (true);
     return rc;
   }
 };

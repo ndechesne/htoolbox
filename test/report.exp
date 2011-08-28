@@ -767,14 +767,24 @@ report.log-3.gz
 report.log-4.gz
 report.log-5.gz
 
+Remove last logs
+report.log:
+report.log-1.gz:
+1
+report.log-2.gz:
+1
+report.log
+report.log-1.gz
+report.log-2.gz
+
 Specific report
 ALERT! some message with a number 9
 message with a number 10
 
 Log to file, no LF
-2009-08-07 06:05:04 INFO  report_test.cpp:881 message start...middle...
-2009-08-07 06:05:04 VERB  report_test.cpp:883 different level
-2009-08-07 06:05:04 INFO  report_test.cpp:884 message start...end
-2009-08-07 06:05:04 INFO  report_test.cpp:886 other message
+2009-08-07 06:05:04 INFO  report_test.cpp:890 message start...middle...
+2009-08-07 06:05:04 VERB  report_test.cpp:892 different level
+2009-08-07 06:05:04 INFO  report_test.cpp:893 message start...end
+2009-08-07 06:05:04 INFO  report_test.cpp:895 other message
 
 End of tests
