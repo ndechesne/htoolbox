@@ -19,6 +19,8 @@
 #ifndef _SHARED_PATH_H
 #define _SHARED_PATH_H
 
+#include <string.h>
+
 namespace htoolbox {
 
 // The class T must implement the following operator for this to work:
