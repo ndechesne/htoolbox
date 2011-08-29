@@ -17,6 +17,8 @@
 #ifndef _CONFIGURATION_H
 #define _CONFIGURATION_H
 
+#include <vector>
+
 namespace htoolbox {
 
 class Config {
@@ -27,9 +29,9 @@ public:
   class IObject {
   public:
     virtual IObject* configChildFactory(
-      const vector<string>& params,
-      const char*           file_path = NULL,
-      size_t                line_no   = 0) = 0;
+      const std::vector<string>&  params,
+      const char*                 file_path = NULL,
+      size_t                      line_no   = 0) = 0;
   };
   // Callback for errors
   typedef void (*config_error_cb_f)(
@@ -79,13 +81,13 @@ public:
   // Extract parameters from given line
   // Returns 1 if missing ending quote, 0 otherwise
   static int extractParams(
-    const char*     line,
-    vector<string>& params,
-    unsigned char   flags      = 0,
-    size_t          max_params = 0,     // Number of parameters to decode
-    const char*     delims     = "\t ", // Default: tabulation and space
-    const char*     quotes     = "'\"", // Default: single and double quotes
-    const char*     comments   = "#");  // Default: hash
+    const char*           line,
+    std::vector<string>&  params,
+    unsigned char         flags      = 0,
+    size_t                max_params = 0,     // Number of parameters to decode
+    const char*           delims     = "\t ", // Default: tabulation and space
+    const char*           quotes     = "'\"", // Default: single and double quotes
+    const char*           comments   = "#");  // Default: hash
 };
 
 }
