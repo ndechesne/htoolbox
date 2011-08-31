@@ -65,10 +65,12 @@ int Share::mount(
     _classic_mount = true;
     command = "mount -t cifs -o ro,nocase";
     if (backup_path.size() < 3) {
+      errno = EINVAL;
       return -1;
     }
     char drive_letter = backup_path[0];
     if (! isupper(drive_letter)) {
+      errno = EINVAL;
       return -1;
     }
     share = "//" + hostname + "/" + drive_letter + "$";
@@ -94,7 +96,6 @@ int Share::mount(
     errno = EPROTONOSUPPORT;
     return -1;
   }
-  errno = 0;
 
   // Unmount previous share if different
   if (! _mounted.empty()) {
@@ -125,7 +126,6 @@ int Share::mount(
   if (result != 0) {
     errno = ETIMEDOUT;
   } else {
-    errno = 0;
     _mounted = share;
   }
   return result;
