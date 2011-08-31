@@ -19,6 +19,7 @@
 #ifndef _SHARED_PATH_H
 #define _SHARED_PATH_H
 
+#include <stdio.h>
 #include <string.h>
 
 namespace htoolbox {
