@@ -155,7 +155,7 @@ static void* monitor_thread(void* data) {
       pthread_mutex_lock(&d->threads_list_lock);
       // Get first idle thread
       WorkerThreadData* wtd = NULL;
-      hlog_debug("%s.loop %zu busy %zu idle %zu total", d->name,
+      hlog_regression("%s.loop %zu busy %zu idle %zu total", d->name,
         d->busy_threads.size(), d->idle_threads.size(), d->threads);
       if (! d->idle_threads.empty()) {
         wtd = d->idle_threads.back();
@@ -165,10 +165,10 @@ static void* monitor_thread(void* data) {
         // Get rid of oldest idle thread if too old
         list<WorkerThreadData*>::iterator it = d->idle_threads.begin();
         if (it != d->idle_threads.end()) {
-          hlog_debug("%s.%s age %ld, t-o %ld", d->name, (*it)->name,
+          hlog_regression("%s.%s age %ld, t-o %ld", d->name, (*it)->name,
             time(NULL) - (*it)->last_run, d->time_out);
           if ((time(NULL) - (*it)->last_run) > d->time_out) {
-            hlog_verbose("%s.%s.thread destroyed", d->name, (*it)->name);
+            hlog_regression("%s.%s.thread destroyed", d->name, (*it)->name);
             (*it)->q_in.close();
             pthread_join((*it)->tid, NULL);
             delete *it;
@@ -187,7 +187,7 @@ static void* monitor_thread(void* data) {
         if (rc == 0) {
           d->busy_threads.push_back(wtd);
           ++d->threads;
-          hlog_verbose("%s.%s.thread created", d->name, wtd->name);
+          hlog_regression("%s.%s.thread created", d->name, wtd->name);
         } else {
           hlog_error("%s creating thread '%s'", strerror(-rc), d->name);
           delete wtd;

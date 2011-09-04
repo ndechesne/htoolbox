@@ -65,6 +65,8 @@ enum {
 int main(void) {
   report.setLevel(debug);
   report.consoleFilter().addCondition(Report::Filter::force,
+    "threads_manager.cpp", 0, 0, regression);
+  report.consoleFilter().addCondition(Report::Filter::force,
     __FILE__, regression);
 
   char user1[32] = "user1";
