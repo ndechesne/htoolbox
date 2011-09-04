@@ -14,8 +14,10 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef _WORK_SCHEDULER_H
-#define _WORK_SCHEDULER_H
+#ifndef _THREADS_MANAGER_H
+#define _THREADS_MANAGER_H
+
+#include <queue.h>
 
 namespace htoolbox {
 
@@ -37,6 +39,6 @@ public:
   size_t threads() const;
 };
 
-};
+}
 
-#endif // _WORK_SCHEDULER_H
+#endif // _THREADS_MANAGER_H
