@@ -26,13 +26,32 @@ int main(void) {
   report.consoleFilter().addCondition(Report::Filter::force,
     __FILE__, 0, 0, regression);
 
-  Queue q1("q1", 1);
+  enum { SIZE = 10 };
+  Queue q1("q1", SIZE);
   q1.open();
-  int i = 1;
-  q1.push(&i);
-  void* p;
-  q1.pop(&p);
-  hlog_info("i = %d", *static_cast<int*>(p));
+  int i[SIZE];
+  for (int k = 0; k < SIZE; ++k) {
+    i[k] = k + 20;
+    q1.push(&i[k]);
+  }
+  for (int k = 0; k < SIZE / 2; ++k) {
+    int* p;
+    q1.pop(reinterpret_cast<void**>(&p));
+    if (p != &i[k]) {
+      hlog_error("pointer mismatch");
+    } else {
+      hlog_info("o = %d", *p);
+    }
+  }
+  for (int k = 0; k < SIZE / 2; ++k) {
+    i[k] = k + 30;
+    q1.push(&i[k]);
+  }
+  for (int k = 0; k < SIZE; ++k) {
+    int* p;
+    q1.pop(reinterpret_cast<void**>(&p));
+    hlog_info("o = %d", *p);
+  }
   q1.close();
   return 0;
 }

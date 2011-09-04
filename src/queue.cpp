@@ -18,11 +18,6 @@
 #include <string.h>
 #include <pthread.h>
 
-#include <list>
-#include <queue>
-
-using namespace std;
-
 #include <report.h>
 #include <queue.h>
 
@@ -30,21 +25,55 @@ using namespace htoolbox;
 
 struct Queue::Private {
   char            name[64];
-  bool            queue_open;
-  size_t          max_size;
-  queue<void*>    objects;
+  bool            is_open;
+  const size_t    max_size;
+  size_t          size;
+  void**          objects;
+  void**          reader;
+  void**          writer;
+  void**          end;
   // Lock
   pthread_mutex_t queue_lock;
   // Conditions
   pthread_cond_t  pop_cond;
   pthread_cond_t  push_cond;
+  Private(size_t n) : is_open(false), max_size(n), size(0) {
+    objects = static_cast<void**>(malloc(n * sizeof(void*)));
+    end = &objects[max_size];
+  }
+  ~Private() {
+    free(objects);
+  }
+  void open() {
+    reader = &objects[0];
+    writer = &objects[0];
+    is_open = true;
+  }
+  void close() {
+    is_open = false;
+  }
+  // Must not be full!
+  void push(void* d) {
+    *reader++ = d;
+    ++size;
+    if (reader == end) {
+      reader = &objects[0];
+    }
+  }
+  // Must not be empty!
+  void* pop() {
+    void* rc = *writer++;
+    --size;
+    if (writer == end) {
+      writer = &objects[0];
+    }
+    return rc;
+  }
 };
 
-Queue::Queue(const char* name, size_t max_size) :_d(new Private) {
+Queue::Queue(const char* name, size_t max_size) :_d(new Private(max_size)) {
   strncpy(_d->name, name, sizeof(_d->name));
   _d->name[sizeof(_d->name) - 1] = '\0';
-  _d->queue_open = false;
-  _d->max_size = max_size;
   pthread_mutex_init(&_d->queue_lock, NULL);
   pthread_cond_init(&_d->pop_cond, NULL);
   pthread_cond_init(&_d->push_cond, NULL);
@@ -59,12 +88,12 @@ Queue::~Queue() {
 }
 
 void Queue::open() {
-  _d->queue_open = true;
+  _d->open();
 }
 
 void Queue::close() {
   hlog_regression("%s.%s enter", _d->name, __FUNCTION__);
-  _d->queue_open = false;
+  _d->close();
   pthread_cond_broadcast(&_d->pop_cond);
   hlog_regression("%s.%s exit", _d->name, __FUNCTION__);
 }
@@ -72,7 +101,7 @@ void Queue::close() {
 void Queue::wait() {
   hlog_regression("%s.%s enter", _d->name, __FUNCTION__);
   pthread_mutex_lock(&_d->queue_lock);
-  while (! _d->objects.empty()) {
+  while (_d->size > 0) {
     hlog_regression("%s.%s wait for queue to empty", _d->name, __FUNCTION__);
     pthread_cond_wait(&_d->push_cond, &_d->queue_lock);
   }
@@ -81,30 +110,30 @@ void Queue::wait() {
 }
 
 bool Queue::empty() const {
-  return _d->objects.empty();
+  return _d->size == 0;
 }
 
 size_t Queue::size() const {
-  return _d->objects.size();
+  return _d->size;
 }
 
 int Queue::push(void* data) {
   hlog_regression("%s.%s enter", _d->name, __FUNCTION__);
   pthread_mutex_lock(&_d->queue_lock);
   // Wait for some space
-  while ((_d->objects.size() >= _d->max_size) && _d->queue_open) {
+  while ((_d->size == _d->max_size) && _d->is_open) {
     hlog_regression("%s.%s wait for queue to empty some", _d->name, __FUNCTION__);
     pthread_cond_wait(&_d->push_cond, &_d->queue_lock);
   }
   // Check status
-  if (_d->queue_open) {
+  if (_d->is_open) {
     // Get data
-    _d->objects.push(data);
+    _d->push(data);
     // Signal not empty
     pthread_cond_broadcast(&_d->pop_cond);
   }
   pthread_mutex_unlock(&_d->queue_lock);
-  int rc = _d->queue_open ? 0 : 1;
+  int rc = _d->is_open ? 0 : 1;
   hlog_regression("%s.%s exit: rc = %d", _d->name, __FUNCTION__, rc);
   return rc;
 }
@@ -114,19 +143,16 @@ int Queue::pop(void** data) {
   bool queue_flushed = false;
   pthread_mutex_lock(&_d->queue_lock);
   // Wait for some data
-  while (_d->objects.empty() && _d->queue_open) {
+  while ((_d->size == 0) && _d->is_open) {
     hlog_regression("%s.%s wait for queue to fill up some", _d->name, __FUNCTION__);
     pthread_cond_wait(&_d->pop_cond, &_d->queue_lock);
   }
   // Check status
-  if (! _d->objects.empty()) {
-    *data = _d->objects.front();
-    _d->objects.pop();
-    if (_d->objects.size() <= _d->max_size) {
-      pthread_cond_broadcast(&_d->push_cond);
-    }
+  if (_d->size > 0) {
+    *data = _d->pop();
+    pthread_cond_broadcast(&_d->push_cond);
   } else
-  if (! _d->queue_open) {
+  if (! _d->is_open) {
     queue_flushed = true;
     pthread_cond_broadcast(&_d->push_cond);
   }
