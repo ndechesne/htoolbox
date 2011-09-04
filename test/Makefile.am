@@ -19,6 +19,7 @@ check_PROGRAMS = \
   observer_test \
   process_mutex_test \
   report_test \
+  queue_test \
   shared_path_test \
   tlv_helper_test \
   tlv_test \
@@ -42,6 +43,7 @@ linereaderwriter_test_SOURCES = linereaderwriter_test.cpp
 observer_test_SOURCES = observer_test.cpp
 process_mutex_test_SOURCES = process_mutex_test.cpp
 report_test_SOURCES = report_test.cpp
+queue_test_SOURCES = queue_test.cpp
 shared_path_test_SOURCES = shared_path_test.cpp
 tlv_helper_test_SOURCES = tlv_helper_test.cpp
 tlv_test_SOURCES = tlv_test.cpp
@@ -96,6 +98,7 @@ check_SUCCESSES = \
   files.done \
   criticality.done \
   report.done \
+  queue.done \
   zipper.done \
   $(NULL)
 
@@ -113,6 +116,7 @@ EXTRA_DIST = \
   observer.exp \
   process_mutex.exp \
   report.exp \
+  queue.exp \
   shared_path.exp \
   tlv_helper.exp \
   tlv.exp \

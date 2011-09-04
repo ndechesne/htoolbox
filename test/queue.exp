@@ -1,0 +1,7 @@
+q1.push enter
+q1.push exit: rc = 0
+q1.pop enter
+q1.pop exit: rc = 0
+i = 1
+q1.close enter
+q1.close exit

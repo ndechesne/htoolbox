@@ -46,6 +46,9 @@ case $1 in
   "rp" )
     export NAME="report"
     ;;
+  "q" )
+    export NAME="queue"
+    ;;
   "sp" )
     export NAME="shared_path"
     ;;
