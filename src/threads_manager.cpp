@@ -21,11 +21,6 @@
 #include <time.h>
 #include <pthread.h>
 
-#include <list>
-#include <queue>
-
-using namespace std;
-
 #include <report.h>
 #include <queue.h>
 #include <threads_manager.h>
@@ -34,6 +29,56 @@ using namespace htoolbox;
 
 enum {
   NAME_SIZE = 1024
+};
+
+template <class T>
+class Stack {
+  T*      _head;
+  T*      _tail;
+  size_t  _size;
+public:
+  Stack() : _head(NULL), _tail(NULL), _size(0) {}
+  size_t size() const { return _size; }
+  bool empty() const { return _size == 0; }
+  void push(T* t) {
+    t->previous = NULL;
+    t->next = _head;
+    if (_head != NULL) {
+      _head->previous = t;
+    } else {
+      _tail = t;
+    }
+    _head = t;
+    ++_size;
+  }
+  T* pop() {
+    if (_head == NULL) {
+      return NULL;
+    }
+    T* t = _head;
+    _head = t->next;
+    if (_head != NULL) {
+      _head->previous = NULL;
+    } else {
+      _tail = NULL;
+    }
+    --_size;
+    return t;
+  }
+  void remove(T* t) {
+    if (t->previous != NULL) {
+      t->previous->next = t->next;
+    } else {
+      _head = t->next;
+    }
+    if (t->next != NULL) {
+      t->next->previous = t->previous;
+    } else {
+      _tail = t->previous;
+    }
+    --_size;
+  }
+  T* bottom() { return _tail; }
 };
 
 struct WorkerThreadData;
@@ -58,8 +103,8 @@ struct ThreadsManagerData {
   // Local data
   pthread_mutex_t           threads_list_lock;
   pthread_cond_t            idle_cond;
-  list<WorkerThreadData*>   busy_threads;
-  list<WorkerThreadData*>   idle_threads;
+  Stack<WorkerThreadData>   busy_threads;
+  Stack<WorkerThreadData>   idle_threads;
   ThreadsManagerData(Queue* in, Queue* out)
   : q_in(in), q_out(out), time_out(600), running(false), callback(NULL) {
     pthread_mutex_init(&callback_lock, NULL);
@@ -79,7 +124,11 @@ struct ThreadsManagerData {
   }
 };
 
+static void* worker_thread(void* data);
+
 struct WorkerThreadData {
+  WorkerThreadData*         previous;
+  WorkerThreadData*         next;
   ThreadsManagerData&       parent;
   pthread_t                 tid;
   char                      name[NAME_SIZE];
@@ -98,9 +147,15 @@ struct WorkerThreadData {
     data = d;
     pthread_mutex_unlock(&mutex);
   }
+  int start() {
+    hlog_regression("%s.%s starting", parent.name, name);
+    return pthread_create(&tid, NULL, worker_thread, this);
+  }
   void stop() {
-    pthread_mutex_unlock(&mutex);
     hlog_regression("%s.%s stopping", parent.name, name);
+    pthread_mutex_unlock(&mutex);
+    pthread_join(tid, NULL);
+    hlog_regression("%s.%s joined", parent.name, name);
   }
 };
 
@@ -117,7 +172,7 @@ static void worker_thread_activity_callback(
     size_t            busy_threads) {
   ThreadsManagerData& data = d->parent;
   if (idle) {
-    hlog_regression("%s.%s.activity_callback: idle, system: %zu busy/%zu total",
+    hlog_regression("%s.%s.activity_callback: idle (%zu/%zu)",
       d->parent.name, d->name, busy_threads, idle_threads + busy_threads);
   } else {
     hlog_regression("%s.%s.activity_callback: busy", d->parent.name, d->name);
@@ -139,12 +194,10 @@ static void* worker_thread(void* data) {
   WorkerThreadData* d = static_cast<WorkerThreadData*>(data);
   // Loop
   while (true) {
-    if (hlog_is_worth(regression)) {
-      usleep(200000);
-      hlog_regression("%s.%s.loop enter", d->parent.name, d->name);
-    }
+    hlog_regression("%s.%s.loop enter", d->parent.name, d->name);
     pthread_mutex_lock(&d->mutex);
     if (d->data != d) {
+      hlog_regression("%s.%s.loop has data", d->parent.name, d->name);
       // Work
       worker_thread_activity_callback(d, false, 0, 1);
       void* data_out = d->parent.routine(d->data, d->parent.user);
@@ -154,8 +207,7 @@ static void* worker_thread(void* data) {
       // Lock before checking that we're still running
       pthread_mutex_lock(&d->parent.threads_list_lock);
       d->parent.busy_threads.remove(d);
-      // Put idle thread at the back of the list, if not shutting down
-      d->parent.idle_threads.push_back(d);
+      d->parent.idle_threads.push(d);
       pthread_cond_signal(&d->parent.idle_cond);
       size_t idle_threads = d->parent.idle_threads.size();
       size_t busy_threads = d->parent.busy_threads.size();
@@ -185,42 +237,39 @@ static void* monitor_thread(void* data) {
       pthread_mutex_lock(&d->threads_list_lock);
       // Get first idle thread
       WorkerThreadData* wtd = NULL;
-      hlog_regression("%s.loop %zu busy %zu idle %zu total", d->name,
-        d->busy_threads.size(), d->idle_threads.size(), d->threads);
+      hlog_regression("%s.queue has data (%zu/%zu)", d->name,
+        d->busy_threads.size(), d->threads);
       bool wait_for_thread = false;
       if (! d->idle_threads.empty()) {
-        wtd = d->idle_threads.back();
-        d->idle_threads.pop_back();
+        wtd = d->idle_threads.pop();
         // Always push to back so longest running threads are at the front
-        d->busy_threads.push_back(wtd);
+        d->busy_threads.push(wtd);
         // Get rid of oldest idle thread if too old
-        list<WorkerThreadData*>::iterator it = d->idle_threads.begin();
-        if (it != d->idle_threads.end()) {
-          hlog_regression("%s.%s age %ld, t-o %ld", d->name, (*it)->name,
-            time(NULL) - (*it)->last_run, d->time_out);
-          if ((time(NULL) - (*it)->last_run) > d->time_out) {
-            (*it)->stop();
-            pthread_join((*it)->tid, NULL);
-            hlog_regression("%s.%s joined", d->name, (*it)->name);
-            delete *it;
-            d->idle_threads.erase(it);
+        WorkerThreadData* bottom = d->idle_threads.bottom();
+        if (bottom != NULL) {
+          hlog_regression("%s.%s age %ld, t-o %ld", d->name, bottom->name,
+            time(NULL) - bottom->last_run, d->time_out);
+          if ((time(NULL) - bottom->last_run) > d->time_out) {
+            d->idle_threads.remove(bottom);
+            bottom->stop();
+            delete bottom;
             --d->threads;
           }
         }
       } else
       // Create new thread if possible
-      if (((d->max_threads == 0) || (d->busy_threads.size() < d->max_threads))) {
+      if (((d->max_threads == 0) || (d->threads < d->max_threads))) {
         // Create worker thread
         char name[NAME_SIZE];
         snprintf(name, NAME_SIZE, "worker%zu", ++order);
         wtd = new WorkerThreadData(*d, name);
-        int rc = pthread_create(&wtd->tid, NULL, worker_thread, wtd);
+        int rc = wtd->start();
         if (rc == 0) {
-          d->busy_threads.push_back(wtd);
+          d->busy_threads.push(wtd);
           ++d->threads;
-          hlog_regression("%s.%s.thread created", d->name, wtd->name);
+          hlog_regression("%s.loop %s thread created", d->name, wtd->name);
         } else {
-          hlog_error("%s creating thread '%s'", strerror(-rc), d->name);
+          hlog_error("%s.loop creating thread '%s'", strerror(-rc), d->name);
           delete wtd;
           wait_for_thread = true;
         }
@@ -229,38 +278,36 @@ static void* monitor_thread(void* data) {
         wait_for_thread = true;
       }
       if (wait_for_thread) {
-        hlog_regression("%s.loop wait for thread to get idle", d->name);
+        hlog_regression("%s.loop wait for a thread to get idle", d->name);
         pthread_cond_wait(&d->idle_cond, &d->threads_list_lock);
         /*if (d->run) */{
-          wtd = d->idle_threads.back();
-          d->idle_threads.pop_back();
-          // Always push to back so longest running threads are at the front
-          d->busy_threads.push_back(wtd);
+          wtd = d->idle_threads.pop();
+          d->busy_threads.push(wtd);
         }
       }
       pthread_mutex_unlock(&d->threads_list_lock);
       // Start worker thread
       wtd->push(data_in);
     } else {
-      hlog_regression("%s.queue closed", d->name);
+      hlog_regression("%s.loop queue closed", d->name);
       // Stop all threads
       pthread_mutex_lock(&d->threads_list_lock);
-      while (! d->idle_threads.empty() || ! d->busy_threads.empty()) {
-        list<WorkerThreadData*>::iterator it = d->idle_threads.begin();
-        if (it != d->idle_threads.end()) {
-          (*it)->stop();
-          pthread_join((*it)->tid, NULL);
-          hlog_regression("%s.%s joined", d->name, (*it)->name);
-          delete *it;
-          it = d->idle_threads.erase(it);
+      while (d->threads > 0) {
+        WorkerThreadData* bottom = d->idle_threads.bottom();
+        if (bottom != NULL) {
+          hlog_regression("%s.loop stop idle thread %s (%zu/%zu)",
+            d->name, bottom->name, d->busy_threads.size(), d->threads);
+          d->idle_threads.remove(bottom);
+          bottom->stop();
+          delete bottom;
+          --d->threads;
         } else {
-          hlog_regression("%s wait for %zu busy worker(s)", d->name,
-            d->busy_threads.size());
+          hlog_regression("%s.loop wait for busy thread(s) (%zu/%zu)", d->name,
+            d->busy_threads.size(), d->threads);
           pthread_cond_wait(&d->idle_cond, &d->threads_list_lock);
         }
       }
       pthread_mutex_unlock(&d->threads_list_lock);
-      hlog_regression("%s all worker thread(s) joined", d->name);
       // Exit loop
       hlog_regression("%s.loop exit", d->name);
       break;

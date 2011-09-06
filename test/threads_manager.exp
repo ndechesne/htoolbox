@@ -1,38 +1,43 @@
 no thread limit
 activity callback(idle): user = 'user_string'
-sched.loop enter
 sched.thread created
-sched.loop 0 busy 0 idle 0 total
-sched.worker1.thread created
+sched.loop enter
+sched.queue has data (0/0)
+sched.worker1 starting
+sched.loop worker1 thread created
 sched.loop enter
 sched.worker1.loop enter
+sched.worker1.loop has data
 sched.worker1.activity_callback: busy
 activity callback(busy): user = 'user_string'
 task enter: data = 'data1' user = 'user1'
-sched.loop 1 busy 0 idle 1 total
-sched.worker2.thread created
+sched.queue has data (1/1)
+sched.worker2 starting
+sched.loop worker2 thread created
 sched.loop enter
-2 thread(s)
-sched.queue closed
-sched wait for 2 busy worker(s)
 sched.worker2.loop enter
+sched.worker2.loop has data
 sched.worker2.activity_callback: busy
 task enter: data = 'data2' user = 'user1'
+2 thread(s)
+sched.loop queue closed
+sched.loop wait for busy thread(s) (2/2)
 task exit: data = 'tata1'
-sched.worker1.activity_callback: idle, system: 1 busy/2 total
+sched.loop stop idle thread worker1 (1/2)
 sched.worker1 stopping
+sched.worker1.activity_callback: idle (1/2)
 sched.worker1.loop enter
 sched.worker1.loop exit
 sched.worker1 joined
-sched wait for 1 busy worker(s)
+sched.loop wait for busy thread(s) (1/1)
 task exit: data = 'tata2'
-sched.worker2.activity_callback: idle, system: 0 busy/1 total
-activity callback(idle): user = 'user_string'
+sched.loop stop idle thread worker2 (0/1)
 sched.worker2 stopping
+sched.worker2.activity_callback: idle (0/1)
+activity callback(idle): user = 'user_string'
 sched.worker2.loop enter
 sched.worker2.loop exit
 sched.worker2 joined
-sched all worker thread(s) joined
 sched.loop exit
 sched.thread joined
 out queue:
@@ -40,36 +45,39 @@ out queue:
   'tata2'
 thread limit = 1
 activity callback(idle): user = 'user_string'
-sched.loop enter
 sched.thread created
-sched.loop 0 busy 0 idle 0 total
-sched.worker1.thread created
 sched.loop enter
-sched.loop 1 busy 0 idle 1 total
-sched.loop wait for thread to get idle
-1 thread(s)
+sched.queue has data (0/0)
+sched.worker1 starting
+sched.loop worker1 thread created
+sched.loop enter
 sched.worker1.loop enter
+sched.worker1.loop has data
 sched.worker1.activity_callback: busy
 activity callback(busy): user = 'user_string'
 task enter: data = 'data1' user = 'user2'
+sched.queue has data (1/1)
+sched.loop wait for a thread to get idle
+1 thread(s)
 task exit: data = 'tata1'
-sched.worker1.activity_callback: idle, system: 0 busy/1 total
+sched.worker1.activity_callback: idle (0/1)
 activity callback(idle): user = 'user_string'
-sched.loop enter
-sched.queue closed
-sched wait for 1 busy worker(s)
 sched.worker1.loop enter
+sched.loop enter
+sched.loop queue closed
+sched.loop wait for busy thread(s) (1/1)
+sched.worker1.loop has data
 sched.worker1.activity_callback: busy
 activity callback(busy): user = 'user_string'
 task enter: data = 'data2' user = 'user2'
 task exit: data = 'tata2'
-sched.worker1.activity_callback: idle, system: 0 busy/1 total
+sched.worker1.activity_callback: idle (0/1)
 activity callback(idle): user = 'user_string'
-sched.worker1 stopping
 sched.worker1.loop enter
+sched.loop stop idle thread worker1 (0/1)
+sched.worker1 stopping
 sched.worker1.loop exit
 sched.worker1 joined
-sched all worker thread(s) joined
 sched.loop exit
 sched.thread joined
 out queue:
@@ -79,110 +87,131 @@ no thread limit, 10 objects
 activity callback(idle): user = 'user_string'
 sched.thread created
 sched.loop enter
-sched.loop 0 busy 0 idle 0 total
-sched.worker1.thread created
+sched.queue has data (0/0)
+sched.worker1 starting
+sched.loop worker1 thread created
 sched.loop enter
 sched.worker1.loop enter
+sched.worker1.loop has data
 sched.worker1.activity_callback: busy
 activity callback(busy): user = 'user_string'
 task enter: data = 'data1' user = 'user3'
-sched.loop 1 busy 0 idle 1 total
-sched.worker2.thread created
+sched.queue has data (1/1)
+sched.worker2 starting
+sched.loop worker2 thread created
 sched.loop enter
 sched.worker2.loop enter
+sched.worker2.loop has data
 sched.worker2.activity_callback: busy
 task enter: data = 'data2' user = 'user3'
-sched.loop 2 busy 0 idle 2 total
-sched.worker3.thread created
+sched.queue has data (2/2)
+sched.worker3 starting
+sched.loop worker3 thread created
 sched.loop enter
 sched.worker3.loop enter
+sched.worker3.loop has data
 sched.worker3.activity_callback: busy
 task enter: data = 'data3' user = 'user3'
-sched.loop 3 busy 0 idle 3 total
-sched.worker4.thread created
+sched.queue has data (3/3)
+sched.worker4 starting
+sched.loop worker4 thread created
 sched.loop enter
 sched.worker4.loop enter
+sched.worker4.loop has data
 sched.worker4.activity_callback: busy
 task enter: data = 'data4' user = 'user3'
-sched.loop 4 busy 0 idle 4 total
-sched.worker5.thread created
-sched.loop enter
 task exit: data = 'tata1'
-sched.worker1.activity_callback: idle, system: 4 busy/5 total
-sched.worker5.loop enter
-sched.worker5.activity_callback: busy
-task enter: data = 'data5' user = 'user3'
-sched.loop 4 busy 1 idle 5 total
-sched.loop enter
+sched.worker1.activity_callback: idle (3/4)
 sched.worker1.loop enter
+sched.queue has data (3/4)
+sched.loop enter
+sched.worker1.loop has data
 sched.worker1.activity_callback: busy
-task enter: data = 'data6' user = 'user3'
+task enter: data = 'data5' user = 'user3'
 task exit: data = 'tata2'
-sched.worker2.activity_callback: idle, system: 4 busy/5 total
-sched.loop 4 busy 1 idle 5 total
-sched.loop enter
+sched.worker2.activity_callback: idle (3/4)
 sched.worker2.loop enter
+sched.queue has data (3/4)
+sched.loop enter
+sched.worker2.loop has data
 sched.worker2.activity_callback: busy
-task enter: data = 'data7' user = 'user3'
+task enter: data = 'data6' user = 'user3'
 task exit: data = 'tata3'
-sched.worker3.activity_callback: idle, system: 4 busy/5 total
-sched.loop 4 busy 1 idle 5 total
-sched.loop enter
+sched.worker3.activity_callback: idle (3/4)
 sched.worker3.loop enter
+sched.queue has data (3/4)
+sched.loop enter
+sched.worker3.loop has data
 sched.worker3.activity_callback: busy
-task enter: data = 'data8' user = 'user3'
+task enter: data = 'data7' user = 'user3'
+sched.queue has data (4/4)
+sched.worker5 starting
 task exit: data = 'tata4'
-sched.worker4.activity_callback: idle, system: 4 busy/5 total
-sched.loop 4 busy 1 idle 5 total
-sched.loop enter
-sched.worker4.loop enter
-sched.worker4.activity_callback: busy
-task enter: data = 'data9' user = 'user3'
-task exit: data = 'tata5'
-sched.worker5.activity_callback: idle, system: 4 busy/5 total
-sched.loop 4 busy 1 idle 5 total
-sched.loop enter
-task exit: data = 'tata6'
-sched.worker1.activity_callback: idle, system: 4 busy/5 total
-5 thread(s)
-sched.queue closed
-sched.worker1 stopping
+sched.loop worker5 thread created
 sched.worker5.loop enter
+sched.worker5.loop has data
 sched.worker5.activity_callback: busy
-task enter: data = 'data10' user = 'user3'
-sched.worker1.loop enter
-sched.worker1.loop exit
-sched.worker1 joined
-sched wait for 4 busy worker(s)
-task exit: data = 'tata7'
-sched.worker2.activity_callback: idle, system: 3 busy/4 total
-sched.worker2 stopping
-sched.worker2.loop enter
-sched.worker2.loop exit
-sched.worker2 joined
-sched wait for 3 busy worker(s)
-task exit: data = 'tata8'
-sched.worker3.activity_callback: idle, system: 2 busy/3 total
-sched.worker3 stopping
-sched.worker3.loop enter
-sched.worker3.loop exit
-sched.worker3 joined
-sched wait for 2 busy worker(s)
-task exit: data = 'tata9'
-sched.worker4.activity_callback: idle, system: 1 busy/2 total
-sched.worker4 stopping
+task enter: data = 'data8' user = 'user3'
+sched.loop enter
+sched.worker4.activity_callback: idle (4/5)
 sched.worker4.loop enter
+task exit: data = 'tata5'
+sched.worker1.activity_callback: idle (3/5)
+sched.worker1.loop enter
+sched.queue has data (3/5)
+sched.worker4 age 0, t-o 600
+sched.loop enter
+sched.worker1.loop has data
+sched.worker1.activity_callback: busy
+task enter: data = 'data9' user = 'user3'
+task exit: data = 'tata6'
+sched.worker2.activity_callback: idle (3/5)
+sched.worker2.loop enter
+sched.queue has data (3/5)
+sched.worker4 age 0, t-o 600
+sched.loop enter
+sched.worker2.loop has data
+sched.worker2.activity_callback: busy
+task enter: data = 'data10' user = 'user3'
+5 thread(s)
+sched.loop queue closed
+sched.loop stop idle thread worker4 (4/5)
+sched.worker4 stopping
 sched.worker4.loop exit
 sched.worker4 joined
-sched wait for 1 busy worker(s)
-task exit: data = 'tata10'
-sched.worker5.activity_callback: idle, system: 0 busy/1 total
-activity callback(idle): user = 'user_string'
-sched.worker5 stopping
+sched.loop wait for busy thread(s) (4/4)
+task exit: data = 'tata7'
+sched.worker3.activity_callback: idle (3/4)
+sched.worker3.loop enter
+sched.loop stop idle thread worker3 (3/4)
+sched.worker3 stopping
+sched.worker3.loop exit
+sched.worker3 joined
+sched.loop wait for busy thread(s) (3/3)
+task exit: data = 'tata8'
+sched.worker5.activity_callback: idle (2/3)
 sched.worker5.loop enter
+sched.loop stop idle thread worker5 (2/3)
+sched.worker5 stopping
 sched.worker5.loop exit
 sched.worker5 joined
-sched all worker thread(s) joined
+sched.loop wait for busy thread(s) (2/2)
+task exit: data = 'tata9'
+sched.worker1.activity_callback: idle (1/2)
+sched.worker1.loop enter
+sched.loop stop idle thread worker1 (1/2)
+sched.worker1 stopping
+sched.worker1.loop exit
+sched.worker1 joined
+sched.loop wait for busy thread(s) (1/1)
+task exit: data = 'tata10'
+sched.worker2.activity_callback: idle (0/1)
+activity callback(idle): user = 'user_string'
+sched.worker2.loop enter
+sched.loop stop idle thread worker2 (0/1)
+sched.worker2 stopping
+sched.worker2.loop exit
+sched.worker2 joined
 sched.loop exit
 sched.thread joined
 out queue:
