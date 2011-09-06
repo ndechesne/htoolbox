@@ -270,9 +270,12 @@ static void* monitor_thread(void* data) {
   return NULL;
 }
 
-ThreadsManager::ThreadsManager(const char* name, routine_f routine, void* user,
-    Queue* out)
-  : in(name), _d(new Private(&in, out)) {
+ThreadsManager::ThreadsManager(
+    const char* name,
+    routine_f   routine,
+    void*       user,
+    size_t      q_in_size,
+    Queue*      q_out) : in(name, q_in_size), _d(new Private(&in, q_out)) {
   strncpy(_d->data.name, name, NAME_SIZE);
   _d->data.name[NAME_SIZE - 1] ='\0';
   _d->data.routine = routine;

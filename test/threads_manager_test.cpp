@@ -49,7 +49,7 @@ int main(void) {
 
   Queue q_out("out", 20);
   char user[32] = "";
-  ThreadsManager ws("sched", task, user, &q_out);
+  ThreadsManager ws("sched", task, user, 1, &q_out);
 
   char cuser[] = "user_string";
   ws.setActivityCallback(activity_callback, cuser);

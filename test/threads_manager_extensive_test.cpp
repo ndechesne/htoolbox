@@ -72,9 +72,9 @@ int main(void) {
   char user1[32] = "user1";
   char user2[32] = "user2";
   char user3[32] = "user3";
-  ThreadsManager ws3("sched3", task3, user3, NULL);
-  ThreadsManager ws2("sched2", task2, user2, &ws3.inputQueue());
-  ThreadsManager ws1("sched1", task1, user1, &ws2.inputQueue());
+  ThreadsManager ws3("sched3", task3, user3, 1, NULL);
+  ThreadsManager ws2("sched2", task2, user2, 1, &ws3.inputQueue());
+  ThreadsManager ws1("sched1", task1, user1, 1, &ws2.inputQueue());
 
   if ((ws3.start(0, 0, 2) != 0) || (ws2.start(0, 0, 2) != 0) || (ws1.start(0, 0, 2) != 0)) {
     hlog_error("start failed");

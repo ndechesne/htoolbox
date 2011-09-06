@@ -28,7 +28,12 @@ class ThreadsManager {
   ThreadsManager(const htoolbox::ThreadsManager&);
 public:
   typedef void* (*routine_f)(void* data, void* user);
-  ThreadsManager(const char* name, routine_f routine, void* user, Queue* out);
+  ThreadsManager(
+    const char* name,
+    routine_f   routine,
+    void*       user,
+    size_t      q_in_size = 1,
+    Queue*      q_out = NULL);
   ~ThreadsManager();
   Queue& inputQueue() { return in; }
   int push(void* data) { return in.push(data); }
