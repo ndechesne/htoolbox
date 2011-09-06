@@ -36,27 +36,14 @@ enum {
   NAME_SIZE = 1024
 };
 
-struct ThreadsManagerData;
-
-struct WorkerThreadData {
-  ThreadsManagerData&        parent;
-  pthread_t                 tid;
-  char                      name[NAME_SIZE];
-  Queue                     q_in;
-  time_t                    last_run;
-  WorkerThreadData(ThreadsManagerData& p, const char* n)
-  : parent(p), q_in(n) {
-    strcpy(name, n);
-    q_in.open();
-  }
-};
+struct WorkerThreadData;
 
 struct ThreadsManagerData {
   // Parameters
   char                      name[NAME_SIZE];
   Queue*                    q_in;
   Queue*                    q_out;
-  ThreadsManager::routine_f  routine;
+  ThreadsManager::routine_f routine;
   void*                     user;
   size_t                    min_threads;
   size_t                    max_threads;
@@ -67,16 +54,53 @@ struct ThreadsManagerData {
   ThreadsManager::callback_f callback;
   void*                     callback_user;
   bool                      callback_called_idle;
+  pthread_mutex_t           callback_lock;
   // Local data
   pthread_mutex_t           threads_list_lock;
+  pthread_cond_t            idle_cond;
   list<WorkerThreadData*>   busy_threads;
   list<WorkerThreadData*>   idle_threads;
   ThreadsManagerData(Queue* in, Queue* out)
   : q_in(in), q_out(out), time_out(600), running(false), callback(NULL) {
+    pthread_mutex_init(&callback_lock, NULL);
     pthread_mutex_init(&threads_list_lock, NULL);
+    pthread_cond_init(&idle_cond, NULL);
   }
   ~ThreadsManagerData() {
+    pthread_cond_destroy(&idle_cond);
     pthread_mutex_destroy(&threads_list_lock);
+    pthread_mutex_destroy(&callback_lock);
+  }
+  void activityCallback(bool idle) {
+    pthread_mutex_lock(&callback_lock);
+    callback_called_idle = idle;
+    callback(idle, callback_user);
+    pthread_mutex_unlock(&callback_lock);
+  }
+};
+
+struct WorkerThreadData {
+  ThreadsManagerData&       parent;
+  pthread_t                 tid;
+  char                      name[NAME_SIZE];
+  time_t                    last_run;
+  pthread_mutex_t           mutex;
+  void*                     data;
+  WorkerThreadData(ThreadsManagerData& p, const char* n): parent(p) {
+    strcpy(name, n);
+    pthread_mutex_init(&mutex, NULL);
+    pthread_mutex_lock(&mutex);
+  }
+  ~WorkerThreadData() {
+    pthread_mutex_destroy(&mutex);
+  }
+  void push(void* d) {
+    data = d;
+    pthread_mutex_unlock(&mutex);
+  }
+  void stop() {
+    pthread_mutex_unlock(&mutex);
+    hlog_regression("%s.%s stopping", parent.name, name);
   }
 };
 
@@ -86,22 +110,26 @@ struct ThreadsManager::Private {
   Private(Queue* in, Queue* out) : data(in, out) {}
 };
 
-static void worker_thread_activity_callback(WorkerThreadData* d, bool idle) {
+static void worker_thread_activity_callback(
+    WorkerThreadData* d,
+    bool              idle,
+    size_t            idle_threads,
+    size_t            busy_threads) {
   ThreadsManagerData& data = d->parent;
-  hlog_regression("%s.%s.activity_callback: %s (%zu/%zu busy)",
-    d->parent.name, d->name, idle ? "idle" : "busy",
-    d->parent.busy_threads.size(),
-    d->parent.busy_threads.size() + d->parent.idle_threads.size());
+  if (idle) {
+    hlog_regression("%s.%s.activity_callback: idle, system: %zu busy/%zu total",
+      d->parent.name, d->name, busy_threads, idle_threads + busy_threads);
+  } else {
+    hlog_regression("%s.%s.activity_callback: busy", d->parent.name, d->name);
+  }
   if (data.callback != NULL) {
     if (idle) {
-      if (data.busy_threads.empty()) {
-        data.callback_called_idle = true;
-        data.callback(true, data.callback_user);
+      if (busy_threads == 0) {
+        data.activityCallback(idle);
       }
     } else {
       if (data.callback_called_idle) {
-        data.callback_called_idle = false;
-        data.callback(false, data.callback_user);
+        data.activityCallback(idle);
       }
     }
   }
@@ -115,25 +143,27 @@ static void* worker_thread(void* data) {
       usleep(200000);
       hlog_regression("%s.%s.loop enter", d->parent.name, d->name);
     }
-    void* data_in;
-    if (d->q_in.pop(&data_in) == 0) {
+    pthread_mutex_lock(&d->mutex);
+    if (d->data != d) {
       // Work
-      worker_thread_activity_callback(d, false);
-      void* data_out = d->parent.routine(data_in, d->parent.user);
+      worker_thread_activity_callback(d, false, 0, 1);
+      void* data_out = d->parent.routine(d->data, d->parent.user);
       if ((d->parent.q_out != NULL) && (data_out != NULL)) {
         d->parent.q_out->push(data_out);
       }
       // Lock before checking that we're still running
       pthread_mutex_lock(&d->parent.threads_list_lock);
-      if (d->parent.running) {
-        d->parent.busy_threads.remove(d);
-        // Put idle thread at the back of the list, if not shutting down
-        d->parent.idle_threads.push_back(d);
-      }
+      d->parent.busy_threads.remove(d);
+      // Put idle thread at the back of the list, if not shutting down
+      d->parent.idle_threads.push_back(d);
+      pthread_cond_signal(&d->parent.idle_cond);
+      size_t idle_threads = d->parent.idle_threads.size();
+      size_t busy_threads = d->parent.busy_threads.size();
+      d->last_run = time(NULL);
+      d->data = d;
       pthread_mutex_unlock(&d->parent.threads_list_lock);
       // Slack
-      d->last_run = time(NULL);
-      worker_thread_activity_callback(d, true);
+      worker_thread_activity_callback(d, true, idle_threads, busy_threads);
     } else {
       // Exit loop
       hlog_regression("%s.%s.loop exit", d->parent.name, d->name);
@@ -157,6 +187,7 @@ static void* monitor_thread(void* data) {
       WorkerThreadData* wtd = NULL;
       hlog_regression("%s.loop %zu busy %zu idle %zu total", d->name,
         d->busy_threads.size(), d->idle_threads.size(), d->threads);
+      bool wait_for_thread = false;
       if (! d->idle_threads.empty()) {
         wtd = d->idle_threads.back();
         d->idle_threads.pop_back();
@@ -168,9 +199,9 @@ static void* monitor_thread(void* data) {
           hlog_regression("%s.%s age %ld, t-o %ld", d->name, (*it)->name,
             time(NULL) - (*it)->last_run, d->time_out);
           if ((time(NULL) - (*it)->last_run) > d->time_out) {
-            hlog_regression("%s.%s.thread destroyed", d->name, (*it)->name);
-            (*it)->q_in.close();
+            (*it)->stop();
             pthread_join((*it)->tid, NULL);
+            hlog_regression("%s.%s joined", d->name, (*it)->name);
             delete *it;
             d->idle_threads.erase(it);
             --d->threads;
@@ -191,56 +222,42 @@ static void* monitor_thread(void* data) {
         } else {
           hlog_error("%s creating thread '%s'", strerror(-rc), d->name);
           delete wtd;
-          wtd = d->busy_threads.front();
-          d->busy_threads.pop_front();
-          d->busy_threads.push_back(wtd);
+          wait_for_thread = true;
         }
       } else
       {
-        // Give longest running thread, and push it back
-        wtd = d->busy_threads.front();
-        d->busy_threads.pop_front();
-        d->busy_threads.push_back(wtd);
+        wait_for_thread = true;
       }
-      // Put data in thread queue
-      wtd->q_in.push(data_in);
+      if (wait_for_thread) {
+        hlog_regression("%s.loop wait for thread to get idle", d->name);
+        pthread_cond_wait(&d->idle_cond, &d->threads_list_lock);
+        /*if (d->run) */{
+          wtd = d->idle_threads.back();
+          d->idle_threads.pop_back();
+          // Always push to back so longest running threads are at the front
+          d->busy_threads.push_back(wtd);
+        }
+      }
       pthread_mutex_unlock(&d->threads_list_lock);
+      // Start worker thread
+      wtd->push(data_in);
     } else {
       hlog_regression("%s.queue closed", d->name);
+      // Stop all threads
       pthread_mutex_lock(&d->threads_list_lock);
-      d->running = false;
-      // Stop all idle threads
-      list<WorkerThreadData*>::iterator it = d->idle_threads.begin();
-      while (it != d->idle_threads.end()) {
-        (*it)->q_in.close();
-        hlog_regression("%s.%s.queue closed", d->name, (*it)->name);
-        pthread_join((*it)->tid, NULL);
-        hlog_regression("%s.%s.thread joined", d->name, (*it)->name);
-        delete *it;
-        it = d->idle_threads.erase(it);
-      }
-      hlog_regression("%s.all idle worker thread(s) destroyed", d->name);
-      // Close all busy threads queues
-      for (list<WorkerThreadData*>::iterator it = d->busy_threads.begin();
-           it != d->busy_threads.end(); ++it) {
-        (*it)->q_in.close();
-        hlog_regression("%s.%s.queue closed", d->name, (*it)->name);
-      }
-      hlog_regression("%s all %zu busy worker queue(s) closed", d->name,
-        d->busy_threads.size());
-      // Wait for all to have stopped (not put in idle list when shutting down)
-      it = d->busy_threads.begin();
-      while (it != d->busy_threads.end()) {
-        // Unlock so threads can finish
-        pthread_mutex_unlock(&d->threads_list_lock);
-        pthread_join((*it)->tid, NULL);
-        if (hlog_is_worth(regression)) {
-          usleep(100000);
-          hlog_regression("%s.%s.thread joined", d->name, (*it)->name);
+      while (! d->idle_threads.empty() || ! d->busy_threads.empty()) {
+        list<WorkerThreadData*>::iterator it = d->idle_threads.begin();
+        if (it != d->idle_threads.end()) {
+          (*it)->stop();
+          pthread_join((*it)->tid, NULL);
+          hlog_regression("%s.%s joined", d->name, (*it)->name);
+          delete *it;
+          it = d->idle_threads.erase(it);
+        } else {
+          hlog_regression("%s wait for %zu busy worker(s)", d->name,
+            d->busy_threads.size());
+          pthread_cond_wait(&d->idle_cond, &d->threads_list_lock);
         }
-        delete *it;
-        pthread_mutex_lock(&d->threads_list_lock);
-        it = d->busy_threads.erase(it);
       }
       pthread_mutex_unlock(&d->threads_list_lock);
       hlog_regression("%s all worker thread(s) joined", d->name);
@@ -282,21 +299,18 @@ int ThreadsManager::start(size_t max_threads, size_t min_threads, time_t time_ou
   // Start monitoring thread
   int rc = pthread_create(&_d->monitor_tid, NULL, monitor_thread, &_d->data);
   if (rc == 0) {
-    _d->data.running = true;
     _d->data.threads = 0;
+    if (_d->data.callback != NULL) {
+      _d->data.activityCallback(true);
+    }
+    _d->data.running = true;
     hlog_regression("%s.thread created", _d->data.name);
   }
-  if (_d->data.callback != NULL) {
-    _d->data.callback_called_idle = true;
-    _d->data.callback(true, _d->data.callback_user);
-  }
-
   return rc;
 }
 
 int ThreadsManager::stop() {
   if (! _d->data.running) return -1;
-
   // Stop monitoring thread
   _d->data.q_in->close();
   pthread_join(_d->monitor_tid, NULL);
