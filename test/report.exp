@@ -683,72 +683,61 @@ Error: No such file or directory creating log file: 'missing/report.log'
 
 Rotate file
 report.log:
-2009-08-07 06:05:04 DEBUG report_test.cpp:814 message: debug
+2009-08-07 06:05:04 DEBUG report_test.cpp:814	message: debug
 report.log-1.gz:
-2009-08-07 06:05:04 VERB  report_test.cpp:813 message: verbose
+2009-08-07 06:05:04 VERB  report_test.cpp:813	message: verbose
 report.log-2.gz:
-2009-08-07 06:05:04 INFO  report_test.cpp:812 message: info
+2009-08-07 06:05:04 INFO  report_test.cpp:812	message: info
 report.log-3.gz:
-2009-08-07 06:05:04 WARN  report_test.cpp:811 message: warning
+2009-08-07 06:05:04 WARN  report_test.cpp:811	message: warning
 report.log-4.gz:
-2009-08-07 06:05:04 ERROR report_test.cpp:810 message: error
+2009-08-07 06:05:04 ERROR report_test.cpp:810	message: error
 report.log-5.gz:
-2009-08-07 06:05:04 ALERT report_test.cpp:809 message: alert
+2009-08-07 06:05:04 ALERT report_test.cpp:809	message: alert
 report.log:
 report.log-1.gz:
-2009-08-07 06:05:04 DEBUG report_test.cpp:814 message: debug
+2009-08-07 06:05:04 DEBUG report_test.cpp:814	message: debug
 report.log-2.gz:
-2009-08-07 06:05:04 VERB  report_test.cpp:813 message: verbose
+2009-08-07 06:05:04 VERB  report_test.cpp:813	message: verbose
 report.log-3.gz:
-2009-08-07 06:05:04 INFO  report_test.cpp:812 message: info
+2009-08-07 06:05:04 INFO  report_test.cpp:812	message: info
 report.log-4.gz:
-2009-08-07 06:05:04 WARN  report_test.cpp:811 message: warning
+2009-08-07 06:05:04 WARN  report_test.cpp:811	message: warning
 report.log-5.gz:
-2009-08-07 06:05:04 ERROR report_test.cpp:810 message: error
+2009-08-07 06:05:04 ERROR report_test.cpp:810	message: error
 report.log:
 report.log-1.gz:
-2009-08-07 06:05:04 DEBUG report_test.cpp:814 message: debug
+2009-08-07 06:05:04 DEBUG report_test.cpp:814	message: debug
 report.log-2.gz:
-2009-08-07 06:05:04 VERB  report_test.cpp:813 message: verbose
+2009-08-07 06:05:04 VERB  report_test.cpp:813	message: verbose
 report.log-3.gz:
-2009-08-07 06:05:04 INFO  report_test.cpp:812 message: info
+2009-08-07 06:05:04 INFO  report_test.cpp:812	message: info
 report.log-4.gz:
-2009-08-07 06:05:04 WARN  report_test.cpp:811 message: warning
+2009-08-07 06:05:04 WARN  report_test.cpp:811	message: warning
 report.log-5.gz:
-2009-08-07 06:05:04 ERROR report_test.cpp:810 message: error
-report.log:
-report.log-1.gz:
-1
-report.log-2.gz:
-2009-08-07 06:05:04 DEBUG report_test.cpp:814 message: debug
-report.log-3.gz:
-2009-08-07 06:05:04 VERB  report_test.cpp:813 message: verbose
-report.log-4.gz:
-2009-08-07 06:05:04 INFO  report_test.cpp:812 message: info
-report.log-5.gz:
-2009-08-07 06:05:04 WARN  report_test.cpp:811 message: warning
+2009-08-07 06:05:04 ERROR report_test.cpp:810	message: error
 report.log:
 report.log-1.gz:
 1
 report.log-2.gz:
-1
+2009-08-07 06:05:04 DEBUG report_test.cpp:814	message: debug
 report.log-3.gz:
-2009-08-07 06:05:04 DEBUG report_test.cpp:814 message: debug
+2009-08-07 06:05:04 VERB  report_test.cpp:813	message: verbose
 report.log-4.gz:
-2009-08-07 06:05:04 VERB  report_test.cpp:813 message: verbose
+2009-08-07 06:05:04 INFO  report_test.cpp:812	message: info
 report.log-5.gz:
-2009-08-07 06:05:04 INFO  report_test.cpp:812 message: info
+2009-08-07 06:05:04 WARN  report_test.cpp:811	message: warning
 report.log:
 report.log-1.gz:
 1
 report.log-2.gz:
 1
 report.log-3.gz:
-1
+2009-08-07 06:05:04 DEBUG report_test.cpp:814	message: debug
 report.log-4.gz:
-2009-08-07 06:05:04 DEBUG report_test.cpp:814 message: debug
+2009-08-07 06:05:04 VERB  report_test.cpp:813	message: verbose
 report.log-5.gz:
-2009-08-07 06:05:04 VERB  report_test.cpp:813 message: verbose
+2009-08-07 06:05:04 INFO  report_test.cpp:812	message: info
 report.log:
 report.log-1.gz:
 1
@@ -757,9 +746,20 @@ report.log-2.gz:
 report.log-3.gz:
 1
 report.log-4.gz:
-2009-08-07 06:05:04 DEBUG report_test.cpp:814 message: debug
+2009-08-07 06:05:04 DEBUG report_test.cpp:814	message: debug
 report.log-5.gz:
-2009-08-07 06:05:04 VERB  report_test.cpp:813 message: verbose
+2009-08-07 06:05:04 VERB  report_test.cpp:813	message: verbose
+report.log:
+report.log-1.gz:
+1
+report.log-2.gz:
+1
+report.log-3.gz:
+1
+report.log-4.gz:
+2009-08-07 06:05:04 DEBUG report_test.cpp:814	message: debug
+report.log-5.gz:
+2009-08-07 06:05:04 VERB  report_test.cpp:813	message: verbose
 report.log
 report.log-1.gz
 report.log-2.gz
@@ -782,9 +782,9 @@ ALERT! some message with a number 9
 message with a number 10
 
 Log to file, no LF
-2009-08-07 06:05:04 INFO  report_test.cpp:890 message start...middle...
-2009-08-07 06:05:04 VERB  report_test.cpp:892 different level
-2009-08-07 06:05:04 INFO  report_test.cpp:893 message start...end
-2009-08-07 06:05:04 INFO  report_test.cpp:895 other message
+2009-08-07 06:05:04 INFO  report_test.cpp:890	message start...middle...
+2009-08-07 06:05:04 VERB  report_test.cpp:892	different level
+2009-08-07 06:05:04 INFO  report_test.cpp:893	message start...end
+2009-08-07 06:05:04 INFO  report_test.cpp:895	other message
 
 End of tests
