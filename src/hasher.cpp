@@ -79,9 +79,6 @@ int Hasher::open() {
     case md_null:
       digest = EVP_md_null();
       break;
-    case md2:
-      digest = EVP_md2();
-      break;
     case md4:
       digest = EVP_md4();
       break;

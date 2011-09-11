@@ -35,7 +35,6 @@ class Hasher : public IReaderWriter {
 public:
   enum Digest {
     md_null,
-    md2,
     md4,
     md5,
     sha,
