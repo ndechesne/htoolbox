@@ -78,7 +78,7 @@ int main() {
     hlog_error("%s, server failed to listen", strerror(errno));
     return 0;
   } else {
-    hlog_info("server listening socket #%d", sock);
+    hlog_info("server listening socket #3");
   }
 
   Socket concurrent(@@FIRST@@);
