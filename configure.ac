@@ -37,7 +37,7 @@ AC_PROG_LIBTOOL
 # Checks for libraries.
 liberrors=""
 AC_CHECK_LIB([dl], [dlopen])
-AC_CHECK_LIB(ssl, SSL_CTX_new, [], [liberrors="yes"])
+AC_CHECK_LIB(crypto, EVP_DigestInit, [], [liberrors="yes"])
 AC_CHECK_LIB(z, deflate, [], [liberrors="yes"])
 AC_CHECK_LIB(pthread, deflate, [], [liberrors="yes"])
 if test "x$liberrors" != "x"; then
