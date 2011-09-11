@@ -27,7 +27,6 @@ using namespace htoolbox;
 
 int main() {
   report.setLevel(regression);
-  int sys_rc = 0;
 
   {
     FileReaderWriter frw("testfile", true);
@@ -62,7 +61,7 @@ int main() {
         hlog_regression("hash = '%s'", hash);
       }
     }
-    sys_rc = system("md5sum testfile");
+    (void) system("md5sum testfile");
   }
 
   {
@@ -120,7 +119,7 @@ int main() {
         hlog_regression("hash = '%s'", hash);
       }
     }
-    sys_rc = system("md5sum testfile2");
+    (void) system("md5sum testfile2");
   }
 
   {
@@ -156,7 +155,7 @@ int main() {
         hlog_regression("hash = '%s'", hash);
       }
     }
-    sys_rc = system("sha1sum testfile");
+    (void) system("sha1sum testfile");
   }
 
   {
@@ -214,7 +213,7 @@ int main() {
         hlog_regression("hash = '%s'", hash);
       }
     }
-    sys_rc = system("sha1sum testfile2");
+    (void) system("sha1sum testfile2");
   }
 
   {
@@ -250,7 +249,7 @@ int main() {
         hlog_regression("hash = '%s'", hash);
       }
     }
-    sys_rc = system("sha256sum testfile");
+    (void) system("sha256sum testfile");
   }
 
   {
@@ -308,7 +307,7 @@ int main() {
         hlog_regression("hash = '%s'", hash);
       }
     }
-    sys_rc = system("sha256sum testfile2");
+    (void) system("sha256sum testfile2");
   }
 
   {
@@ -344,7 +343,7 @@ int main() {
         hlog_regression("hash = '%s'", hash);
       }
     }
-    sys_rc = system("sha512sum testfile");
+    (void) system("sha512sum testfile");
   }
 
   {
@@ -402,7 +401,7 @@ int main() {
         hlog_regression("hash = '%s'", hash);
       }
     }
-    sys_rc = system("sha512sum testfile2");
+    (void) system("sha512sum testfile2");
   }
 
   return 0;

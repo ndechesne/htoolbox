@@ -35,8 +35,7 @@ time_t time(time_t* tm) {
 }
 
 void show_logs() {
-  int _unused;
-  _unused  = system(
+  (void) system(
     "for name in `ls report.log*`; do"
     "  echo \"$name:\";"
     "  if echo $name | grep gz > /dev/null; then"
@@ -797,6 +796,7 @@ int main(void) {
 
 
 
+
   cout << endl << "Log to file" << endl;
   Report::FileOutput log_file("report.log", 1, 5, true);
   if (log_file.open() < 0) {
@@ -829,7 +829,6 @@ int main(void) {
 
 
   cout << endl << "Rotate file" << endl;
-  int _unused;
   show_logs();
   // should rotate, log then empty
   log_file.open();
@@ -838,17 +837,17 @@ int main(void) {
   log_file.open();
   log_file.close();
   show_logs();
-  _unused = system("echo \"1\" > report.log");
+  (void) system("echo \"1\" > report.log");
   // should rotate
   log_file.open();
   log_file.close();
   show_logs();
-  _unused = system("echo \"1\" > report.log");
+  (void) system("echo \"1\" > report.log");
   // should rotate
   log_file.open();
   log_file.close();
   show_logs();
-  _unused = system("echo \"1\" > report.log");
+  (void) system("echo \"1\" > report.log");
   // should rotate
   log_file.open();
   log_file.close();
@@ -857,16 +856,16 @@ int main(void) {
   log_file.open();
   log_file.close();
   show_logs();
-  _unused = system("ls report.log*");
+  (void) system("ls report.log*");
 
 
   cout << endl << "Remove last logs" << endl;
   Report::FileOutput log_file3("report.log", 1, 2, true);
-  _unused = system("echo \"1\" > report.log");
+  (void) system("echo \"1\" > report.log");
   log_file3.open();
   log_file3.close();
   show_logs();
-  _unused = system("ls report.log*");
+  (void) system("ls report.log*");
 
 
   cout << endl << "Specific report" << endl;
@@ -884,6 +883,7 @@ int main(void) {
     hlog_error("%s opening log file", strerror(errno));
     return 0;
   }
+
   report.add(&log_file2);
   report.stopConsoleLog();
   report.setLevel(debug);
@@ -894,8 +894,7 @@ int main(void) {
   hlog_info("end");
   hlog_info("other message");
   log_file2.close();
-  int sys_rc = 0;
-  sys_rc = system("cat report2.log");
+  (void) system("cat report2.log");
 
 
   cout << endl << "End of tests" << endl;

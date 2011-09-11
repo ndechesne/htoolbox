@@ -27,7 +27,6 @@ using namespace htoolbox;
 
 int main() {
   report.setLevel(regression);
-  int sys_rc = 0;
 
   hlog_regression("Test: put");
   {
@@ -59,7 +58,7 @@ int main() {
         hlog_regression("%s closing file", strerror(errno));
       }
     }
-    sys_rc = system("md5sum testfile");
+    (void) system("md5sum testfile");
   }
 
   hlog_regression("Test: get");
@@ -114,7 +113,7 @@ int main() {
         hlog_regression("%s closing file", strerror(errno));
       }
     }
-    sys_rc = system("md5sum testfile2");
+    (void) system("md5sum testfile2");
   }
 
   hlog_regression("Test: read");
@@ -139,7 +138,7 @@ int main() {
         hlog_regression("%s closing file", strerror(errno));
       }
     }
-    sys_rc = system("md5sum testfile");
+    (void) system("md5sum testfile");
 
     FileReaderWriter fr("testfile", false);
     if (fr.open() < 0) {
