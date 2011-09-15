@@ -201,7 +201,7 @@ static void* worker_thread(void* data) {
       // Work
       worker_thread_activity_callback(d, false, 0, 1);
       void* data_out = d->parent.routine(d->data, d->parent.user);
-      if ((d->parent.q_out != NULL) && (data_out != NULL)) {
+      if (d->parent.q_out != NULL) {
         d->parent.q_out->push(data_out);
       }
       // Lock before checking that we're still running
