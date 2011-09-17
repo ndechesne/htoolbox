@@ -828,6 +828,38 @@ int main(void) {
   report.stopConsoleLog();
 
 
+  cout << endl << "Tabs after file:line" << endl;
+  Report::FileOutput tab_file("tab_file.log");
+  if (tab_file.open() < 0) {
+    hlog_error("%s opening log file", strerror(errno));
+    return 0;
+  }
+  report.add(&tab_file);
+  report.log("f", 1, "func1", info, false, -1, "whatever");
+  report.log("fg", 2, "func1", info, false, -1, "whatever");
+  report.log("fgh", 3, "func1", info, false, -1, "whatever");
+  report.log("fghi", 4, "func1", info, false, -1, "whatever");
+  report.log("fghij", 5, "func1", info, false, -1, "whatever");
+  report.log("fghijk", 6, "func1", info, false, -1, "whatever");
+  report.log("fghijkl", 7, "func1", info, false, -1, "whatever");
+  report.log("fghijklm", 8, "func1", info, false, -1, "whatever");
+  report.log("fghijklmn", 9, "func1", info, false, -1, "whatever");
+  report.log("fghijklmn", 10, "func1", info, false, -1, "whatever");
+  report.log("fghijklmno", 11, "func1", info, false, -1, "whatever");
+  report.log("fghijklmnop", 12, "func1", info, false, -1, "whatever");
+  report.log("fghijklmnopq", 13, "func1", info, false, -1, "whatever");
+  report.log("fghijklmnopqr", 14, "func1", info, false, -1, "whatever");
+  report.log("fghijklmnopqrs", 15, "func1", info, false, -1, "whatever");
+  report.log("fghijklmnopqrst", 16, "func1", info, false, -1, "whatever");
+  report.log("fghijklmnopqrstu", 17, "func1", info, false, -1, "whatever");
+  report.log("fghijklmnopqrstuv", 18, "func1", info, false, -1, "whatever");
+  report.log("fghijklmnopqrstuvw", 19, "func1", info, false, -1, "whatever");
+  report.log("fghijklmnopqrstuvwx", 20, "func1", info, false, -1, "whatever");
+  report.remove(&tab_file);
+  tab_file.close();
+  (void) system("cat tab_file.log");
+
+
   cout << endl << "Rotate file" << endl;
   show_logs();
   // should rotate, log then empty

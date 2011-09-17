@@ -681,6 +681,28 @@ Log to file
 Error logging to file
 Error: No such file or directory creating log file: 'missing/report.log'
 
+Tabs after file:line
+2009-08-07 06:05:04 INFO  f:1			whatever
+2009-08-07 06:05:04 INFO  fg:2			whatever
+2009-08-07 06:05:04 INFO  fgh:3			whatever
+2009-08-07 06:05:04 INFO  fghi:4		whatever
+2009-08-07 06:05:04 INFO  fghij:5		whatever
+2009-08-07 06:05:04 INFO  fghijk:6		whatever
+2009-08-07 06:05:04 INFO  fghijkl:7		whatever
+2009-08-07 06:05:04 INFO  fghijklm:8		whatever
+2009-08-07 06:05:04 INFO  fghijklmn:9		whatever
+2009-08-07 06:05:04 INFO  fghijklmn:10		whatever
+2009-08-07 06:05:04 INFO  fghijklmno:11		whatever
+2009-08-07 06:05:04 INFO  fghijklmnop:12	whatever
+2009-08-07 06:05:04 INFO  fghijklmnopq:13	whatever
+2009-08-07 06:05:04 INFO  fghijklmnopqr:14	whatever
+2009-08-07 06:05:04 INFO  fghijklmnopqrs:15	whatever
+2009-08-07 06:05:04 INFO  fghijklmnopqrst:16	whatever
+2009-08-07 06:05:04 INFO  fghijklmnopqrstu:17	whatever
+2009-08-07 06:05:04 INFO  fghijklmnopqrstuv:18	whatever
+2009-08-07 06:05:04 INFO  fghijklmnopqrstuvw:19	whatever
+2009-08-07 06:05:04 INFO  fghijklmnopqrstuvwx:20	whatever
+
 Rotate file
 report.log:
 2009-08-07 06:05:04 DEBUG report_test.cpp:814	message: debug
@@ -782,9 +804,9 @@ ALERT! some message with a number 9
 message with a number 10
 
 Log to file, no LF
-2009-08-07 06:05:04 INFO  report_test.cpp:890	message start...middle...
-2009-08-07 06:05:04 VERB  report_test.cpp:892	different level
-2009-08-07 06:05:04 INFO  report_test.cpp:893	message start...end
-2009-08-07 06:05:04 INFO  report_test.cpp:895	other message
+2009-08-07 06:05:04 INFO  report_test.cpp:922	message start...middle...
+2009-08-07 06:05:04 VERB  report_test.cpp:924	different level
+2009-08-07 06:05:04 INFO  report_test.cpp:925	message start...end
+2009-08-07 06:05:04 INFO  report_test.cpp:927	other message
 
 End of tests

@@ -551,7 +551,16 @@ int Report::FileOutput::log(
         break;
     }
     // location
-    rc += fprintf(_d->fd, "%s:%zd\t", file, line);
+    int file_len = fprintf(_d->fd, "%s:%zd\t", file, line);
+    if (file_len < 7) {
+      fputc('\t', _d->fd);
+      ++file_len;
+    }
+    if (file_len < 15) {
+      fputc('\t', _d->fd);
+      ++file_len;
+    }
+    rc += file_len;
     // indentation
     if (indentation >= 0) {
       char indent[] = "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t";
