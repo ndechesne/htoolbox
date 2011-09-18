@@ -71,5 +71,6 @@ AC_CONFIG_FILES([Makefile
                  include/Makefile
                  src/Makefile
                  test/Makefile
-                 test_tools/Makefile])
+                 test_tools/Makefile
+                 htoolbox.pc])
 AC_OUTPUT
