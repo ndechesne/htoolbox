@@ -89,6 +89,7 @@ int SharedData::createSocket(
 struct Socket::Private {
   const SharedData* master_data;
   SharedData*       data;
+  bool              reuse_address;
   int               conn_socket;
   struct timeval    read_timeout;
   struct timeval    write_timeout;
@@ -111,6 +112,7 @@ struct Socket::Private {
 Socket::Socket(const char* name, int port) : _d(new Private) {
   _d->data = new SharedData;
   _d->master_data = _d->data;
+  _d->reuse_address = true;
   _d->data->hostname_len = strlen(name);
   _d->data->hostname = static_cast<char*>(malloc(_d->data->hostname_len + 7));
   sprintf(_d->data->hostname, "%s:%u", name, port);
@@ -122,6 +124,7 @@ Socket::Socket(const char* name, int port) : _d(new Private) {
 Socket::Socket(const char* name, bool abstract) : _d(new Private) {
   _d->data = new SharedData;
   _d->master_data = _d->data;
+  _d->reuse_address = false;
   _d->data->hostname_len = strlen(name);
   _d->data->hostname = static_cast<char*>(malloc(_d->data->hostname_len + 2));
   char* hostname = _d->data->hostname;
@@ -172,9 +175,11 @@ int Socket::listen(int backlog) {
     free(sock);
     return -1;
   }
-  int re_use = 1;
-  ::setsockopt(_d->data->listen_socket, SOL_SOCKET, SO_REUSEADDR, &re_use,
-    sizeof(int));
+  if (_d->reuse_address) {
+    int re_use = 1;
+    ::setsockopt(_d->data->listen_socket, SOL_SOCKET, SO_REUSEADDR, &re_use,
+      sizeof(int));
+  }
   /* Use default values to bind and listen */
   if (family == AF_UNIX) {
     unlink(_d->data->hostname);

@@ -34,6 +34,7 @@ public:
   Socket(
     const char* name,
     bool        abstract = false);  // Abstract name is Linux-specific
+  // Child that can only accept (for multi-threading)
   Socket(const Socket&);
   ~Socket();
   int listen(int backlog);
