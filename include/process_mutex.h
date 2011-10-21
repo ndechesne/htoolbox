@@ -17,13 +17,11 @@
 #ifndef _PROCESS_MUTEX_H
 #define _PROCESS_MUTEX_H
 
-#include <socket.h>
-
 namespace htoolbox {
 
 class ProcessMutex {
-  Socket* lock_;
-  bool    locked_;
+  struct         Private;
+  Private* const _d;
   ProcessMutex(const Socket&);
   const ProcessMutex& operator=(const ProcessMutex&);
 public:
