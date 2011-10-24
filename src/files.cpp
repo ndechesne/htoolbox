@@ -209,11 +209,12 @@ int Node::stat() {
     else if (S_ISSOCK(metadata.st_mode)) _type = 's';
     else                                 _type = '?';
     // Fill in file information
-    _size  = metadata.st_size;
-    _mtime = metadata.st_mtime;
-    _uid   = metadata.st_uid;
-    _gid   = metadata.st_gid;
-    _mode  = metadata.st_mode & ~S_IFMT;
+    _size   = metadata.st_size;
+    _mtime  = metadata.st_mtime;
+    _uid    = metadata.st_uid;
+    _gid    = metadata.st_gid;
+    _mode   = metadata.st_mode & ~S_IFMT;
+    _device = metadata.st_dev;
     // Special case for symbolic links
     if (isLink()) {
       _link = static_cast<char*>(malloc(static_cast<int>(_size) + 1));

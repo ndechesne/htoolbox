@@ -78,6 +78,7 @@ protected:
   uid_t         _uid;       // user ID of owner
   gid_t         _gid;       // group ID of owner
   mode_t        _mode;      // permissions
+  dev_t         _device;    // ID of device containing file
   char          _hash[129]; // regular file hash
   char*         _link;      // symbolic link value
   list<Node*>*  _nodes;     // directory entries
@@ -95,6 +96,7 @@ public:
         _uid(g._uid),
         _gid(g._gid),
         _mode(g._mode),
+        _device(g._device),
         _link(NULL),
         _nodes(NULL) {
       _basename = basename(_path);
@@ -116,10 +118,11 @@ public:
       const char* path,
       char        type,
       time_t      mtime,
-      int64_t   size,
+      int64_t     size,
       uid_t       uid,
       gid_t       gid,
       mode_t      mode,
+      dev_t       device,
       const char* link_or_hash = "") :
         _path(path),
         _type(type),
@@ -128,6 +131,7 @@ public:
         _uid(uid),
         _gid(gid),
         _mode(mode),
+        _device(device),
         _link(NULL),
         _nodes(NULL) {
       _basename = basename(_path);
@@ -165,10 +169,11 @@ public:
   const char*   name()    const { return _basename;     }
   char          type()    const { return _type;         }
   time_t        mtime()   const { return _mtime;        }
-  int64_t     size()    const { return _size;         }
+  int64_t       size()    const { return _size;         }
   uid_t         uid()     const { return _uid;          }
   gid_t         gid()     const { return _gid;          }
   mode_t        mode()    const { return _mode;         }
+  dev_t         device()  const { return _device;       }
   const char*   hash()    const { return _hash;         }
   const char*   link()    const {
     if (_link != NULL) {
