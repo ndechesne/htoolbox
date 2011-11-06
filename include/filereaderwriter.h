@@ -26,8 +26,9 @@ namespace htoolbox {
  * This is the file accessor to actually read data from or store data to disk.
  */
 class FileReaderWriter : public IReaderWriter {
-  struct         Private;
-  Private* const _d;
+  struct          Private;
+  Private* const  _d;
+  int64_t         _offset;
 public:
   //! \brief Constructor
   /*!
@@ -42,7 +43,7 @@ public:
   ssize_t get(void* buffer, size_t size);
   ssize_t put(const void* buffer, size_t size);
   const char* path() const;
-  int64_t offset() const;
+  int64_t offset() const { return _offset; }
 };
 
 };

@@ -30,7 +30,6 @@ struct FileReaderWriter::Private {
   char      path[PATH_MAX];
   bool      writer;
   int       fd;
-  int64_t   offset;
   Private(const char* p, bool w) : writer(w), fd(-1) {
     strcpy(path, p);
   }
@@ -48,7 +47,7 @@ FileReaderWriter::~FileReaderWriter() {
 }
 
 int FileReaderWriter::open() {
-  _d->offset = 0;
+  _offset = 0;
   if (_d->writer) {
     _d->fd = ::open64(_d->path, O_WRONLY|O_CREAT|O_LARGEFILE|O_TRUNC, 0666);
   } else {
@@ -70,7 +69,7 @@ int FileReaderWriter::close() {
 ssize_t FileReaderWriter::read(void* buffer, size_t size) {
   ssize_t rc = ::read(_d->fd, buffer, size);
   if (rc > 0) {
-    _d->offset += rc;
+    _offset += rc;
   }
   return rc;
 }
@@ -90,7 +89,7 @@ ssize_t FileReaderWriter::get(void* buffer, size_t size) {
     }
     cbuffer += rc;
     count += rc;
-    _d->offset += rc;
+    _offset += rc;
   }
   return count;
 }
@@ -110,15 +109,11 @@ ssize_t FileReaderWriter::put(const void* buffer, size_t size) {
     }
     cbuffer += rc;
     count += rc;
-    _d->offset += rc;
+    _offset += rc;
 }
   return count;
 }
 
 const char* FileReaderWriter::path() const {
   return _d->path;
-}
-
-int64_t FileReaderWriter::offset() const {
-  return _d->offset;
 }
