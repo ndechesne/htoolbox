@@ -1,48 +1,81 @@
 Empty file
 Reading uncompressed empty file:
+offsets: 0/0
 Simple file
 Reading uncompressed file:
+offsets: 7/14
 Line[128] (7): 'abcdef
 '
+offsets: 11/14
 Line[128] (4): 'ghi
 '
+offsets: 14/14
 Line[128] (3): 'jkl'
+offsets: 14/14
 Compressed empty file
 Reading compressed empty file:
+offsets: 0/20
 Compressed simple file
 Reading compressed file:
+offsets: 7/34
 Line[128] (7): 'abcdef
 '
+offsets: 11/34
 Line[128] (4): 'ghi
 '
+offsets: 14/34
 Line[128] (3): 'jkl'
+offsets: 14/34
 Compressed simple file, getDelim()
 Reading compressed file:
+offsets: 7/36
 Line[128] (7): 'abcdef<'
+offsets: 12/36
 Line[128] (5): '
 ghi<'
+offsets: 16/36
 Line[128] (4): '
 jkl'
+offsets: 16/36
 Compressed huge file with huge lines, getDelim()
 Reading compressed big file:
+offsets: 10000/102400
 Line[16384] (10000): ok
+offsets: 30000/102400
 Line[32768] (20000): ok
+offsets: 60000/102400
 Line[32768] (30000): ok
+offsets: 100000/102400
 Line[65536] (40000): ok
+offsets: 150000/204800
 Line[65536] (50000): ok
+offsets: 210000/204800
 Line[65536] (60000): ok
+offsets: 280000/204800
 Line[131072] (70000): ok
+offsets: 360000/307200
 Line[131072] (80000): ok
+offsets: 450000/409600
 Line[131072] (90000): ok
+offsets: 550000/512000
 Line[131072] (100000): ok
+offsets: 660000/512000
 Line[131072] (110000): ok
+offsets: 780000/614400
 Line[131072] (120000): ok
+offsets: 910000/716800
 Line[131072] (130000): ok
+offsets: 1050000/819200
 Line[262144] (140000): ok
+offsets: 1200000/921600
 Line[262144] (150000): ok
+offsets: 1360000/1126400
 Line[262144] (160000): ok
+offsets: 1530000/1126400
 Line[262144] (170000): ok
+offsets: 1710000/1331200
 Line[262144] (180000): ok
+offsets: 1900000/1392969
 Line[262144] (190000): ok
 Same file, getDelim() / read() / getDelim()
 Reading compressed big file:
@@ -61,11 +94,15 @@ Line[262144] (120000): ok
 Line[262144] (130000): ok
 Line[262144] (140000): ok
 Line[262144] (150000): ok
+offsets: 1200000/921600
 read 28800 bytes: ok
 read 48226 bytes: ok
 Line[262144] (82974): ok
+offsets: 1360000/1024000
 read 10 bytes: ok
 Line[262144] (169990): ok
 Line[262144] (180000): ok
+offsets: 1710000/1331200
 read 120000 bytes: ok
 Line[262144] (70000): ok
+offsets: 1900000/1392969

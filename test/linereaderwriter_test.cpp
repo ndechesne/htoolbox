@@ -33,7 +33,7 @@ int main() {
   report.setLevel(regression);
 
   IReaderWriter* fr;
-  LineReaderWriter*    readfile;
+  LineReaderWriter* readfile;
 
   IReaderWriter* writefile;
 
@@ -59,9 +59,11 @@ int main() {
   readfile->open();
   cout << "Reading uncompressed empty file:" << endl;
   while ((line_size = readfile->getLine(&line_test, &line_test_capacity)) > 0) {
+    hlog_regression("offsets: %jd/%jd", readfile->offset(), readfile->childOffset());
     hlog_regression("Line[%zu] (%zd): '%s'",
       line_test_capacity, line_size, line_test);
   }
+  hlog_regression("offsets: %jd/%jd", readfile->offset(), readfile->childOffset());
   if (readfile->close()) cout << "Error closing read file" << endl;
   delete readfile;
 
@@ -85,9 +87,11 @@ int main() {
   }
   cout << "Reading uncompressed file:" << endl;
   while ((line_size = readfile->getLine(&line_test, &line_test_capacity)) > 0) {
+    hlog_regression("offsets: %jd/%jd", readfile->offset(), readfile->childOffset());
     hlog_regression("Line[%zu] (%zd): '%s'",
       line_test_capacity, line_size, line_test);
   }
+  hlog_regression("offsets: %jd/%jd", readfile->offset(), readfile->childOffset());
   if (readfile->close()) cout << "Error closing read file" << endl;
   delete readfile;
 
@@ -113,9 +117,11 @@ int main() {
   readfile->open();
   cout << "Reading compressed empty file:" << endl;
   while ((line_size = readfile->getLine(&line_test, &line_test_capacity)) > 0) {
+    hlog_regression("offsets: %jd/%jd", readfile->offset(), readfile->childOffset());
     hlog_regression("Line[%zu] (%zd): '%s'",
       line_test_capacity, line_size, line_test);
   }
+  hlog_regression("offsets: %jd/%jd", readfile->offset(), readfile->childOffset());
   if (readfile->close()) cout << "Error closing read file" << endl;
   delete readfile;
 
@@ -144,9 +150,11 @@ int main() {
   }
   cout << "Reading compressed file:" << endl;
   while ((line_size = readfile->getLine(&line_test, &line_test_capacity)) > 0) {
+    hlog_regression("offsets: %jd/%jd", readfile->offset(), readfile->childOffset());
     hlog_regression("Line[%zu] (%zd): '%s'",
       line_test_capacity, line_size, line_test);
   }
+  hlog_regression("offsets: %jd/%jd", readfile->offset(), readfile->childOffset());
   if (readfile->close()) cout << "Error closing read file" << endl;
   delete readfile;
 
@@ -172,9 +180,11 @@ int main() {
   }
   cout << "Reading compressed file:" << endl;
   while ((line_size = readfile->getLine(&line_test, &line_test_capacity, '\b')) > 0) {
+    hlog_regression("offsets: %jd/%jd", readfile->offset(), readfile->childOffset());
     hlog_regression("Line[%zu] (%zd): '%s'",
       line_test_capacity, line_size, line_test);
   }
+  hlog_regression("offsets: %jd/%jd", readfile->offset(), readfile->childOffset());
   if (readfile->close()) cout << "Error closing read file" << endl;
   delete readfile;
 
@@ -208,6 +218,7 @@ int main() {
   }
   cout << "Reading compressed big file:" << endl;
   while ((line_size = readfile->getLine(&line_test, &line_test_capacity, '\b')) > 0) {
+    hlog_regression("offsets: %jd/%jd", readfile->offset(), readfile->childOffset());
     bool ok = (line_test[0] == '\n') &&
               (memcmp(line, &line_test[1], line_size - 2) == 0) &&
               (line_test[line_size - 1] == '\b');
@@ -251,6 +262,7 @@ int main() {
     hlog_regression("Line[%zu] (%zd): %s",
       line_test_capacity, line_size, ok ? "ok" : "ko");
     if (iteration == 15) {
+      hlog_regression("offsets: %jd/%jd", readfile->offset(), readfile->childOffset());
       line_size = readfile->read(line_test, 100000);  // Reads 28800
       line_test[line_size] = '\0';
       ok = (line_test[0] == '\n') &&
@@ -262,6 +274,7 @@ int main() {
       hlog_regression("read %zd bytes: %s", line_size, ok ? "ok" : "ko");
     } else
     if (iteration == 16) {
+      hlog_regression("offsets: %jd/%jd", readfile->offset(), readfile->childOffset());
       line_size = readfile->get(line_test, 10);
       line_test[line_size] = '\0';
       ok = (line_test[0] == '\n') &&
@@ -269,6 +282,7 @@ int main() {
       hlog_regression("read %zd bytes: %s", line_size, ok ? "ok" : "ko");
     } else
     if (iteration == 18) {
+      hlog_regression("offsets: %jd/%jd", readfile->offset(), readfile->childOffset());
       line_size = readfile->get(line_test, 120000);
       line_test[line_size] = '\0';
       ok = (line_test[0] == '\n') &&
@@ -276,6 +290,7 @@ int main() {
       hlog_regression("read %zd bytes: %s", line_size, ok ? "ok" : "ko");
     }
   }
+  hlog_regression("offsets: %jd/%jd", readfile->offset(), readfile->childOffset());
   if (readfile->close()) cout << "Error closing read file" << endl;
   delete readfile;
 

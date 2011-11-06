@@ -69,6 +69,7 @@ LineReaderWriter::~LineReaderWriter() {
 
 int LineReaderWriter::open() {
   _d->reset();
+  _offset = 0;
   return _d->child->open();
 }
 
@@ -85,10 +86,11 @@ ssize_t LineReaderWriter::read(void* buffer, size_t size) {
     }
     memcpy(buffer, _d->reader, copy_size);
     _d->reader += copy_size;
-    return copy_size;
   } else {
-    return _d->child->read(buffer, size);
+    copy_size = _d->child->read(buffer, size);
   }
+  _offset += copy_size;
+  return copy_size;
 }
 
 ssize_t LineReaderWriter::get(void* buffer, size_t size) {
@@ -102,6 +104,7 @@ ssize_t LineReaderWriter::get(void* buffer, size_t size) {
     memcpy(buffer, _d->reader, copy_size);
     _d->reader += copy_size;
     if (copy_size == size) {
+      _offset += copy_size;
       return copy_size;
     }
   }
@@ -112,11 +115,20 @@ ssize_t LineReaderWriter::get(void* buffer, size_t size) {
     return rc;
   }
   copy_size += rc;
+  _offset += copy_size;
   return copy_size;
 }
 
 ssize_t LineReaderWriter::put(const void* buffer, size_t size) {
-  return _d->child->put(buffer, size);
+  ssize_t rc = _d->child->put(buffer, size);
+  if (rc > 0) {
+    _offset += rc;
+  }
+  return rc;
+}
+
+int64_t LineReaderWriter::childOffset() const {
+  return _child->offset();
 }
 
 ssize_t LineReaderWriter::getLine(char** buffer_p, size_t* capacity_p, int delim) {
@@ -157,6 +169,7 @@ ssize_t LineReaderWriter::getLine(char** buffer_p, size_t* capacity_p, int delim
     count += to_add;
   } while (! found);
   (*buffer_p)[count] = '\0';
+  _offset += count;
   return count;
 }
 
@@ -165,5 +178,6 @@ ssize_t LineReaderWriter::putLine(const void* buffer, size_t size, int delim) {
   if ((rc < 0) || (_d->child->put(&delim, 1) < 0)) {
     return -1;
   }
+  _offset += rc + 1;
   return rc;
 }

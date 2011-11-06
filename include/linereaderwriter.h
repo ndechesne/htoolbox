@@ -28,8 +28,9 @@ namespace htoolbox {
  * time.
  */
 class LineReaderWriter : public IReaderWriter {
-  struct         Private;
-  Private* const _d;
+  struct          Private;
+  Private* const  _d;
+  int64_t         _offset;
 public:
   //! \brief Constructor
   /*!
@@ -43,6 +44,8 @@ public:
   ssize_t read(void* buffer, size_t size);
   ssize_t get(void* buffer, size_t size);
   ssize_t put(const void* buffer, size_t size);
+  int64_t offset() const { return _offset; }
+  int64_t childOffset() const;
   //! \brief Read complete line from stream
   /*!
    * getLine() reads an entire line from the underlying stream, storing the
