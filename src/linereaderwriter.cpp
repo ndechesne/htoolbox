@@ -33,31 +33,6 @@ struct LineReaderWriter::Private {
   const char*     buffer_end;
   const char*     reader;
   Private(IReaderWriter* c) : child(c) {}
-  void reset() {
-    reader = buffer_end = buffer;
-  }
-  ssize_t refill() {
-    ssize_t rc = child->get(buffer, sizeof(buffer));
-    reader = buffer;
-    buffer_end = buffer + rc;
-    return rc;
-  }
-  static int grow(char** buffer, size_t* capacity_p, size_t target) {
-    bool no_realloc = false;
-    if ((*buffer == NULL) || (*capacity_p == 0)) {
-      *capacity_p = 1;
-      no_realloc = true;
-    }
-    while (*capacity_p < target) {
-      *capacity_p <<= 1;
-    }
-    if (no_realloc) {
-      *buffer = static_cast<char*>(malloc(*capacity_p));
-    } else {
-      *buffer = static_cast<char*>(realloc(*buffer, *capacity_p));
-    }
-    return *buffer == NULL ? -1 : 0;
-  }
 };
 
 LineReaderWriter::LineReaderWriter(IReaderWriter* child, bool delete_child) :
@@ -68,7 +43,7 @@ LineReaderWriter::~LineReaderWriter() {
 }
 
 int LineReaderWriter::open() {
-  _d->reset();
+  _d->reader = _d->buffer_end = _d->buffer;
   _offset = 0;
   return _d->child->open();
 }
@@ -136,18 +111,23 @@ ssize_t LineReaderWriter::getLine(char** buffer_p, size_t* capacity_p, int delim
   size_t count = 0;
   bool   found = false;
   // Initialise buffer, at least for the null character
-  _d->grow(buffer_p, capacity_p, 128);
+  if ((*buffer_p == NULL) || (*capacity_p == 0)) {
+    *capacity_p = 1024;
+    *buffer_p = static_cast<char*>(malloc(*capacity_p));
+  }
   // Look for delimiter or end of file
   do {
     // Fill up the buffer
     if (_d->reader == _d->buffer_end) {
-      ssize_t rc = _d->refill();
+      ssize_t rc = _d->child->get(_d->buffer, sizeof(_d->buffer));
       if (rc < 0) {
         return rc;
       }
       if (rc == 0) {
         break;
       }
+      _d->reader = _d->buffer;
+      _d->buffer_end = _d->buffer + rc;
     }
     // Look for delimiter or end of buffer
     const char* start_reader = _d->reader;
@@ -161,9 +141,12 @@ ssize_t LineReaderWriter::getLine(char** buffer_p, size_t* capacity_p, int delim
     }
     // Copy whatever we read
     size_t to_add = _d->reader - start_reader;
-    if ((count + to_add >= *capacity_p) || (buffer_p == NULL)) {
+    if (count + to_add >= *capacity_p) {
       // Leave one space for the null character
-      _d->grow(buffer_p, capacity_p, count + to_add + 1);
+      while (*capacity_p < (count + to_add + 1)) {
+        *capacity_p <<= 1;
+      }
+      *buffer_p = static_cast<char*>(realloc(*buffer_p, *capacity_p));
     }
     memcpy(&(*buffer_p)[count], start_reader, to_add);
     count += to_add;

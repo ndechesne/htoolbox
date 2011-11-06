@@ -4,13 +4,13 @@ offsets: 0/0
 Simple file
 Reading uncompressed file:
 offsets: 7/14
-Line[128] (7): 'abcdef
+Line[1024] (7): 'abcdef
 '
 offsets: 11/14
-Line[128] (4): 'ghi
+Line[1024] (4): 'ghi
 '
 offsets: 14/14
-Line[128] (3): 'jkl'
+Line[1024] (3): 'jkl'
 offsets: 14/14
 Compressed empty file
 Reading compressed empty file:
@@ -18,23 +18,23 @@ offsets: 0/20
 Compressed simple file
 Reading compressed file:
 offsets: 7/34
-Line[128] (7): 'abcdef
+Line[1024] (7): 'abcdef
 '
 offsets: 11/34
-Line[128] (4): 'ghi
+Line[1024] (4): 'ghi
 '
 offsets: 14/34
-Line[128] (3): 'jkl'
+Line[1024] (3): 'jkl'
 offsets: 14/34
 Compressed simple file, getDelim()
 Reading compressed file:
 offsets: 7/36
-Line[128] (7): 'abcdef<'
+Line[1024] (7): 'abcdef<'
 offsets: 12/36
-Line[128] (5): '
+Line[1024] (5): '
 ghi<'
 offsets: 16/36
-Line[128] (4): '
+Line[1024] (4): '
 jkl'
 offsets: 16/36
 Compressed huge file with huge lines, getDelim()
