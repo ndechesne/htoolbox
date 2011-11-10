@@ -65,6 +65,15 @@ public:
     size_t*         capacity_p,
     int             delim = '\n',
     int             delim2 = -1);
+  //! \brief Get number of delimiters found by getLine
+  /*!
+   * delimsWereFound() returns whether the delimiter(s) was (were) indeed found
+   * during the last run of getLine().  If getLine() was never run, its value is
+   * undefined.
+   *
+   * \return            (all) delimiter(s) was (were) found
+  */
+  bool delimsWereFound() const;
   //! \brief Write a line to stream
   /*!
    * putLine() writes size bytes of buffer to the underlying stream, and adds

@@ -32,6 +32,7 @@ struct LineReaderWriter::Private {
   char            buffer[102400];
   const char*     buffer_end;
   const char*     reader;
+  bool            found;
   Private(IReaderWriter* c) : child(c) {}
 };
 
@@ -119,7 +120,7 @@ ssize_t LineReaderWriter::getLine(
   // Find end of line or end of file
   size_t count = 0;
   bool   found_first = false;
-  bool   found = false;
+  _d->found = false;
   // Look for delimiter or end of file
   do {
     // Fill up the buffer
@@ -137,12 +138,12 @@ ssize_t LineReaderWriter::getLine(
     const char* start_reader = _d->reader;
     if (found_first) {
       if (*_d->reader++ == delim2) {
-        found = true;
+        _d->found = true;
       } else {
         found_first = false;
       }
     }
-    if (! found) {
+    if (! _d->found) {
       // Look for delimiter or end of buffer
       const void* pos = memchr(_d->reader, delim, _d->buffer_end - _d->reader);
       if (pos == NULL) {
@@ -151,10 +152,10 @@ ssize_t LineReaderWriter::getLine(
         _d->reader = static_cast<const char*>(pos);
         _d->reader++;
         if (delim2 < 0) {
-          found = true;
+          _d->found = true;
         } else
         if ((_d->reader < _d->buffer_end) && (*_d->reader++ == delim2)) {
-          found = true;
+          _d->found = true;
         } else {
           found_first = true;
         }
@@ -171,10 +172,14 @@ ssize_t LineReaderWriter::getLine(
     }
     memcpy(&(*buffer_p)[count], start_reader, to_add);
     count += to_add;
-  } while (! found);
+  } while (! _d->found);
   (*buffer_p)[count] = '\0';
   _offset += count;
   return count;
+}
+
+bool LineReaderWriter::delimsWereFound() const {
+  return _d->found;
 }
 
 ssize_t LineReaderWriter::putLine(
