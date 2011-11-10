@@ -67,6 +67,8 @@ int main() {
   if (readfile->close()) cout << "Error closing read file" << endl;
   delete readfile;
 
+  free(line_test);
+
 
   hlog_regression("Simple file");
 
@@ -82,11 +84,45 @@ int main() {
 
   fr = new FileReaderWriter("lineread", false);
   readfile = new LineReaderWriter(fr, true);
+  line_test = NULL;
+  line_test_capacity = 0;
   if (readfile->open()) {
     cout << "Error opening file: " << strerror(errno) << endl;
   }
   cout << "Reading uncompressed file:" << endl;
   while ((line_size = readfile->getLine(&line_test, &line_test_capacity)) > 0) {
+    hlog_regression("offsets: %jd/%jd", readfile->offset(), readfile->childOffset());
+    hlog_regression("Line[%zu] (%zd): '%s'",
+      line_test_capacity, line_size, line_test);
+  }
+  hlog_regression("offsets: %jd/%jd", readfile->offset(), readfile->childOffset());
+  if (readfile->close()) cout << "Error closing read file" << endl;
+  delete readfile;
+
+  free(line_test);
+
+
+  hlog_regression("Simple file, two delimiters");
+
+  writefile = new FileReaderWriter("lineread", true);
+  if (writefile->open()) {
+    cout << "Error opening file: " << strerror(errno) << endl;
+  } else {
+    writefile->put("abcdef\r\nghi\r\njkl\r", 14);
+    writefile->put(NULL, 0);
+    if (writefile->close()) cout << "Error closing write file" << endl;
+  }
+  delete writefile;
+
+  fr = new FileReaderWriter("lineread", false);
+  readfile = new LineReaderWriter(fr, true);
+  line_test = NULL;
+  line_test_capacity = 0;
+  if (readfile->open()) {
+    cout << "Error opening file: " << strerror(errno) << endl;
+  }
+  cout << "Reading uncompressed file:" << endl;
+  while ((line_size = readfile->getLine(&line_test, &line_test_capacity, '\r', '\n')) > 0) {
     hlog_regression("offsets: %jd/%jd", readfile->offset(), readfile->childOffset());
     hlog_regression("Line[%zu] (%zd): '%s'",
       line_test_capacity, line_size, line_test);
@@ -159,7 +195,7 @@ int main() {
   delete readfile;
 
 
-  hlog_regression("Compressed simple file, getDelim()");
+  hlog_regression("Compressed simple file, specified delimiter");
 
   writefile = new FileReaderWriter("lineread.gz", true);
   writefile = new Zipper(writefile, true, 5);
@@ -189,7 +225,7 @@ int main() {
   delete readfile;
 
 
-  hlog_regression("Compressed huge file with huge lines, getDelim()");
+  hlog_regression("Compressed huge file with huge lines, specified delimiter");
 
   char line[200000];
   for (size_t i = 0; i < sizeof(line); ++i) {
@@ -229,7 +265,7 @@ int main() {
   delete readfile;
 
 
-  hlog_regression("Same file, getDelim() / read() / getDelim()");
+  hlog_regression("Same file, getLine() / read() / getLine()");
 
   fr = new FileReaderWriter("lineread.gz", false);
   fr = new Zipper(fr, true);
@@ -291,6 +327,49 @@ int main() {
     }
   }
   hlog_regression("offsets: %jd/%jd", readfile->offset(), readfile->childOffset());
+  if (readfile->close()) cout << "Error closing read file" << endl;
+  delete readfile;
+
+
+  free(line_test);
+  line_test = NULL;
+
+  hlog_regression("Compressed huge file with huge lines, two delimiters");
+
+  for (size_t i = 0; i < sizeof(line); ++i) {
+    line[i] = static_cast<char>((rand() & 0x3f) + 0x20);
+  }
+  writefile = new FileReaderWriter("lineread.gz", true);
+  writefile = new Zipper(writefile, true, 5);
+  writeline = new LineReaderWriter(writefile, false);
+  if (writeline->open()) {
+    cout << "Error opening file: " << strerror(errno) << endl;
+  } else {
+    for (size_t i = 1; i < 20; ++i) {
+      writeline->put("\n", 1);
+      writeline->putLine(line, sizeof(line) * i / 20 - 3, '\b', '\r');
+    }
+    if (writeline->close()) cout << "Error closing write file" << endl;
+  }
+  delete writeline;
+  delete writefile;
+
+  fr = new FileReaderWriter("lineread.gz", false);
+  fr = new Zipper(fr, true);
+  readfile = new LineReaderWriter(fr, true);
+  if (readfile->open()) {
+    cout << "Error opening file: " << strerror(errno) << endl;
+  }
+  cout << "Reading compressed big file:" << endl;
+  while ((line_size = readfile->getLine(&line_test, &line_test_capacity, '\b', '\r')) > 0) {
+    hlog_regression("offsets: %jd/%jd", readfile->offset(), readfile->childOffset());
+    bool ok = (line_test[0] == '\n') &&
+              (memcmp(line, &line_test[1], line_size - 3) == 0) &&
+              (line_test[line_size - 2] == '\b') &&
+              (line_test[line_size - 1] == '\r');
+    hlog_regression("Line[%zu] (%zd): %s",
+      line_test_capacity, line_size, ok ? "ok" : "ko");
+  }
   if (readfile->close()) cout << "Error closing read file" << endl;
   delete readfile;
 

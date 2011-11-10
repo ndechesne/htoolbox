@@ -23,8 +23,8 @@ namespace htoolbox {
 
 //! \brief Line per line reader
 /*!
- * Allows to read a file line by line using getLine() or, if you need to specify
- * the delimiter, using getDelim().  The read() function may also be used at any
+ * Allows to read a file line by line using getLine() whichs allows you to
+ * specify up to too delimiters.  The read() function may also be used at any
  * time.
  */
 class LineReaderWriter : public IReaderWriter {
@@ -50,27 +50,39 @@ public:
   /*!
    * getLine() reads an entire line from the underlying stream, storing the
    * address of the buffer containing the text into *buffer.  A delimiter other
-   * than newline can be specified as the delimiter argument.  The buffer is
-   * null-terminated and includes the delimiter character, if one was found.
+   * than newline can be specified as the delimiter argument, and a second
+   * delimiter expected right after the first can also be specified.  The buffer
+   * isnull-terminated and includes the delimiter characters, if found.
    *
    * \param buffer_p    pointer to the current/realloc'd buffer
    * \param capacity_p  *buffer_p's current/updated capacity
    * \param delim       delimiter to use
+   * \param delim2      second delimiter to use
    * \return            negative number on failure, buffer size on success
   */
-  ssize_t getLine(char** buffer_p, size_t* capacity_p, int delim = '\n');
+  ssize_t getLine(
+    char**          buffer_p,
+    size_t*         capacity_p,
+    int             delim = '\n',
+    int             delim2 = -1);
   //! \brief Write a line to stream
   /*!
    * putLine() writes size bytes of buffer to the underlying stream, and adds
-   * the delimiter character.  A delimiter other than newline can be specified
-   * as the delimiter argument.
+   * the delimiter character(s).  A delimiter other than newline can be
+   * specified as the delimiter argument, and a second delimiter can be
+   * specified.
    *
    * \param buffer      buffer from which to read the data
    * \param size        provided number of bytes
    * \param delim       delimiter to use
+   * \param delim2      second delimiter to use
    * \return            negative number on failure, size on success
   */
-  ssize_t putLine(const void* buffer, size_t size, int delim = '\n');
+  ssize_t putLine(
+    const void*     buffer,
+    size_t          size,
+    int             delim = '\n',
+    int             delim2 = -1);
 };
 
 };

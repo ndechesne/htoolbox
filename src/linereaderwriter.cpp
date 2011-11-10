@@ -106,15 +106,20 @@ int64_t LineReaderWriter::childOffset() const {
   return _child->offset();
 }
 
-ssize_t LineReaderWriter::getLine(char** buffer_p, size_t* capacity_p, int delim) {
-  // Find end of line or end of file
-  size_t count = 0;
-  bool   found = false;
+ssize_t LineReaderWriter::getLine(
+    char**          buffer_p,
+    size_t*         capacity_p,
+    int             delim,
+    int             delim2) {
   // Initialise buffer, at least for the null character
   if ((*buffer_p == NULL) || (*capacity_p == 0)) {
     *capacity_p = 1024;
     *buffer_p = static_cast<char*>(malloc(*capacity_p));
   }
+  // Find end of line or end of file
+  size_t count = 0;
+  bool   found_first = false;
+  bool   found = false;
   // Look for delimiter or end of file
   do {
     // Fill up the buffer
@@ -129,15 +134,31 @@ ssize_t LineReaderWriter::getLine(char** buffer_p, size_t* capacity_p, int delim
       _d->reader = _d->buffer;
       _d->buffer_end = _d->buffer + rc;
     }
-    // Look for delimiter or end of buffer
     const char* start_reader = _d->reader;
-    const void* pos = memchr(_d->reader, delim, _d->buffer_end - _d->reader);
-    if (pos == NULL) {
-      _d->reader = _d->buffer_end;
-    } else {
-      _d->reader = static_cast<const char*>(pos);
-      _d->reader++;
-      found = true;
+    if (found_first) {
+      if (*_d->reader++ == delim2) {
+        found = true;
+      } else {
+        found_first = false;
+      }
+    }
+    if (! found) {
+      // Look for delimiter or end of buffer
+      const void* pos = memchr(_d->reader, delim, _d->buffer_end - _d->reader);
+      if (pos == NULL) {
+        _d->reader = _d->buffer_end;
+      } else {
+        _d->reader = static_cast<const char*>(pos);
+        _d->reader++;
+        if (delim2 < 0) {
+          found = true;
+        } else
+        if ((_d->reader < _d->buffer_end) && (*_d->reader++ == delim2)) {
+          found = true;
+        } else {
+          found_first = true;
+        }
+      }
     }
     // Copy whatever we read
     size_t to_add = _d->reader - start_reader;
@@ -156,11 +177,21 @@ ssize_t LineReaderWriter::getLine(char** buffer_p, size_t* capacity_p, int delim
   return count;
 }
 
-ssize_t LineReaderWriter::putLine(const void* buffer, size_t size, int delim) {
+ssize_t LineReaderWriter::putLine(
+    const void*     buffer,
+    size_t          size,
+    int             delim,
+    int             delim2) {
   ssize_t rc = _d->child->put(buffer, size);
   if ((rc < 0) || (_d->child->put(&delim, 1) < 0)) {
     return -1;
   }
   _offset += rc + 1;
+  if (delim2 >= 0) {
+    if (_d->child->put(&delim2, 1) < 0) {
+      return -1;
+    }
+    ++_offset;
+  }
   return rc;
 }
