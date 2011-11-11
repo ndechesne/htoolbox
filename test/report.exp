@@ -681,27 +681,28 @@ Log to file
 Error logging to file
 Error: No such file or directory creating log file: 'missing/report.log'
 
-Tabs after file:line
-2009-08-07 06:05:04 INFO  f:1			whatever
-2009-08-07 06:05:04 INFO  fg:2			whatever
-2009-08-07 06:05:04 INFO  fgh:3			whatever
-2009-08-07 06:05:04 INFO  fghi:4		whatever
-2009-08-07 06:05:04 INFO  fghij:5		whatever
-2009-08-07 06:05:04 INFO  fghijk:6		whatever
-2009-08-07 06:05:04 INFO  fghijkl:7		whatever
-2009-08-07 06:05:04 INFO  fghijklm:8		whatever
-2009-08-07 06:05:04 INFO  fghijklmn:9		whatever
-2009-08-07 06:05:04 INFO  fghijklmn:10		whatever
-2009-08-07 06:05:04 INFO  fghijklmno:11		whatever
-2009-08-07 06:05:04 INFO  fghijklmnop:12	whatever
-2009-08-07 06:05:04 INFO  fghijklmnopq:13	whatever
-2009-08-07 06:05:04 INFO  fghijklmnopqr:14	whatever
-2009-08-07 06:05:04 INFO  fghijklmnopqrs:15	whatever
-2009-08-07 06:05:04 INFO  fghijklmnopqrst:16	whatever
-2009-08-07 06:05:04 INFO  fghijklmnopqrstu:17	whatever
-2009-08-07 06:05:04 INFO  fghijklmnopqrstuv:18	whatever
-2009-08-07 06:05:04 INFO  fghijklmnopqrstuvw:19	whatever
-2009-08-07 06:05:04 INFO  fghijklmnopqrstuvwx:20	whatever
+Tabs after file:line and thread ID
+2009-08-07 06:05:04 ERROR 1234567 f:3			whatever
+2009-08-07 06:05:04 WARN  f:3			whatever
+2009-08-07 06:05:04 INFO  1234567 fg:4			whatever
+2009-08-07 06:05:04 INFO  1234567 fgh:5			whatever
+2009-08-07 06:05:04 INFO  1234567 fghi:6		whatever
+2009-08-07 06:05:04 INFO  1234567 fghij:7		whatever
+2009-08-07 06:05:04 INFO  1234567 fghijk:8		whatever
+2009-08-07 06:05:04 INFO  1234567 fghijkl:9		whatever
+2009-08-07 06:05:04 INFO  1234567 fghijkl:10		whatever
+2009-08-07 06:05:04 INFO        0 fghijklm:11		whatever
+2009-08-07 06:05:04 INFO  1234567 fghijklmn:12		whatever
+2009-08-07 06:05:04 INFO  1234567 fghijklmno:13		whatever
+2009-08-07 06:05:04 INFO  1234567 fghijklmnop:14	whatever
+2009-08-07 06:05:04 INFO  1234567 fghijklmnopq:15	whatever
+2009-08-07 06:05:04 INFO  1234567 fghijklmnopqr:16	whatever
+2009-08-07 06:05:04 INFO  1234567 fghijklmnopqrs:17	whatever
+2009-08-07 06:05:04 INFO  1234567 fghijklmnopqrst:18	whatever
+2009-08-07 06:05:04 INFO  1234567 fghijklmnopqrstu:19	whatever
+2009-08-07 06:05:04 INFO  1234567 fghijklmnopqrstuv:20	whatever
+2009-08-07 06:05:04 INFO  1234567 fghijklmnopqrstuvw:21	whatever
+2009-08-07 06:05:04 INFO  1234567 fghijklmnopqrstuvwx:22	whatever
 
 Rotate file
 report.log:
@@ -804,9 +805,9 @@ ALERT! some message with a number 9
 message with a number 10
 
 Log to file, no LF
-2009-08-07 06:05:04 INFO  report_test.cpp:922	message start...middle...
-2009-08-07 06:05:04 VERB  report_test.cpp:924	different level
-2009-08-07 06:05:04 INFO  report_test.cpp:925	message start...end
-2009-08-07 06:05:04 INFO  report_test.cpp:927	other message
+2009-08-07 06:05:04 INFO  1234567 report_test.cpp:924	message start...middle...
+2009-08-07 06:05:04 VERB  1234567 report_test.cpp:926	different level
+2009-08-07 06:05:04 INFO  1234567 report_test.cpp:927	message start...end
+2009-08-07 06:05:04 INFO  1234567 report_test.cpp:929	other message
 
 End of tests

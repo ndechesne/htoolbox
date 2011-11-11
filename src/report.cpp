@@ -41,6 +41,8 @@ using namespace htoolbox;
 
 Report htoolbox::report("default report");
 __thread Report* htoolbox::tl_report;
+// Thread IDs
+__thread int htoolbox::tl_thread_id = -1;
 
 enum {
   FILE_NAME_MAX = 128,
@@ -129,6 +131,7 @@ int Report::log(
     Level           level,
     int             flags,
     int             indentation,
+    int             thread_id,
     const char*     format,
     ...) {
   va_list ap;
@@ -142,8 +145,8 @@ int Report::log(
     if (output->isOpen() && (level <= output->level())) {
       va_list aq;
       va_copy(aq, ap);
-      if (output->log(file, line, function, level, flags, indentation, format,
-          &aq) < 0) {
+      if (output->log(file, line, function, level, flags, indentation,
+          thread_id, format, &aq) < 0) {
         rc = -1;
       }
       va_end(aq);
@@ -174,11 +177,13 @@ int Report::ConsoleOutput::log(
     Level           level,
     int             flags,
     int             indentation,
+    int             thread_id,
     const char*     format,
     va_list*        args) {
   (void) file;
   (void) line;
   (void) function;
+  (void) thread_id;
   FILE* fd = (level <= warning) ? stderr : stdout;
   char buffer[1024];
   size_t offset = 0;
@@ -504,6 +509,7 @@ int Report::FileOutput::log(
     Level           level,
     int             flags,
     int             indentation,
+    int             thread_id,
     const char*     format,
     va_list*        args) {
   (void) function;
@@ -549,6 +555,10 @@ int Report::FileOutput::log(
       case regression:
         rc += fprintf(_d->fd, "REGR  ");
         break;
+    }
+    // thread ID
+    if (thread_id >= 0) {
+      rc += fprintf(_d->fd, "%7d ", thread_id);
     }
     // location
     int file_len = fprintf(_d->fd, "%s:%zd\t", file, line);
@@ -600,20 +610,21 @@ int Report::TlvOutput::log(
     Level           level,
     int             flags,
     int             indent,
+    int             thread_id,
     const char*     format,
     va_list*        args) {
-  uint16_t tag = tlv::log_start_tag;
   tlv::TransmissionManager m;
-  m.add(tag++, file, strlen(file));
-  m.add(tag++, static_cast<int32_t>(line));
-  m.add(tag++, function, strlen(function));
-  m.add(tag++, level);
-  m.add(tag++, flags);
-  m.add(tag++, indent);
+  m.add(tlv::log_start_tag + 0, file, strlen(file));
+  m.add(tlv::log_start_tag + 1, static_cast<int32_t>(line));
+  m.add(tlv::log_start_tag + 2, function, strlen(function));
+  m.add(tlv::log_start_tag + 3, level);
+  m.add(tlv::log_start_tag + 4, flags);
+  m.add(tlv::log_start_tag + 5, indent);
+  m.add(tlv::log_start_tag + 6, thread_id);
   char buffer[65536];
   int len = vsnprintf(buffer, sizeof(buffer), format, *args);
   buffer[sizeof(buffer) - 1] = '\0';
-  m.add(tag++, buffer, len);
+  m.add(tlv::log_start_tag + 8, buffer, len);
   if (m.send(_sender, false) < 0) {
     return -1;
   }
@@ -630,14 +641,14 @@ int Report::TlvManager::submit(uint16_t tag, size_t size, const char* val) {
   if (rc < 0) {
     return rc;
   }
-  if (tag == tlv::log_start_tag + 6) {
+  if (tag == tlv::log_start_tag + 8) {
     Level level = static_cast<Level>(_level);
     if (tl_report != NULL) {
       tl_report->log(_file.c_str(), _line, _function.c_str(), level, _flags,
-        _indent, "%s", val);
+        _indent, _thread_id, "%s", val);
     }
     report.log(_file.c_str(), _line, _file.c_str(), level, _flags,
-      _indent, "%s", val);
+      _indent, _thread_id, "%s", val);
   }
   return 0;
 }
@@ -784,6 +795,7 @@ int Report::Filter::log(
     Level           level,
     int             flags,
     int             indentation,
+    int             thread_id,
     const char*     format,
     va_list*        args) {
   // If the level is loggable, accept
@@ -799,7 +811,8 @@ int Report::Filter::log(
     }
   }
   if (log_me) {
-    return _output->log(file, line, function, level, flags, indentation, format, args);
+    return _output->log(file, line, function, level, flags, indentation,
+      thread_id, format, args);
   }
   return 0;
 }

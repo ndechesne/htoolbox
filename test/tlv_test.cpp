@@ -140,8 +140,11 @@ int main(void) {
     return 0;
   }
   report.add(&f);
+  tl_thread_id = 7654321;
   hlog_info("this log should be send over the socket (%d)", 9);
-  report.log("file", 12345, "", warning, true, 3,
+  tl_thread_id = -1;
+  hlog_info("this one too, but without thread ID (%d)", 9);
+  report.log("file", 12345, "", warning, true, 3, 7654321,
     "this is some text with a number %d", 17);
   tl_report = &report;
   hlog_info("message sent twice to socket");

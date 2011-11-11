@@ -596,93 +596,93 @@ int main(void) {
   report.add(&fil);
   report.show(info, 0, false);
   // Won't appear as level is info
-  report.log("file0", 20, "func0", verbose, false, -1, "file0:20:func0 VERBOSE: blah");
+  report.log("file0", 20, "func0", verbose, false, -1, -1, "file0:20:func0 VERBOSE: blah");
   // Will appear
-  report.log("file1", 2, "func1", info, false, -1, "file1:2:func1 INFO: blah");
-  report.log("file1", 10, "func2", info, false, -1, "file1:10:func2 INFO: blah");
-  report.log("file1", 20, "func3", info, false, -1, "file1:20:func3 INFO: blah");
+  report.log("file1", 2, "func1", info, false, -1, -1, "file1:2:func1 INFO: blah");
+  report.log("file1", 10, "func2", info, false, -1, -1, "file1:10:func2 INFO: blah");
+  report.log("file1", 20, "func3", info, false, -1, -1, "file1:20:func3 INFO: blah");
   // Won't appear as level is info
-  report.log("file1", 20, "func4", debug, false, -1, "file1:20:func4 DEBUG: blah");
-  report.log("file2", 10, "func5", debug, false, -1, "file2:10:func5 DEBUG: blah");
+  report.log("file1", 20, "func4", debug, false, -1, -1, "file1:20:func4 DEBUG: blah");
+  report.log("file2", 10, "func5", debug, false, -1, -1, "file2:10:func5 DEBUG: blah");
   // Will appear
-  report.log("file2", 20, "func6", info, false, -1, "file2:20:func6 INFO: blah");
+  report.log("file2", 20, "func6", info, false, -1, -1, "file2:20:func6 INFO: blah");
 
   // Reject file2 altogether
   fil.addCondition(Report::Filter::reject, "file2");
   report.show(info, 0, false);
   // Won't appear as level is info
-  report.log("file0", 20, "func0", verbose, false, -1, "file0:20:func0 VERBOSE: blah");
+  report.log("file0", 20, "func0", verbose, false, -1, -1, "file0:20:func0 VERBOSE: blah");
   // Will appear
-  report.log("file1", 2, "func1", info, false, -1, "file1:2:func1 INFO: blah");
-  report.log("file1", 10, "func2", info, false, -1, "file1:10:func2 INFO: blah");
-  report.log("file1", 20, "func3", info, false, -1, "file1:20:func3 INFO: blah");
+  report.log("file1", 2, "func1", info, false, -1, -1, "file1:2:func1 INFO: blah");
+  report.log("file1", 10, "func2", info, false, -1, -1, "file1:10:func2 INFO: blah");
+  report.log("file1", 20, "func3", info, false, -1, -1, "file1:20:func3 INFO: blah");
   // Won't appear as level is info
-  report.log("file1", 20, "func4", debug, false, -1, "file1:20:func4 DEBUG: blah");
+  report.log("file1", 20, "func4", debug, false, -1, -1, "file1:20:func4 DEBUG: blah");
   // Filtered out
-  report.log("file2", 10, "func5", debug, false, -1, "file2:10:func5 DEBUG: blah");
-  report.log("file2", 20, "func6", info, false, -1, "file2:20:func6 INFO: blah");
+  report.log("file2", 10, "func5", debug, false, -1, -1, "file2:10:func5 DEBUG: blah");
+  report.log("file2", 20, "func6", info, false, -1, -1, "file2:20:func6 INFO: blah");
 
   // Reject file1 line > 15
   fil.addCondition(Report::Filter::reject, "file1", 0, 15);
   report.show(info, 0, false);
   // Won't appear as level is info
-  report.log("file0", 20, "func0", verbose, false, -1, "file0:20:func0 VERBOSE: blah");
+  report.log("file0", 20, "func0", verbose, false, -1, -1, "file0:20:func0 VERBOSE: blah");
   // Filtered out
-  report.log("file1", 2, "func1", info, false, -1, "file1:2:func1 INFO: blah");
-  report.log("file1", 10, "func2", info, false, -1, "file1:10:func2 INFO: blah");
+  report.log("file1", 2, "func1", info, false, -1, -1, "file1:2:func1 INFO: blah");
+  report.log("file1", 10, "func2", info, false, -1, -1, "file1:10:func2 INFO: blah");
   // Will appear
-  report.log("file1", 20, "func3", info, false, -1, "file1:20:func3 INFO: blah");
+  report.log("file1", 20, "func3", info, false, -1, -1, "file1:20:func3 INFO: blah");
   // Won't appear as level is info
-  report.log("file1", 20, "func4", debug, false, -1, "file1:20:func4 DEBUG: blah");
+  report.log("file1", 20, "func4", debug, false, -1, -1, "file1:20:func4 DEBUG: blah");
   // Filtered out
-  report.log("file2", 10, "func5", debug, false, -1, "file2:10:func5 DEBUG: blah");
-  report.log("file2", 20, "func6", info, false, -1, "file2:20:func6 INFO: blah");
+  report.log("file2", 10, "func5", debug, false, -1, -1, "file2:10:func5 DEBUG: blah");
+  report.log("file2", 20, "func6", info, false, -1, -1, "file2:20:func6 INFO: blah");
 
   // Accept file1 5 < line < 25 level >= debug
   size_t index_1 = fil.addCondition(Report::Filter::force, "file1", 5, 25, debug);
   report.show(info, 0, false);
   // Won't appear as level is info
-  report.log("file0", 20, "func0", verbose, false, -1, "file0:20:func0 VERBOSE: blah");
+  report.log("file0", 20, "func0", verbose, false, -1, -1, "file0:20:func0 VERBOSE: blah");
   // Filtered out
-  report.log("file1", 2, "func1", info, false, -1, "file1:2:func1 INFO: blah");
+  report.log("file1", 2, "func1", info, false, -1, -1, "file1:2:func1 INFO: blah");
   // Will appear
-  report.log("file1", 10, "func2", info, false, -1, "file1:10:func2 INFO: blah");
-  report.log("file1", 20, "func3", info, false, -1, "file1:20:func3 INFO: blah");
-  report.log("file1", 20, "func4", debug, false, -1, "file1:20:func4 DEBUG: blah");
+  report.log("file1", 10, "func2", info, false, -1, -1, "file1:10:func2 INFO: blah");
+  report.log("file1", 20, "func3", info, false, -1, -1, "file1:20:func3 INFO: blah");
+  report.log("file1", 20, "func4", debug, false, -1, -1, "file1:20:func4 DEBUG: blah");
   // Filtered out
-  report.log("file2", 10, "func5", debug, false, -1, "file2:10:func5 DEBUG: blah");
-  report.log("file2", 20, "func6", info, false, -1, "file2:20:func6 INFO: blah");
+  report.log("file2", 10, "func5", debug, false, -1, -1, "file2:10:func5 DEBUG: blah");
+  report.log("file2", 20, "func6", info, false, -1, -1, "file2:20:func6 INFO: blah");
 
   // Accept all if level <= verbose
   size_t index_2 = fil.addCondition(Report::Filter::force,
     Report::Filter::ALL_FILES, 0, 0, alert, verbose);
   report.show(info, 0, false);
   // Will appear
-  report.log("file0", 20, "func0", verbose, false, -1, "file0:20:func0 VERBOSE: blah");
+  report.log("file0", 20, "func0", verbose, false, -1, -1, "file0:20:func0 VERBOSE: blah");
   // Filtered out
-  report.log("file1", 2, "func1", info, false, -1, "file1:2:func1 INFO: blah");
-  report.log("file1", 10, "func2", info, false, -1, "file1:10:func2 INFO: blah");
+  report.log("file1", 2, "func1", info, false, -1, -1, "file1:2:func1 INFO: blah");
+  report.log("file1", 10, "func2", info, false, -1, -1, "file1:10:func2 INFO: blah");
   // Will appear
-  report.log("file1", 20, "func3", info, false, -1, "file1:20:func3 INFO: blah");
-  report.log("file1", 20, "func4", debug, false, -1, "file1:20:func4 DEBUG: blah");
+  report.log("file1", 20, "func3", info, false, -1, -1, "file1:20:func3 INFO: blah");
+  report.log("file1", 20, "func4", debug, false, -1, -1, "file1:20:func4 DEBUG: blah");
   // Filtered out
-  report.log("file2", 10, "func5", debug, false, -1, "file2:10:func5 DEBUG: blah");
+  report.log("file2", 10, "func5", debug, false, -1, -1, "file2:10:func5 DEBUG: blah");
   // Will appear
-  report.log("file2", 20, "func6", info, false, -1, "file2:20:func6 INFO: blah");
+  report.log("file2", 20, "func6", info, false, -1, -1, "file2:20:func6 INFO: blah");
 
   // Remove rule on debug
   fil.removeCondition(index_1);
   report.show(info, 0, false);
   // Will appear
-  report.log("file0", 20, "func0", verbose, false, -1, "file0:20:func0 VERBOSE: blah");
-  report.log("file1", 2, "func1", info, false, -1, "file1:2:func1 INFO: blah");
-  report.log("file1", 10, "func2", info, false, -1, "file1:10:func2 INFO: blah");
-  report.log("file1", 20, "func3", info, false, -1, "file1:20:func3 INFO: blah");
+  report.log("file0", 20, "func0", verbose, false, -1, -1, "file0:20:func0 VERBOSE: blah");
+  report.log("file1", 2, "func1", info, false, -1, -1, "file1:2:func1 INFO: blah");
+  report.log("file1", 10, "func2", info, false, -1, -1, "file1:10:func2 INFO: blah");
+  report.log("file1", 20, "func3", info, false, -1, -1, "file1:20:func3 INFO: blah");
   // Filtered out
-  report.log("file1", 20, "func4", debug, false, -1, "file1:20:func4 DEBUG: blah");
-  report.log("file2", 10, "func5", debug, false, -1, "file2:10:func5 DEBUG: blah");
+  report.log("file1", 20, "func4", debug, false, -1, -1, "file1:20:func4 DEBUG: blah");
+  report.log("file2", 10, "func5", debug, false, -1, -1, "file2:10:func5 DEBUG: blah");
   // Will appear
-  report.log("file2", 20, "func6", info, false, -1, "file2:20:func6 INFO: blah");
+  report.log("file2", 20, "func6", info, false, -1, -1, "file2:20:func6 INFO: blah");
 
   // Remove rule for all files
   fil.removeCondition(index_2);
@@ -690,35 +690,35 @@ int main(void) {
   fil.addCondition(Report::Filter::accept, "file2");
   report.show(info, 0, false);
   // Won't appear as level is info
-  report.log("file0", 20, "func0", verbose, false, -1, "file0:20:func0 VERBOSE: blah");
+  report.log("file0", 20, "func0", verbose, false, -1, -1, "file0:20:func0 VERBOSE: blah");
   // Filtered out
-  report.log("file1", 2, "func1", info, false, -1, "file1:2:func1 INFO: blah");
-  report.log("file1", 10, "func2", info, false, -1, "file1:10:func2 INFO: blah");
+  report.log("file1", 2, "func1", info, false, -1, -1, "file1:2:func1 INFO: blah");
+  report.log("file1", 10, "func2", info, false, -1, -1, "file1:10:func2 INFO: blah");
   // Will appear
-  report.log("file1", 20, "func3", info, false, -1, "file1:20:func3 INFO: blah");
+  report.log("file1", 20, "func3", info, false, -1, -1, "file1:20:func3 INFO: blah");
   // Won't appear as level is info
-  report.log("file1", 20, "func4", debug, false, -1, "file1:20:func4 DEBUG: blah");
+  report.log("file1", 20, "func4", debug, false, -1, -1, "file1:20:func4 DEBUG: blah");
   // Filtered out
-  report.log("file2", 10, "func5", debug, false, -1, "file2:10:func5 DEBUG: blah");
+  report.log("file2", 10, "func5", debug, false, -1, -1, "file2:10:func5 DEBUG: blah");
   // Will appear
-  report.log("file2", 20, "func6", info, false, -1, "file2:20:func6 INFO: blah");
+  report.log("file2", 20, "func6", info, false, -1, -1, "file2:20:func6 INFO: blah");
 
   // Accept func5 from file2 level >= debug
   fil.addCondition(Report::Filter::force, "file2", "func5", debug, debug);
   report.show(info, 0, false);
   // Won't appear as level is info
-  report.log("file0", 20, "func0", verbose, false, -1, "file0:20:func0 VERBOSE: blah");
+  report.log("file0", 20, "func0", verbose, false, -1, -1, "file0:20:func0 VERBOSE: blah");
   // Filtered out
-  report.log("file1", 2, "func1", info, false, -1, "file1:2:func1 INFO: blah");
-  report.log("file1", 10, "func2", info, false, -1, "file1:10:func2 INFO: blah");
+  report.log("file1", 2, "func1", info, false, -1, -1, "file1:2:func1 INFO: blah");
+  report.log("file1", 10, "func2", info, false, -1, -1, "file1:10:func2 INFO: blah");
   // Will appear
-  report.log("file1", 20, "func3", info, false, -1, "file1:20:func3 INFO: blah");
+  report.log("file1", 20, "func3", info, false, -1, -1, "file1:20:func3 INFO: blah");
   // Won't appear as level is info
-  report.log("file1", 20, "func4", debug, false, -1, "file1:20:func4 DEBUG: blah");
+  report.log("file1", 20, "func4", debug, false, -1, -1, "file1:20:func4 DEBUG: blah");
   // Filtered out
-  report.log("file2", 10, "func5", debug, false, -1, "file2:10:func5 DEBUG: blah");
+  report.log("file2", 10, "func5", debug, false, -1, -1, "file2:10:func5 DEBUG: blah");
   // Will appear
-  report.log("file2", 20, "func6", info, false, -1, "file2:20:func6 INFO: blah");
+  report.log("file2", 20, "func6", info, false, -1, -1, "file2:20:func6 INFO: blah");
 
   report.remove(&fil);
   hlog_info("should not appear");
@@ -828,33 +828,35 @@ int main(void) {
   report.stopConsoleLog();
 
 
-  cout << endl << "Tabs after file:line" << endl;
+  cout << endl << "Tabs after file:line and thread ID" << endl;
+  tl_thread_id = 1234567;
   Report::FileOutput tab_file("tab_file.log");
   if (tab_file.open() < 0) {
     hlog_error("%s opening log file", strerror(errno));
     return 0;
   }
   report.add(&tab_file);
-  report.log("f", 1, "func1", info, false, -1, "whatever");
-  report.log("fg", 2, "func1", info, false, -1, "whatever");
-  report.log("fgh", 3, "func1", info, false, -1, "whatever");
-  report.log("fghi", 4, "func1", info, false, -1, "whatever");
-  report.log("fghij", 5, "func1", info, false, -1, "whatever");
-  report.log("fghijk", 6, "func1", info, false, -1, "whatever");
-  report.log("fghijkl", 7, "func1", info, false, -1, "whatever");
-  report.log("fghijklm", 8, "func1", info, false, -1, "whatever");
-  report.log("fghijklmn", 9, "func1", info, false, -1, "whatever");
-  report.log("fghijklmn", 10, "func1", info, false, -1, "whatever");
-  report.log("fghijklmno", 11, "func1", info, false, -1, "whatever");
-  report.log("fghijklmnop", 12, "func1", info, false, -1, "whatever");
-  report.log("fghijklmnopq", 13, "func1", info, false, -1, "whatever");
-  report.log("fghijklmnopqr", 14, "func1", info, false, -1, "whatever");
-  report.log("fghijklmnopqrs", 15, "func1", info, false, -1, "whatever");
-  report.log("fghijklmnopqrst", 16, "func1", info, false, -1, "whatever");
-  report.log("fghijklmnopqrstu", 17, "func1", info, false, -1, "whatever");
-  report.log("fghijklmnopqrstuv", 18, "func1", info, false, -1, "whatever");
-  report.log("fghijklmnopqrstuvw", 19, "func1", info, false, -1, "whatever");
-  report.log("fghijklmnopqrstuvwx", 20, "func1", info, false, -1, "whatever");
+  report.log("f", 3, "func1", error, false, -1, tl_thread_id, "whatever");
+  report.log("f", 3, "func1", warning, false, -1, -1, "whatever");
+  report.log("fg", 4, "func1", info, false, -1, tl_thread_id, "whatever");
+  report.log("fgh", 5, "func1", info, false, -1, tl_thread_id, "whatever");
+  report.log("fghi", 6, "func1", info, false, -1, tl_thread_id, "whatever");
+  report.log("fghij", 7, "func1", info, false, -1, tl_thread_id, "whatever");
+  report.log("fghijk", 8, "func1", info, false, -1, tl_thread_id, "whatever");
+  report.log("fghijkl", 9, "func1", info, false, -1, tl_thread_id, "whatever");
+  report.log("fghijkl", 10, "func1", info, false, -1, tl_thread_id, "whatever");
+  report.log("fghijklm", 11, "func1", info, false, -1, 0, "whatever");
+  report.log("fghijklmn", 12, "func1", info, false, -1, tl_thread_id, "whatever");
+  report.log("fghijklmno", 13, "func1", info, false, -1, tl_thread_id, "whatever");
+  report.log("fghijklmnop", 14, "func1", info, false, -1, tl_thread_id, "whatever");
+  report.log("fghijklmnopq", 15, "func1", info, false, -1, tl_thread_id, "whatever");
+  report.log("fghijklmnopqr", 16, "func1", info, false, -1, tl_thread_id, "whatever");
+  report.log("fghijklmnopqrs", 17, "func1", info, false, -1, tl_thread_id, "whatever");
+  report.log("fghijklmnopqrst", 18, "func1", info, false, -1, tl_thread_id, "whatever");
+  report.log("fghijklmnopqrstu", 19, "func1", info, false, -1, tl_thread_id, "whatever");
+  report.log("fghijklmnopqrstuv", 20, "func1", info, false, -1, tl_thread_id, "whatever");
+  report.log("fghijklmnopqrstuvw", 21, "func1", info, false, -1, tl_thread_id, "whatever");
+  report.log("fghijklmnopqrstuvwx", 22, "func1", info, false, -1, tl_thread_id, "whatever");
   report.remove(&tab_file);
   tab_file.close();
   (void) system("cat tab_file.log");

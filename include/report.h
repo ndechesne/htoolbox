@@ -71,6 +71,7 @@ namespace htoolbox {
         Level           level,
         int             flags,
         int             indentation,
+        int             thread_id,
         const char*     format,
         va_list*        args) = 0;
       virtual void show(Level level, int indentation) const = 0;
@@ -91,6 +92,7 @@ namespace htoolbox {
         Level           level,
         int             flags,
         int             indentation,
+        int             thread_id,
         const char*     format,
         va_list*        args);
       void show(Level level, int indentation = 0) const;
@@ -117,6 +119,7 @@ namespace htoolbox {
         Level           level,
         int             flags,
         int             indentation,
+        int             thread_id,
         const char*     format,
         va_list*        args);
       void show(Level level, int indentation = 0) const;
@@ -125,7 +128,7 @@ namespace htoolbox {
     class TlvOutput : public IOutput {
       tlv::Sender&      _sender;
     public:
-      // The log consumes 9 tags
+      // The log consumes 10 tags
       TlvOutput(const char* name, tlv::Sender& sender) :
           IOutput(name), _sender(sender) {
         open();
@@ -137,6 +140,7 @@ namespace htoolbox {
         Level           level,
         int             flags,
         int             indentation,
+        int             thread_id,
         const char*     format,
         va_list*        args);
       void show(Level level, int indentation = 0) const;
@@ -149,6 +153,7 @@ namespace htoolbox {
       int                   _level;
       int                   _flags;
       int                   _indent;
+      int                   _thread_id;
       tlv::ReceptionManager _manager;
     public:
       TlvManager(IReceptionManager* next = NULL): _manager(next) {
@@ -158,7 +163,8 @@ namespace htoolbox {
         _manager.add(tlv::log_start_tag + 3, &_level);
         _manager.add(tlv::log_start_tag + 4, &_flags);
         _manager.add(tlv::log_start_tag + 5, &_indent);
-        _manager.add(tlv::log_start_tag + 6);
+        _manager.add(tlv::log_start_tag + 6, &_thread_id);
+        _manager.add(tlv::log_start_tag + 8);
       }
       int submit(uint16_t tag, size_t size, const char* val);
     };
@@ -221,6 +227,7 @@ namespace htoolbox {
         Level           level,
         int             flags,
         int             indentation,
+        int             thread_id,
         const char*     format,
         va_list*        args);
       void show(Level level, int indentation = 0) const;
@@ -263,8 +270,9 @@ namespace htoolbox {
       Level           level,
       int             flags,
       int             indentation,
+      int             thread_id,
       const char*     format,
-      ...) __attribute__ ((format (printf, 8, 9)));
+      ...) __attribute__ ((format (printf, 9, 10)));
     void show(Level level, int indentation = 0, bool show_closed = true) const;
   private:
     ConsoleOutput     _console;
@@ -273,9 +281,11 @@ namespace htoolbox {
     // Console filter accessor
     Filter& consoleFilter() { return _con_filter; }
   };
-
+  // Global and thread-local reports
   extern Report report;
   extern __thread Report* tl_report;
+  // Thread-local thread ID, used once set by application to a positive value
+  extern __thread int tl_thread_id; // Recommended: 0 <= tl_thread_id < 10000000
 }
 
 
@@ -285,13 +295,16 @@ namespace htoolbox {
   ? ((l) <= htoolbox::tl_report->level()) \
   : ((l) <= htoolbox::report.level()))
 
+// All macros below derive from this one
 #define hlog_generic(l, t, i, f, ...) \
   do { \
     if ((htoolbox::tl_report != NULL) && \
      ((l) <= htoolbox::tl_report->level())) \
-      htoolbox::tl_report->log(__FILE__,__LINE__,__FUNCTION__,(l),(t),(i),(f),##__VA_ARGS__); \
+      htoolbox::tl_report->log(__FILE__,__LINE__,__FUNCTION__,(l),(t),(i),\
+        htoolbox::tl_thread_id,(f),##__VA_ARGS__); \
     if ((l) <= htoolbox::report.level()) \
-      htoolbox::report.log(__FILE__,__LINE__,__FUNCTION__,(l),(t),(i),(f),##__VA_ARGS__); \
+      htoolbox::report.log(__FILE__,__LINE__,__FUNCTION__,(l),(t),(i),\
+        htoolbox::tl_thread_id,(f),##__VA_ARGS__); \
   } while (0);
 
 #define hlog_report(level, format, ...) \
@@ -320,13 +333,16 @@ namespace htoolbox {
 
 
 #define hlog_info_temp(format, ...) \
-  hlog_generic(htoolbox::info,htoolbox::Report::HLOG_TEMPORARY,-1,(format),##__VA_ARGS__)
+  hlog_generic(htoolbox::info,htoolbox::Report::HLOG_TEMPORARY,-1,\
+    (format),##__VA_ARGS__)
 
 #define hlog_verbose_temp(format, ...) \
-  hlog_generic(htoolbox::verbose,htoolbox::Report::HLOG_TEMPORARY,-1,(format),##__VA_ARGS__)
+  hlog_generic(htoolbox::verbose,htoolbox::Report::HLOG_TEMPORARY,-1,\
+    (format),##__VA_ARGS__)
 
 #define hlog_debug_temp(format, ...) \
-  hlog_generic(htoolbox::debug,htoolbox::Report::HLOG_TEMPORARY,-1,(format),##__VA_ARGS__)
+  hlog_generic(htoolbox::debug,htoolbox::Report::HLOG_TEMPORARY,-1,\
+    (format),##__VA_ARGS__)
 
 
 #define hlog_verbose_arrow(indent, format, ...) \
@@ -339,9 +355,11 @@ namespace htoolbox {
 #define hlog_global_is_worth(l) \
   ((l) <= htoolbox::report.level())
 
+// All macros below derive from this one
 #define hlog_global_generic(l, t, i, f, ...) \
   hlog_global_is_worth(l) \
-  ? htoolbox::report.log(__FILE__,__LINE__,__FUNCTION__,(l),(t),(i),(f),##__VA_ARGS__) \
+  ? htoolbox::report.log(__FILE__,__LINE__,__FUNCTION__,(l),(t),(i),\
+      htoolbox::tl_thread_id,(f),##__VA_ARGS__) \
   : 0
 
 #define hlog_global_report(level, format, ...) \
@@ -370,13 +388,16 @@ namespace htoolbox {
 
 
 #define hlog_global_info_temp(format, ...) \
-  hlog_global_generic(htoolbox::info,htoolbox::Report::HLOG_TEMPORARY,-1,(format),##__VA_ARGS__)
+  hlog_global_generic(htoolbox::info,htoolbox::Report::HLOG_TEMPORARY,-1,\
+    (format),##__VA_ARGS__)
 
 #define hlog_global_verbose_temp(format, ...) \
-  hlog_global_generic(htoolbox::verbose,htoolbox::Report::HLOG_TEMPORARY,-1,(format),##__VA_ARGS__)
+  hlog_global_generic(htoolbox::verbose,htoolbox::Report::HLOG_TEMPORARY,-1,\
+    (format),##__VA_ARGS__)
 
 #define hlog_global_debug_temp(format, ...) \
-  hlog_global_generic(htoolbox::debug,htoolbox::Report::HLOG_TEMPORARY,-1,(format),##__VA_ARGS__)
+  hlog_global_generic(htoolbox::debug,htoolbox::Report::HLOG_TEMPORARY,-1,\
+    (format),##__VA_ARGS__)
 
 
 #define hlog_global_verbose_arrow(indent, format, ...) \
