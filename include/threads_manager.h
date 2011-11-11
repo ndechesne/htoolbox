@@ -39,6 +39,17 @@ public:
   int push(void* data) { return in.push(data); }
   typedef void (*callback_f)(bool idle, void* user);
   void setActivityCallback(callback_f callback, void* user);
+  //! Set base value for thread IDs, which starts their reporting in logs
+  /*!
+   * The base value will be added to the thread ID set by the thread manager.
+   * IDs should be in the range of 0 to 9999999, so a base value should ideally
+   * be comprised between 1000000 and 9000000, depending how many threads are
+   * going to be created...
+   * This number will then appear in logs.
+   *
+   * \param base        second delimiter to use
+  */
+  void setThreadIdBase(int base);
   int start(size_t max_threads = 0, size_t min_threads = 0, time_t time_out = 600);
   int stop();
   size_t threads() const;

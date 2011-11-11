@@ -100,6 +100,8 @@ struct ThreadsManagerData {
   void*                     callback_user;
   bool                      callback_called_idle;
   pthread_mutex_t           callback_lock;
+  // Thread IDs base
+  int                       thread_id_base;
   // Local data
   pthread_mutex_t           threads_list_lock;
   pthread_cond_t            idle_cond;
@@ -131,11 +133,11 @@ struct WorkerThreadData {
   WorkerThreadData*         next;
   ThreadsManagerData&       parent;
   pthread_t                 tid;
-  size_t                    number;
+  int                       number;
   time_t                    last_run;
   pthread_mutex_t           mutex;
   void*                     data;
-  WorkerThreadData(ThreadsManagerData& p, size_t n): parent(p), number(n) {
+  WorkerThreadData(ThreadsManagerData& p, int n): parent(p), number(n) {
     pthread_mutex_init(&mutex, NULL);
     pthread_mutex_lock(&mutex);
   }
@@ -147,14 +149,14 @@ struct WorkerThreadData {
     pthread_mutex_unlock(&mutex);
   }
   int start() {
-    hlog_regression("%s.%zu starting", parent.name, number);
+    hlog_regression("%s.%d starting", parent.name, number);
     return pthread_create(&tid, NULL, worker_thread, this);
   }
   void stop() {
-    hlog_regression("%s.%zu stopping", parent.name, number);
+    hlog_regression("%s.%d stopping", parent.name, number);
     pthread_mutex_unlock(&mutex);
     pthread_join(tid, NULL);
-    hlog_regression("%s.%zu joined", parent.name, number);
+    hlog_regression("%s.%d joined", parent.name, number);
   }
 };
 
@@ -171,10 +173,10 @@ static void worker_thread_activity_callback(
     size_t            busy_threads) {
   ThreadsManagerData& data = d->parent;
   if (idle) {
-    hlog_regression("%s.%zu.activity_callback: idle (%zu/%zu)",
+    hlog_regression("%s.%d.activity_callback: idle (%zu/%zu)",
       d->parent.name, d->number, busy_threads, idle_threads + busy_threads);
   } else {
-    hlog_regression("%s.%zu.activity_callback: busy", d->parent.name, d->number);
+    hlog_regression("%s.%d.activity_callback: busy", d->parent.name, d->number);
   }
   if (data.callback != NULL) {
     if (idle) {
@@ -191,12 +193,15 @@ static void worker_thread_activity_callback(
 
 static void* worker_thread(void* data) {
   WorkerThreadData* d = static_cast<WorkerThreadData*>(data);
+  if (d->parent.thread_id_base >= 0) {
+    htoolbox::tl_thread_id = d->parent.thread_id_base + d->number;
+  }
   // Loop
   while (true) {
-    hlog_regression("%s.%zu.loop enter", d->parent.name, d->number);
+    hlog_regression("%s.%d.loop enter", d->parent.name, d->number);
     pthread_mutex_lock(&d->mutex);
     if (d->data != d) {
-      hlog_regression("%s.%zu.loop has data", d->parent.name, d->number);
+      hlog_regression("%s.%d.loop has data", d->parent.name, d->number);
       // Work
       worker_thread_activity_callback(d, false, 0, 1);
       void* data_out = d->parent.routine(d->data, d->parent.user);
@@ -217,7 +222,7 @@ static void* worker_thread(void* data) {
       worker_thread_activity_callback(d, true, idle_threads, busy_threads);
     } else {
       // Exit loop
-      hlog_regression("%s.%zu.loop exit", d->parent.name, d->number);
+      hlog_regression("%s.%d.loop exit", d->parent.name, d->number);
       break;
     }
   }
@@ -227,7 +232,10 @@ static void* worker_thread(void* data) {
 
 static void* monitor_thread(void* data) {
   ThreadsManagerData* d = static_cast<ThreadsManagerData*>(data);
-  size_t order = 0;
+  if (d->thread_id_base >= 0) {
+    htoolbox::tl_thread_id = d->thread_id_base;
+  }
+  int order = 0;
   // Loop
   while (true) {
     hlog_regression("%s.loop enter", d->name);
@@ -246,7 +254,7 @@ static void* monitor_thread(void* data) {
         // Get rid of oldest idle thread if too old
         WorkerThreadData* bottom = d->idle_threads.bottom();
         if (bottom != NULL) {
-          hlog_regression("%s.%zu age %ld, t-o %ld", d->name, bottom->number,
+          hlog_regression("%s.%d age %ld, t-o %ld", d->name, bottom->number,
             time(NULL) - bottom->last_run, d->time_out);
           if ((time(NULL) - bottom->last_run) > d->time_out) {
             d->idle_threads.remove(bottom);
@@ -264,9 +272,9 @@ static void* monitor_thread(void* data) {
         if (rc == 0) {
           d->busy_threads.push(wtd);
           ++d->threads;
-          hlog_regression("%s.loop thread %zu created", d->name, wtd->number);
+          hlog_regression("%s.loop thread %d created", d->name, wtd->number);
         } else {
-          hlog_error("%s.loop %s creating thread %zu", d->name, strerror(-rc),
+          hlog_error("%s.loop %s creating thread %d", d->name, strerror(-rc),
             wtd->number);
           delete wtd;
           wait_for_thread = true;
@@ -293,7 +301,7 @@ static void* monitor_thread(void* data) {
       while (d->threads > 0) {
         WorkerThreadData* bottom = d->idle_threads.bottom();
         if (bottom != NULL) {
-          hlog_regression("%s.loop stop idle thread %zu (%zu/%zu)",
+          hlog_regression("%s.loop stop idle thread %d (%zu/%zu)",
             d->name, bottom->number, d->busy_threads.size(), d->threads);
           d->idle_threads.remove(bottom);
           bottom->stop();
@@ -325,6 +333,7 @@ ThreadsManager::ThreadsManager(
   _d->data.name[NAME_SIZE - 1] ='\0';
   _d->data.routine = routine;
   _d->data.user = user;
+  _d->data.thread_id_base = -1;
 }
 
 ThreadsManager::~ThreadsManager() {
@@ -336,6 +345,10 @@ void ThreadsManager::setActivityCallback(callback_f callback, void* user) {
   _d->data.callback = callback;
   _d->data.callback_user = user;
   _d->data.callback_called_idle = false;
+}
+
+void ThreadsManager::setThreadIdBase(int thread_id_base) {
+  _d->data.thread_id_base = thread_id_base;
 }
 
 int ThreadsManager::start(size_t max_threads, size_t min_threads, time_t time_out) {
