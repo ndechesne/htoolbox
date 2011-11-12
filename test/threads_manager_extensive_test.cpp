@@ -58,6 +58,12 @@ static void* task3(void* data, void* user) {
   return data;
 }
 
+static void activity_callback(bool idle, void* user) {
+  char* cuser = static_cast<char*>(user);
+  hlog_regression("activity callback(%s): user = '%s'",
+    idle ? "idle" : "busy", cuser);
+}
+
 enum {
   MAX_LOOPS = 2100
 };
@@ -75,6 +81,12 @@ int main(void) {
   ThreadsManager ws3("sched3", task3, user3, 1, NULL);
   ThreadsManager ws2("sched2", task2, user2, 1, &ws3.inputQueue());
   ThreadsManager ws1("sched1", task1, user1, 1, &ws2.inputQueue());
+  char activity1[32] = "activity1";
+  char activity2[32] = "activity2";
+  char activity3[32] = "activity3";
+  ws1.setActivityCallback(activity_callback, activity1);
+  ws2.setActivityCallback(activity_callback, activity2);
+  ws3.setActivityCallback(activity_callback, activity3);
 
   if ((ws3.start(0, 0, 2) != 0) || (ws2.start(0, 0, 2) != 0) || (ws1.start(0, 0, 2) != 0)) {
     hlog_error("start failed");
