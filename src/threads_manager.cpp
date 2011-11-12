@@ -166,31 +166,6 @@ struct ThreadsManager::Private {
   Private(Queue* in, Queue* out) : data(in, out) {}
 };
 
-static void worker_thread_activity_callback(
-    WorkerThreadData* d,
-    bool              idle,
-    size_t            idle_threads,
-    size_t            busy_threads) {
-  ThreadsManagerData& data = d->parent;
-  if (idle) {
-    hlog_regression("%s.%d.activity_callback: idle (%zu/%zu)",
-      d->parent.name, d->number, busy_threads, idle_threads + busy_threads);
-  } else {
-    hlog_regression("%s.%d.activity_callback: busy", d->parent.name, d->number);
-  }
-  if (data.callback != NULL) {
-    if (idle) {
-      if (busy_threads == 0) {
-        data.activityCallback(idle);
-      }
-    } else {
-      if (data.callback_called_idle) {
-        data.activityCallback(idle);
-      }
-    }
-  }
-}
-
 static void* worker_thread(void* data) {
   WorkerThreadData* d = static_cast<WorkerThreadData*>(data);
   if (d->parent.thread_id_base >= 0) {
@@ -203,7 +178,6 @@ static void* worker_thread(void* data) {
     if (d->data != d) {
       hlog_regression("%s.%d.loop has data", d->parent.name, d->number);
       // Work
-      worker_thread_activity_callback(d, false, 0, 1);
       void* data_out = d->parent.routine(d->data, d->parent.user);
       if (d->parent.q_out != NULL) {
         d->parent.q_out->push(data_out);
@@ -213,13 +187,12 @@ static void* worker_thread(void* data) {
       d->parent.busy_threads.remove(d);
       d->parent.idle_threads.push(d);
       pthread_cond_signal(&d->parent.idle_cond);
-      size_t idle_threads = d->parent.idle_threads.size();
-      size_t busy_threads = d->parent.busy_threads.size();
       d->last_run = time(NULL);
+      // Prepare to die
       d->data = d;
+      // Slacking
+      d->parent.q_in->signal();
       pthread_mutex_unlock(&d->parent.threads_list_lock);
-      // Slack
-      worker_thread_activity_callback(d, true, idle_threads, busy_threads);
     } else {
       // Exit loop
       hlog_regression("%s.%d.loop exit", d->parent.name, d->number);
@@ -236,12 +209,32 @@ static void* monitor_thread(void* data) {
     htoolbox::tl_thread_id = d->thread_id_base;
   }
   int order = 0;
+  bool busy = false;
   // Loop
-  while (true) {
+  bool run = true;
+  do {
     hlog_regression("%s.loop enter", d->name);
     void* data_in;
-    if (d->q_in->pop(&data_in) == 0) {
-      pthread_mutex_lock(&d->threads_list_lock);
+    int q_rc = d->q_in->pop(&data_in);
+    pthread_mutex_lock(&d->threads_list_lock);
+    if (q_rc == 1) {
+      // Activity report
+      if (busy) {
+        size_t busy_threads = d->busy_threads.size();
+        if (busy_threads == 0) {
+          hlog_regression("%s.loop: signalled and idle (%zu/%zu)",
+            d->name, busy_threads, d->idle_threads.size() + busy_threads);
+          busy = false;
+          if (d->callback != NULL) {
+            d->activityCallback(true);
+          }
+        } else {
+          hlog_regression("%s.loop: signalled but busy (%zu/%zu)",
+            d->name, busy_threads, d->idle_threads.size() + busy_threads);
+        }
+      }
+    } else
+    if (q_rc == 0) {
       // Get first idle thread
       WorkerThreadData* wtd = NULL;
       hlog_regression("%s.queue has data (%zu/%zu)", d->name,
@@ -291,13 +284,22 @@ static void* monitor_thread(void* data) {
           d->busy_threads.push(wtd);
         }
       }
-      pthread_mutex_unlock(&d->threads_list_lock);
       // Start worker thread
       wtd->push(data_in);
-    } else {
+      // Activity report
+      hlog_regression("%s.loop: %s busy (%zu/%zu)",
+        d->name, busy ? "remaining" : "becoming",
+        d->busy_threads.size(), d->idle_threads.size() + d->busy_threads.size());
+      if (! busy) {
+        busy = true;
+        if (d->callback != NULL) {
+          d->activityCallback(false);
+        }
+      }
+    } else
+    {
       hlog_regression("%s.loop queue closed", d->name);
       // Stop all threads
-      pthread_mutex_lock(&d->threads_list_lock);
       while (d->threads > 0) {
         WorkerThreadData* bottom = d->idle_threads.bottom();
         if (bottom != NULL) {
@@ -311,14 +313,29 @@ static void* monitor_thread(void* data) {
           hlog_regression("%s.loop wait for busy thread(s) (%zu/%zu)", d->name,
             d->busy_threads.size(), d->threads);
           pthread_cond_wait(&d->idle_cond, &d->threads_list_lock);
+          // Activity report
+          if (busy) {
+            size_t busy_threads = d->busy_threads.size();
+            if (busy_threads == 0) {
+              hlog_regression("%s.loop: closing and idle (%zu/%zu)",
+                d->name, busy_threads, d->idle_threads.size() + busy_threads);
+              busy = false;
+              if (d->callback != NULL) {
+                d->activityCallback(true);
+              }
+            } else {
+              hlog_regression("%s.loop: closing but busy (%zu/%zu)",
+                d->name, busy_threads, d->idle_threads.size() + busy_threads);
+            }
+          }
         }
       }
-      pthread_mutex_unlock(&d->threads_list_lock);
       // Exit loop
       hlog_regression("%s.loop exit", d->name);
-      break;
+      run = false;
     }
-  }
+    pthread_mutex_unlock(&d->threads_list_lock);
+  } while (run);
   // Exit
   return NULL;
 }
