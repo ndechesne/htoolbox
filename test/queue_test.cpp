@@ -43,15 +43,19 @@ int main(void) {
       hlog_info("o = %d", *p);
     }
   }
+  q1.signal();
   for (int k = 0; k < SIZE / 2; ++k) {
     i[k] = k + 30;
     q1.push(&i[k]);
   }
-  for (int k = 0; k < SIZE; ++k) {
+  for (int k = 0; k < SIZE + 1; ++k) {
     int* p;
-    q1.pop(reinterpret_cast<void**>(&p));
-    hlog_info("o = %d", *p);
+    if (q1.pop(reinterpret_cast<void**>(&p)) == 0) {
+      hlog_info("o = %d", *p);
+    }
   }
+  q1.signal();
+  q1.pop(NULL);
   q1.close();
   return 0;
 }

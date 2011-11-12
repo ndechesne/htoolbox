@@ -26,6 +26,7 @@ using namespace htoolbox;
 struct Queue::Private {
   char            name[64];
   bool            is_open;
+  bool            signal;
   const size_t    max_size;
   size_t          size;
   void**          objects;
@@ -48,6 +49,7 @@ struct Queue::Private {
     reader = &objects[0];
     writer = &objects[0];
     is_open = true;
+    signal = false;
   }
   void close() {
     is_open = false;
@@ -140,24 +142,34 @@ int Queue::push(void* data) {
 
 int Queue::pop(void** data) {
   hlog_regression("%s.%s enter", _d->name, __FUNCTION__);
-  bool queue_flushed = false;
   pthread_mutex_lock(&_d->queue_lock);
   // Wait for some data
-  while ((_d->size == 0) && _d->is_open) {
+  while ((_d->size == 0) && _d->is_open && ! _d->signal) {
     hlog_regression("%s.%s wait for queue to fill up some", _d->name, __FUNCTION__);
     pthread_cond_wait(&_d->pop_cond, &_d->queue_lock);
   }
   // Check status
+  int rc = -1;
+  if (_d->signal) {
+    _d->signal = false;
+    rc = 1;
+  } else
   if (_d->size > 0) {
     *data = _d->pop();
     pthread_cond_broadcast(&_d->push_cond);
+    rc = 0;
   } else
   if (! _d->is_open) {
-    queue_flushed = true;
+    rc = -1;
     pthread_cond_broadcast(&_d->push_cond);
   }
   pthread_mutex_unlock(&_d->queue_lock);
-  int rc = queue_flushed ? 1 : 0;
   hlog_regression("%s.%s exit: rc = %d", _d->name, __FUNCTION__, rc);
   return rc;
+}
+
+void Queue::signal() {
+  hlog_regression("%s.%s enter", _d->name, __FUNCTION__);
+  _d->signal = true;
+  pthread_cond_broadcast(&_d->pop_cond);
 }

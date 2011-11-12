@@ -32,6 +32,7 @@ public:
   size_t size() const;
   int push(void* data);
   int pop(void** data);
+  void signal();
 };
 
 };
