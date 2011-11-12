@@ -48,6 +48,7 @@ int main(void) {
     i[k] = k + 30;
     q1.push(&i[k]);
   }
+  q1.close();
   for (int k = 0; k < SIZE + 1; ++k) {
     int* p;
     if (q1.pop(reinterpret_cast<void**>(&p)) == 0) {
@@ -56,6 +57,22 @@ int main(void) {
   }
   q1.signal();
   q1.pop(NULL);
-  q1.close();
+
+  q1.open();
+  for (int k = 0; k < SIZE; ++k) {
+    i[k] = k + 20;
+    q1.push(&i[k]);
+  }
+  int* p;
+  int rc;
+  while ((rc = q1.pop(reinterpret_cast<void**>(&p))) >= 0) {
+    if (rc == 0) {
+      hlog_info("o = %d", *p);
+      if (*p == 22) {
+        q1.signal();
+        q1.close(true);
+      }
+    }
+  }
   return 0;
 }

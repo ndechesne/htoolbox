@@ -27,6 +27,7 @@ struct Queue::Private {
   char            name[64];
   bool            is_open;
   bool            signal;
+  bool            urgent_close;
   const size_t    max_size;
   size_t          size;
   void**          objects;
@@ -51,8 +52,9 @@ struct Queue::Private {
     is_open = true;
     signal = false;
   }
-  void close() {
+  void close(bool urgent) {
     is_open = false;
+    urgent_close = urgent;
   }
   // Must not be full!
   void push(void* d) {
@@ -90,12 +92,15 @@ Queue::~Queue() {
 }
 
 void Queue::open() {
+  hlog_regression("%s.%s enter", _d->name, __FUNCTION__);
   _d->open();
+  hlog_regression("%s.%s exit", _d->name, __FUNCTION__);
 }
 
-void Queue::close() {
-  hlog_regression("%s.%s enter", _d->name, __FUNCTION__);
-  _d->close();
+void Queue::close(bool urgent) {
+  hlog_regression("%s.%s enter, urgent = %s", _d->name, __FUNCTION__,
+    urgent ? "true" : "false");
+  _d->close(urgent);
   pthread_cond_broadcast(&_d->pop_cond);
   hlog_regression("%s.%s exit", _d->name, __FUNCTION__);
 }
@@ -154,7 +159,7 @@ int Queue::pop(void** data) {
     _d->signal = false;
     rc = 1;
   } else
-  if (_d->size > 0) {
+  if ((_d->size > 0) && ! _d->urgent_close) {
     *data = _d->pop();
     pthread_cond_broadcast(&_d->push_cond);
     rc = 0;
@@ -170,6 +175,9 @@ int Queue::pop(void** data) {
 
 void Queue::signal() {
   hlog_regression("%s.%s enter", _d->name, __FUNCTION__);
-  _d->signal = true;
-  pthread_cond_broadcast(&_d->pop_cond);
+  if (_d->is_open) {
+    _d->signal = true;
+    pthread_cond_broadcast(&_d->pop_cond);
+  }
+  hlog_regression("%s.%s exit", _d->name, __FUNCTION__);
 }

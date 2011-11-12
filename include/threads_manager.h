@@ -51,7 +51,7 @@ public:
   */
   void setThreadIdBase(int base);
   int start(size_t max_threads = 0, size_t min_threads = 0, time_t time_out = 600);
-  int stop();
+  int stop(bool urgent = false);
   size_t threads() const;
 };
 

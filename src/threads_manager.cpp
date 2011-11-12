@@ -387,10 +387,10 @@ int ThreadsManager::start(size_t max_threads, size_t min_threads, time_t time_ou
   return rc;
 }
 
-int ThreadsManager::stop() {
+int ThreadsManager::stop(bool urgent) {
   if (! _d->data.running) return -1;
   // Stop monitoring thread
-  _d->data.q_in->close();
+  _d->data.q_in->close(urgent);
   pthread_join(_d->monitor_tid, NULL);
   hlog_regression("%s.thread joined", _d->data.name);
   _d->data.running = false;

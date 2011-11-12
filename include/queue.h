@@ -26,7 +26,7 @@ public:
   Queue(const char* name, size_t max_size = 1);
   ~Queue();
   void open();
-  void close();
+  void close(bool urgent = false);
   void wait();
   bool empty() const;
   size_t size() const;

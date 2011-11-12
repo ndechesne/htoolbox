@@ -1,3 +1,5 @@
+q1.open enter
+q1.open exit
 q1.push enter
 q1.push exit: rc = 0
 q1.push enter
@@ -34,6 +36,7 @@ q1.pop enter
 q1.pop exit: rc = 0
 o = 24
 q1.signal enter
+q1.signal exit
 q1.push enter
 q1.push exit: rc = 0
 q1.push enter
@@ -44,6 +47,8 @@ q1.push enter
 q1.push exit: rc = 0
 q1.push enter
 q1.push exit: rc = 0
+q1.close enter, urgent = false
+q1.close exit
 q1.pop enter
 q1.pop exit: rc = 1
 q1.pop enter
@@ -77,7 +82,45 @@ q1.pop enter
 q1.pop exit: rc = 0
 o = 34
 q1.signal enter
+q1.signal exit
+q1.pop enter
+q1.pop exit: rc = -1
+q1.open enter
+q1.open exit
+q1.push enter
+q1.push exit: rc = 0
+q1.push enter
+q1.push exit: rc = 0
+q1.push enter
+q1.push exit: rc = 0
+q1.push enter
+q1.push exit: rc = 0
+q1.push enter
+q1.push exit: rc = 0
+q1.push enter
+q1.push exit: rc = 0
+q1.push enter
+q1.push exit: rc = 0
+q1.push enter
+q1.push exit: rc = 0
+q1.push enter
+q1.push exit: rc = 0
+q1.push enter
+q1.push exit: rc = 0
+q1.pop enter
+q1.pop exit: rc = 0
+o = 20
+q1.pop enter
+q1.pop exit: rc = 0
+o = 21
+q1.pop enter
+q1.pop exit: rc = 0
+o = 22
+q1.signal enter
+q1.signal exit
+q1.close enter, urgent = true
+q1.close exit
 q1.pop enter
 q1.pop exit: rc = 1
-q1.close enter
-q1.close exit
+q1.pop enter
+q1.pop exit: rc = -1
