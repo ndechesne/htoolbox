@@ -48,6 +48,17 @@ int ReceptionManager::Blob::submit(size_t size, const char* val) {
   return 0;
 }
 
+void ReceptionManager::remove(uint16_t tag) {
+  for (std::list<IObject*>::iterator it = _objects.begin();
+      it != _objects.end(); ++it) {
+    if ((*it)->tag() == tag) {
+      delete *it;
+      _objects.erase(it);
+      break;
+    }
+  }
+}
+
 bool TransmissionManager::Blob::ready() {
   // Need to always send less than BUFFER_MAX to signal the end of data
   if (_ended) {

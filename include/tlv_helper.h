@@ -141,6 +141,7 @@ public:
   void add(uint16_t tag, BigBlob::callback_f cb, void* user) {
     _objects.push_back(new BigBlob(tag, cb, user));
   }
+  void remove(uint16_t tag);
   int submit(uint16_t tag, size_t size, const char* val);
   // Called on CHECK message, return true do abort reception
   typedef bool (*abort_cb_f)(void*);

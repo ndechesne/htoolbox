@@ -38,6 +38,7 @@ void* receiver(void*) {
   // Report test!
   Report my_report("my report");
   my_report.show(info);
+  my_report.setLevel(verbose);
   tl_report = &my_report;
   hlog_info("receiver (local) log level is %s", tl_report->level().toString());
 
@@ -140,11 +141,13 @@ int main(void) {
     return 0;
   }
   report.add(&f);
+  report.setLevel(verbose);
   tl_thread_id = 7654321;
-  hlog_info("this log should be send over the socket (%d)", 9);
+  hlog_verbose_arrow(2, "this log should be send over the socket (%d)", 9);
   tl_thread_id = -1;
   hlog_info("this one too, but without thread ID (%d)", 9);
-  report.log("file", 12345, "", warning, true, 3, 7654321,
+  report.log("file", 12345, "", warning, false, -1, 7654321,
+    15, "12345\x00\t\n\x1f \x7e\x7f\x80Za",
     "this is some text with a number %d", 17);
   tl_report = &report;
   hlog_info("message sent twice to socket");

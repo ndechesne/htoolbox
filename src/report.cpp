@@ -70,6 +70,73 @@ struct Report::Private {
   }
 };
 
+static ssize_t print_buffer(
+    FILE*           fd,
+    int             flags,
+    const void*     buffer,
+    size_t          size) {
+#define BYTES_START 11
+#define ASCII_START 61
+#define LINE_SIZE   80
+  ssize_t written = 0;
+  if (size > 0){
+    const unsigned char* data = static_cast<const unsigned char*>(buffer);
+    char line[LINE_SIZE];
+    size_t offset_bytes;
+    size_t offset_ascii;
+    const char hex2chr[] = "0123456789abcdef";
+    size_t counter = 0;
+    while (counter <= size) {
+      if (counter < size) {
+        // Line start
+        if ((counter & 0xf) == 0x0) {
+          memset(line, ' ', LINE_SIZE);
+          line[0] = '\t';
+          if (flags & Report::HLOG_BUFFER_COUNT) {
+            sprintf(&line[1], "%08zx", counter);
+            line[9] = ' ';
+          }
+          offset_bytes = BYTES_START;
+          offset_ascii = ASCII_START + 1;
+        }
+        line[offset_bytes++] = hex2chr[(data[counter] >> 4) & 0xf];
+        line[offset_bytes++] = hex2chr[data[counter] & 0xf];
+        ++offset_bytes;
+        if (flags & Report::HLOG_BUFFER_ASCII) {
+          if ((data[counter] < 32) || (data[counter] > 126)) {
+            line[offset_ascii++] = '.';
+          } else
+          {
+            line[offset_ascii++] = data[counter];
+          }
+        }
+        counter++;
+      }
+      // Line end or data end
+      if (((counter & 0xf) == 0x0) || (counter == size)) {
+        if (flags & Report::HLOG_BUFFER_ASCII) {
+          line[ASCII_START] = line[offset_ascii++] = '|';
+          line[offset_ascii] = '\0';
+        } else {
+          line[offset_bytes - 1] = '\0';
+        }
+        written += fprintf(fd, "%s\n", line);
+        if (counter == size) {
+          if (flags & Report::HLOG_BUFFER_COUNT) {
+            written += fprintf(fd, "\t%08zx\n", counter);
+          }
+          break;
+        }
+      } else
+      // Two spaces instead of one in the middle
+      if ((counter & 0x7) == 0x0) {
+        ++offset_bytes;
+      }
+    }
+  }
+  return written;
+}
+
 size_t Report::utf8_len(const char* s) {
   size_t size = 0;
   while (*s) {
@@ -132,6 +199,8 @@ int Report::log(
     int             flags,
     int             indentation,
     int             thread_id,
+    size_t          buffer_size,
+    const void*     buffer,
     const char*     format,
     ...) {
   va_list ap;
@@ -146,7 +215,7 @@ int Report::log(
       va_list aq;
       va_copy(aq, ap);
       if (output->log(file, line, function, level, flags, indentation,
-          thread_id, format, &aq) < 0) {
+          thread_id, buffer_size, buffer, format, &aq) < 0) {
         rc = -1;
       }
       va_end(aq);
@@ -178,6 +247,8 @@ int Report::ConsoleOutput::log(
     int             flags,
     int             indentation,
     int             thread_id,
+    size_t          buffer_size,
+    const void*     buffer,
     const char*     format,
     va_list*        args) {
   (void) file;
@@ -185,7 +256,7 @@ int Report::ConsoleOutput::log(
   (void) function;
   (void) thread_id;
   FILE* fd = (level <= warning) ? stderr : stdout;
-  char buffer[1024];
+  char message[1024];
   size_t offset = 0;
   // recover previous
   if (_last_flags & HLOG_NOLINEFEED) {
@@ -201,15 +272,15 @@ int Report::ConsoleOutput::log(
       // Don't repeat the prefix
       flags |= HLOG_NOPREFIX;
       // backspaces
-      char bsbuffer[64];
-      memset(bsbuffer, '\b', sizeof(bsbuffer));
+      char bsmessage[64];
+      memset(bsmessage, '\b', sizeof(bsmessage));
       while (_size_to_recover > 0) {
-        size_t size = sizeof(bsbuffer);
+        size_t size = sizeof(bsmessage);
         if (_size_to_recover < size) {
           size = _size_to_recover;
         }
         _size_to_recover -= size;
-        fwrite(bsbuffer, size, 1, fd);
+        fwrite(bsmessage, size, 1, fd);
       }
     }
   }
@@ -217,13 +288,13 @@ int Report::ConsoleOutput::log(
     // prefix
     switch (level) {
       case alert:
-        offset += sprintf(&buffer[offset], "ALERT! ");
+        offset += sprintf(&message[offset], "ALERT! ");
         break;
       case error:
-        offset += sprintf(&buffer[offset], "Error: ");
+        offset += sprintf(&message[offset], "Error: ");
         break;
       case warning:
-        offset += sprintf(&buffer[offset], "Warning: ");
+        offset += sprintf(&message[offset], "Warning: ");
         break;
       case info:
       case verbose:
@@ -232,34 +303,34 @@ int Report::ConsoleOutput::log(
         // add arrow
         if (indentation >= 0) {
           /* " --n--> " */
-          buffer[offset++] = ' ';
+          message[offset++] = ' ';
           for (int i = 0; i < indentation; ++i) {
-            buffer[offset++] = '-';
+            message[offset++] = '-';
           }
-          buffer[offset++] = '>';
-          buffer[offset++] = ' ';
+          message[offset++] = '>';
+          message[offset++] = ' ';
         }
         break;
     }
   }
   // message
-  offset += vsnprintf(&buffer[offset], sizeof(buffer) - offset, format, *args);
-  size_t buffer_size = sizeof(buffer) - 1;
+  offset += vsnprintf(&message[offset], sizeof(message) - offset, format, *args);
+  size_t message_size = sizeof(message) - 1;
   /* offset is what _would_ have been written, had there been enough space */
-  if (offset >= buffer_size) {
+  if (offset >= message_size) {
     const char ending[] = "... [truncated]";
     const size_t ending_length = sizeof(ending) - 1;
-    strcpy(&buffer[buffer_size - ending_length], ending);
-    offset = buffer_size;
+    strcpy(&message[message_size - ending_length], ending);
+    offset = message_size;
   }
-  buffer[buffer_size] = '\0';
+  message[message_size] = '\0';
   // compute UTF-8 string length
   size_t size = 0;
   if ((flags & HLOG_TEMPORARY) || (_size_to_overwrite != 0)) {
-    size = utf8_len(buffer);
+    size = utf8_len(message);
   }
   // print
-  fwrite(buffer, offset, 1, fd);
+  fwrite(message, offset, 1, fd);
   // if previous line was temporary, overwrite the end of it
   _size_to_recover = 0;
   if ((_size_to_overwrite > size) && ! (_last_flags & HLOG_NOLINEFEED)) {
@@ -280,6 +351,9 @@ int Report::ConsoleOutput::log(
     } else {
       fprintf(fd, "\n");
     }
+  }
+  if (! (flags & (HLOG_NOLINEFEED | HLOG_TEMPORARY)) && (buffer_size > 0)) {
+    print_buffer(fd, flags | _buffer_flags, buffer, buffer_size);
   }
   fflush(fd);
   // if temporary, store/update length
@@ -466,6 +540,7 @@ Report::FileOutput::FileOutput(
   _d->max_lines = max_lines;
   _d->max_files = max_files;
   _d->zip_backups = zip;
+  _buffer_flags = HLOG_BUFFER_COUNT | HLOG_BUFFER_ASCII;
 }
 
 Report::FileOutput::~FileOutput() {
@@ -510,6 +585,8 @@ int Report::FileOutput::log(
     int             flags,
     int             indentation,
     int             thread_id,
+    size_t          buffer_size,
+    const void*     buffer,
     const char*     format,
     va_list*        args) {
   (void) function;
@@ -586,6 +663,9 @@ int Report::FileOutput::log(
   if (! (flags & HLOG_NOLINEFEED)) {
     rc += fprintf(_d->fd, "\n");
   }
+  if (! (flags & (HLOG_NOLINEFEED | HLOG_TEMPORARY)) && (buffer_size > 0)) {
+    print_buffer(_d->fd, flags | _buffer_flags, buffer, buffer_size);
+  }
   fflush(_d->fd);
   ++_d->lines;
   _d->last_flags = flags;
@@ -611,6 +691,8 @@ int Report::TlvOutput::log(
     int             flags,
     int             indent,
     int             thread_id,
+    size_t          buffer_size,
+    const void*     buffer,
     const char*     format,
     va_list*        args) {
   tlv::TransmissionManager m;
@@ -621,10 +703,16 @@ int Report::TlvOutput::log(
   m.add(tlv::log_start_tag + 4, flags);
   m.add(tlv::log_start_tag + 5, indent);
   m.add(tlv::log_start_tag + 6, thread_id);
-  char buffer[65536];
-  int len = vsnprintf(buffer, sizeof(buffer), format, *args);
-  buffer[sizeof(buffer) - 1] = '\0';
-  m.add(tlv::log_start_tag + 8, buffer, len);
+  m.add(tlv::log_start_tag + 7, buffer_size);
+  if ((buffer != NULL) && (buffer_size > 0)) {
+    m.add(tlv::log_start_tag + 8, static_cast<const char*>(buffer), buffer_size);
+  } else {
+    m.add(tlv::log_start_tag + 8, "", 0);
+  }
+  char message[65536];
+  int len = vsnprintf(message, sizeof(message), format, *args);
+  message[sizeof(message) - 1] = '\0';
+  m.add(tlv::log_start_tag + 9, message, len);
   if (m.send(_sender, false) < 0) {
     return -1;
   }
@@ -641,14 +729,23 @@ int Report::TlvManager::submit(uint16_t tag, size_t size, const char* val) {
   if (rc < 0) {
     return rc;
   }
-  if (tag == tlv::log_start_tag + 8) {
+  if (tag == tlv::log_start_tag + 7) {
+    if (_buffer_size > _previous_buffer_size) {
+      free(_buffer);
+      _buffer = static_cast<char*>(malloc(_buffer_size));
+      _previous_buffer_size = _buffer_size;
+      _manager.remove(tlv::log_start_tag + 8);
+      _manager.add(tlv::log_start_tag + 8, _buffer, _buffer_size);
+    }
+  }
+  if (tag == tlv::log_start_tag + 9) {
     Level level = static_cast<Level>(_level);
     if (tl_report != NULL) {
       tl_report->log(_file.c_str(), _line, _function.c_str(), level, _flags,
-        _indent, _thread_id, "%s", val);
+        _indent, _thread_id, _buffer_size, _buffer, "%s", val);
     }
     report.log(_file.c_str(), _line, _file.c_str(), level, _flags,
-      _indent, _thread_id, "%s", val);
+      _indent, _thread_id, _buffer_size, _buffer, "%s", val);
   }
   return 0;
 }
@@ -796,6 +893,8 @@ int Report::Filter::log(
     int             flags,
     int             indentation,
     int             thread_id,
+    size_t          buffer_size,
+    const void*     buffer,
     const char*     format,
     va_list*        args) {
   // If the level is loggable, accept
@@ -812,7 +911,7 @@ int Report::Filter::log(
   }
   if (log_me) {
     return _output->log(file, line, function, level, flags, indentation,
-      thread_id, format, args);
+      thread_id, buffer_size, buffer, format, args);
   }
   return 0;
 }

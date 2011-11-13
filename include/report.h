@@ -72,6 +72,8 @@ namespace htoolbox {
         int             flags,
         int             indentation,
         int             thread_id,
+        size_t          buffer_size,
+        const void*     buffer,
         const char*     format,
         va_list*        args) = 0;
       virtual void show(Level level, int indentation) const = 0;
@@ -82,9 +84,12 @@ namespace htoolbox {
       size_t            _size_to_recover;
       int               _last_flags;
       Level             _last_level;
+      int               _buffer_flags;
     public:
       ConsoleOutput(const char* name) : IOutput(name),
-        _size_to_overwrite(0), _last_flags(0), _last_level(alert) {}
+        _size_to_overwrite(0), _last_flags(0), _last_level(alert),
+        _buffer_flags(HLOG_BUFFER_COUNT | HLOG_BUFFER_ASCII) {}
+      void setBufferFlags(int flags) { _buffer_flags = flags; }
       int log(
         const char*     file,
         size_t          line,
@@ -93,6 +98,8 @@ namespace htoolbox {
         int             flags,
         int             indentation,
         int             thread_id,
+        size_t          buffer_size,
+        const void*     buffer,
         const char*     format,
         va_list*        args);
       void show(Level level, int indentation = 0) const;
@@ -101,6 +108,7 @@ namespace htoolbox {
     class FileOutput : public IOutput {
       struct Private;
       Private* const    _d;
+      int               _buffer_flags;
     public:
       FileOutput(
         const char*     name,
@@ -112,6 +120,7 @@ namespace htoolbox {
       int open();
       int close();
       bool isOpen() const;
+      void setBufferFlags(int flags) { _buffer_flags = flags; }
       int log(
         const char*     file,
         size_t          line,
@@ -120,6 +129,8 @@ namespace htoolbox {
         int             flags,
         int             indentation,
         int             thread_id,
+        size_t          buffer_size,
+        const void*     buffer,
         const char*     format,
         va_list*        args);
       void show(Level level, int indentation = 0) const;
@@ -141,12 +152,15 @@ namespace htoolbox {
         int             flags,
         int             indentation,
         int             thread_id,
+        size_t          buffer_size,
+        const void*     buffer,
         const char*     format,
         va_list*        args);
       void show(Level level, int indentation = 0) const;
     };
 
     class TlvManager : public tlv::IReceptionManager {
+      tlv::ReceptionManager _manager;
       std::string           _file;
       size_t                _line;
       std::string           _function;
@@ -154,9 +168,12 @@ namespace htoolbox {
       int                   _flags;
       int                   _indent;
       int                   _thread_id;
-      tlv::ReceptionManager _manager;
+      size_t                _previous_buffer_size;
+      size_t                _buffer_size;
+      char*                 _buffer;
     public:
-      TlvManager(IReceptionManager* next = NULL): _manager(next) {
+      TlvManager(IReceptionManager* next = NULL): _manager(next),
+          _previous_buffer_size(0), _buffer_size(0), _buffer(NULL) {
         _manager.add(tlv::log_start_tag + 0, _file);
         _manager.add(tlv::log_start_tag + 1, &_line);
         _manager.add(tlv::log_start_tag + 2, _function);
@@ -164,7 +181,9 @@ namespace htoolbox {
         _manager.add(tlv::log_start_tag + 4, &_flags);
         _manager.add(tlv::log_start_tag + 5, &_indent);
         _manager.add(tlv::log_start_tag + 6, &_thread_id);
-        _manager.add(tlv::log_start_tag + 8);
+        _manager.add(tlv::log_start_tag + 7, &_buffer_size);
+        _manager.add(tlv::log_start_tag + 8, _buffer, _buffer_size);
+        _manager.add(tlv::log_start_tag + 9);
       }
       int submit(uint16_t tag, size_t size, const char* val);
     };
@@ -228,6 +247,8 @@ namespace htoolbox {
         int             flags,
         int             indentation,
         int             thread_id,
+        size_t          buffer_size,
+        const void*     buffer,
         const char*     format,
         va_list*        args);
       void show(Level level, int indentation = 0) const;
@@ -239,6 +260,8 @@ namespace htoolbox {
     void stopConsoleLog();
     // Set console log level
     void setConsoleLogLevel(Level level) { _console.setLevel(level); }
+    // Set console flags
+    void setConsoleBufferFlags(int flags) { _console.setBufferFlags(flags); }
     // Get console log level
     Criticality consoleLogLevel() const { return _console.level(); }
 
@@ -258,9 +281,11 @@ namespace htoolbox {
     Criticality level() const { return _level; }
     // Flags
     enum {
-      HLOG_TEMPORARY  = 1 << 0,
-      HLOG_NOPREFIX   = 1 << 1,
-      HLOG_NOLINEFEED = 1 << 2,
+      HLOG_TEMPORARY    = 1 << 0,
+      HLOG_NOPREFIX     = 1 << 1,
+      HLOG_NOLINEFEED   = 1 << 2,
+      HLOG_BUFFER_COUNT = 1 << 3,
+      HLOG_BUFFER_ASCII = 1 << 4,
     };
     // Display message on standard output
     int log(
@@ -271,8 +296,10 @@ namespace htoolbox {
       int             flags,
       int             indentation,
       int             thread_id,
+      size_t          buffer_size,
+      const void*     buffer,
       const char*     format,
-      ...) __attribute__ ((format (printf, 9, 10)));
+      ...) __attribute__ ((format (printf, 11, 12)));
     void show(Level level, int indentation = 0, bool show_closed = true) const;
   private:
     ConsoleOutput     _console;
@@ -295,17 +322,20 @@ namespace htoolbox {
   ? ((l) <= htoolbox::tl_report->level()) \
   : ((l) <= htoolbox::report.level()))
 
-// All macros below derive from this one
-#define hlog_generic(l, t, i, f, ...) \
+// All generic macros below derive from this one
+#define hlog_generic_all(l, t, i, s, b, f, ...) \
   do { \
     if ((htoolbox::tl_report != NULL) && \
      ((l) <= htoolbox::tl_report->level())) \
       htoolbox::tl_report->log(__FILE__,__LINE__,__FUNCTION__,(l),(t),(i),\
-        htoolbox::tl_thread_id,(f),##__VA_ARGS__); \
+        htoolbox::tl_thread_id,(s),(b),(f),##__VA_ARGS__); \
     if ((l) <= htoolbox::report.level()) \
       htoolbox::report.log(__FILE__,__LINE__,__FUNCTION__,(l),(t),(i),\
-        htoolbox::tl_thread_id,(f),##__VA_ARGS__); \
+        htoolbox::tl_thread_id,(s),(b),(f),##__VA_ARGS__); \
   } while (0);
+
+#define hlog_generic(l, t, i, f, ...) \
+  hlog_generic_all((l),(t),(i),0,NULL,(f),##__VA_ARGS__)
 
 #define hlog_report(level, format, ...) \
   hlog_generic((level),0,-1,(format),##__VA_ARGS__)
@@ -352,14 +382,42 @@ namespace htoolbox {
   hlog_generic(htoolbox::debug,0,(indent),(format),##__VA_ARGS__)
 
 
+#define hlog_generic_buffer(l, t, i, s, b, f, ...) \
+  hlog_generic_all((l),(t),(i),(s),(b),(f),##__VA_ARGS__)
+
+#define hlog_report_buffer(level, size, buffer, format, ...) \
+  hlog_generic_buffer((level),0,-1,(size),(buffer),(format),##__VA_ARGS__)
+
+#define hlog_alert_buffer(size, buffer, format, ...) \
+  hlog_report_buffer(htoolbox::alert,(size),(buffer),(format),##__VA_ARGS__)
+
+#define hlog_error_buffer(size, buffer, format, ...) \
+  hlog_report_buffer(htoolbox::error,(size),(buffer),(format),##__VA_ARGS__)
+
+#define hlog_warning_buffer(size, buffer, format, ...) \
+  hlog_report_buffer(htoolbox::warning,(size),(buffer),(format),##__VA_ARGS__)
+
+#define hlog_info_buffer(size, buffer, format, ...) \
+  hlog_report_buffer(htoolbox::info,(size),(buffer),(format),##__VA_ARGS__)
+
+#define hlog_verbose_buffer(size, buffer, format, ...) \
+  hlog_report_buffer(htoolbox::verbose,(size),(buffer),(format),##__VA_ARGS__)
+
+#define hlog_debug_buffer(size, buffer, format, ...) \
+  hlog_report_buffer(htoolbox::debug,(size),(buffer),(format),##__VA_ARGS__)
+
+#define hlog_regression_buffer(size, buffer, format, ...) \
+  hlog_report_buffer(htoolbox::regression,(size),(buffer),(format),##__VA_ARGS__)
+
+
 #define hlog_global_is_worth(l) \
   ((l) <= htoolbox::report.level())
 
-// All macros below derive from this one
+// All global macros below derive from this one
 #define hlog_global_generic(l, t, i, f, ...) \
   hlog_global_is_worth(l) \
   ? htoolbox::report.log(__FILE__,__LINE__,__FUNCTION__,(l),(t),(i),\
-      htoolbox::tl_thread_id,(f),##__VA_ARGS__) \
+      htoolbox::tl_thread_id,0,NULL,(f),##__VA_ARGS__) \
   : 0
 
 #define hlog_global_report(level, format, ...) \
