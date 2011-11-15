@@ -695,6 +695,10 @@ int Report::TlvOutput::log(
     const void*     buffer,
     const char*     format,
     va_list*        args) {
+  // Cannot send logs with this flag set (only used by TLV helper send method)
+  if (flags & HLOG_TLV_NOSEND) {
+    return 0;
+  }
   tlv::TransmissionManager m;
   m.add(tlv::log_start_tag + 0, file, strlen(file));
   m.add(tlv::log_start_tag + 1, static_cast<int32_t>(line));

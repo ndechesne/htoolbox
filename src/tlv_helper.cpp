@@ -138,8 +138,13 @@ int ReceptionManager::receive(Receiver& rec, abort_cb_f abort_cb, void* user) {
   char            val[65536];
   do {
     type = rec.receive(&tag, &len, val);
-    hlog_regression("receive: type=%d tag=%d len=%zu %s%s", type, tag, len,
-      type < 0 ? "msg=" : "", type < 0 ? val : "");
+    if (type < 0) {
+      hlog_debug("receive: type=%d tag=%d len=%zu msg=%s", type, tag, len,
+        val);
+    } else {
+      hlog_debug_buffer(len, val, "receive: type=%d tag=%d len=%zu val:",
+        type, tag, len);
+    }
     switch (type) {
       case Receiver::CHECK:
         if ((abort_cb != NULL) && abort_cb(user)) {
@@ -161,12 +166,18 @@ int ReceptionManager::receive(Receiver& rec, abort_cb_f abort_cb, void* user) {
   return 0;
 }
 
-ssize_t TransmissionManager::send(Sender& sender, bool start_and_end) {
+ssize_t TransmissionManager::send(
+    Sender&         sender,
+    bool            start_and_end,
+    useconds_t      udelay) {
   ssize_t rc = 0;
   if (start_and_end && ! _started) {
     rc = this->start(sender);
     hlog_regression("send: rc=%zd start", rc);
     if (rc < 0) return -errno;
+    if (udelay > 0) {
+      usleep(udelay);
+    }
   }
   const ITransmissionManager* src = this;
   while (src != NULL) {
@@ -180,8 +191,13 @@ ssize_t TransmissionManager::send(Sender& sender, bool start_and_end) {
           return o.length();
         } else {
           rc = sender.write(o.tag(), o.value(), o.length());
-          hlog_regression("send: rc=%zd tag=%d len=%zu", rc, o.tag(), o.length());
+          hlog_generic_buffer(debug, Report::HLOG_TLV_NOSEND, -1,
+            o.length(), o.value(),
+            "send: rc=%zd tag=%d len=%zu val:", rc, o.tag(), o.length());
           if (rc < 0) return -errno;
+          if (udelay > 0) {
+            usleep(udelay);
+          }
         }
       }
     }
@@ -192,6 +208,9 @@ ssize_t TransmissionManager::send(Sender& sender, bool start_and_end) {
     hlog_regression("send: rc=%zd end", rc);
     if (rc < 0) return -errno;
     _started = false;
+    if (udelay > 0) {
+      usleep(udelay);
+    }
   }
   return 0;
 }

@@ -225,7 +225,7 @@ int main(void) {
   // BigBlob (fails)
   t.add(3, tx_callback, bigblob);
 
-  t.send(sender);
+  t.send(sender, true, 100000);
 
   pthread_mutex_unlock(&thread_mutex);
 

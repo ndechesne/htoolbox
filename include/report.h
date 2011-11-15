@@ -286,6 +286,7 @@ namespace htoolbox {
       HLOG_NOLINEFEED   = 1 << 2,
       HLOG_BUFFER_COUNT = 1 << 3,
       HLOG_BUFFER_ASCII = 1 << 4,
+      HLOG_TLV_NOSEND   = 1 << 5,
     };
     // Display message on standard output
     int log(

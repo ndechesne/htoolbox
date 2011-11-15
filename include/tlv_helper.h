@@ -18,6 +18,7 @@
 #define _TLV_HELPER_H
 
 #include <stdio.h>
+#include <unistd.h>
 #include <string.h>
 #include <errno.h>
 
@@ -153,7 +154,7 @@ class ITransmissionManager {
 public:
   ITransmissionManager(const ITransmissionManager* next): _next(next) {}
   const ITransmissionManager* next() const { return _next; }
-  virtual ssize_t send(Sender& sender, bool insert) = 0;
+  virtual ssize_t send(Sender& sender, bool insert, useconds_t delay) = 0;
 };
 
 class TransmissionManager : public ITransmissionManager {
@@ -302,7 +303,7 @@ public:
     }
     return rc;
   }
-  ssize_t send(Sender& sender, bool start_and_end = true);
+  ssize_t send(Sender& sender, bool start_and_end = true, useconds_t delay = 0);
 };
 
 }
