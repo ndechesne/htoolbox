@@ -37,6 +37,14 @@ using namespace tlv;
 pthread_mutex_t main_mutex = PTHREAD_MUTEX_INITIALIZER;
 pthread_mutex_t thread_mutex = PTHREAD_MUTEX_INITIALIZER;
 
+time_t time(time_t* tm) {
+  time_t val = 1249617904;
+  if (tm != NULL) {
+    *tm = val;
+  }
+  return val;
+}
+
 static char tx_buffer[102400];
 static ssize_t tx_callback(const char** buffer, size_t size, void* user) {
   static size_t sent = 0;
@@ -91,6 +99,17 @@ void* receiver(void*) {
     return NULL;
   }
 
+  Report::FileOutput thread_log("thread.log");
+  if (thread_log.open() < 0) {
+    hlog_error("%m opening buffer log file");
+    return 0;
+  }
+  Report rp("thread");
+  rp.stopConsoleLog();
+  rp.add(&thread_log);
+  rp.setLevel(regression);
+  tl_report = &rp;
+
   ReceptionManager r;
   // Bool
   bool b1 = true;
@@ -132,6 +151,7 @@ void* receiver(void*) {
     hlog_info("receive: type=%d tag=%u, len=%zu %s", type, tag, len,
       tag < 65530 ? "" : val);
     if (type == Receiver::DATA) {
+      hlog_info_buffer(len, val, "buffer:");
       if (r.submit(tag, len, val) < 0) {
         hlog_error("no receiver for tag %d", tag);
       }
@@ -172,10 +192,18 @@ void* receiver(void*) {
 
   pthread_mutex_unlock(&main_mutex);
 
+  thread_log.close();
   return NULL;
 }
 
 int main(void) {
+  report.stopConsoleLog();
+  Report::FileOutput main_log("main.log");
+  if (main_log.open() < 0) {
+    hlog_error("%m opening buffer log file");
+    return 0;
+  }
+  report.add(&main_log);
   report.setLevel(regression);
   pthread_mutex_lock(&main_mutex);
 
@@ -235,5 +263,12 @@ int main(void) {
   pthread_mutex_lock(&main_mutex);
   pthread_join(thread, NULL);
 
+  main_log.close();
+
+  report.startConsoleLog();
+  hlog_info("main log:");
+  (void) system("cat main.log");
+  hlog_info("thread log:");
+  (void) system("cat thread.log");
   return 0;
 }
