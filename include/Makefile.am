@@ -1,5 +1,15 @@
 htoolsincludedir = $(includedir)/htoolbox
 
+AUTO_GENERATED = report_macros.h
+
+all-local: $(AUTO_GENERATED)
+
+clean-local:
+	rm -f $(AUTO_GENERATED)
+
+report_macros.h: create_report_macros.sh
+	./$< > $@
+
 htoolsinclude_HEADERS = \
   asyncwriter.h \
   configuration.h \
@@ -17,6 +27,7 @@ htoolsinclude_HEADERS = \
   process_mutex.h \
   queue.h \
   report.h \
+  report_macros.h \
   share.h \
   shared_path.h \
   socket.h \

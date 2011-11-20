@@ -191,7 +191,7 @@ ssize_t TransmissionManager::send(
           return o.length();
         } else {
           rc = sender.write(o.tag(), o.value(), o.length());
-          hlog_generic_buffer(debug, Report::HLOG_TLV_NOSEND, -1,
+          hlog_generic(HLOG_GENERIC_BOTH, debug, Report::HLOG_TLV_NOSEND, -1,
             o.length(), o.value(),
             "send: rc=%zd tag=%d len=%zu val:", rc, o.tag(), o.length());
           if (rc < 0) return -errno;

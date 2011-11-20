@@ -85,7 +85,7 @@ T* HashTree<T>::add(T* hobj) {
     if (node->child.nodes[i] == NULL) {
       node->child.hobjs[i] = hobj;
       node->_mask |= static_cast<int16_t>(1 << i);
-      hlog_regression("added, mask=%x", node->_mask)
+      hlog_regression("added, mask=%x", node->_mask);
     } else {
       HashTree<T>* new_child =
         new HashTree<T>(node, static_cast<int16_t>(node->_level + 1));

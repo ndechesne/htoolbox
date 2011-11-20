@@ -228,8 +228,8 @@ int Report::log(
 }
 
 void Report::show(Level level, int indentation, bool show_closed) const {
-  hlog_generic(level, false, indentation, "report '%s' [%s]:", name(),
-    this->level().toString());
+  hlog_generic(HLOG_GENERIC_BOTH, level, 0, indentation, 0, NULL,
+    "report '%s' [%s]:", name(), this->level().toString());
   for (list<Observee*>::const_iterator it = _observees.begin();
       it != _observees.end(); ++it) {
     IOutput* output = dynamic_cast<IOutput*>(*it);
@@ -368,8 +368,9 @@ int Report::ConsoleOutput::log(
 }
 
 void Report::ConsoleOutput::show(Level level, int indentation) const {
-  hlog_generic(level, false, indentation, "console '%s' (%s) [%s]", name(),
-    isOpen() ? "open" : "closed", this->level().toString());
+  hlog_generic(HLOG_GENERIC_BOTH, level, 0, indentation, 0, NULL,
+    "console '%s' (%s) [%s]", name(), isOpen() ? "open" : "closed",
+    this->level().toString());
 }
 
 struct Report::FileOutput::Private {
@@ -674,13 +675,17 @@ int Report::FileOutput::log(
 }
 
 void Report::FileOutput::show(Level level, int indentation) const {
-  hlog_generic(level, false, indentation, "file '%s' (%s) [%s]:", name(),
-    isOpen() ? "open" : "closed", this->level().toString());
-  hlog_generic(level, false, indentation + 1, "name: '%s'", _d->name);
-  hlog_generic(level, false, indentation + 1, "max_lines: %zu", _d->max_lines);
-  hlog_generic(level, false, indentation + 1, "max_files: %zu", _d->max_files);
-  hlog_generic(level, false, indentation + 1, "zip_backups: %s",
-    _d->zip_backups ? "yes" : "no");
+  hlog_generic(HLOG_GENERIC_BOTH, level, 0, indentation, 0, NULL,
+    "file '%s' (%s) [%s]:", name(), isOpen() ? "open" : "closed",
+    this->level().toString());
+  hlog_generic(HLOG_GENERIC_BOTH, level, 0, indentation + 1, 0, NULL,
+    "name: '%s'", _d->name);
+  hlog_generic(HLOG_GENERIC_BOTH, level, 0, indentation + 1, 0, NULL,
+    "max_lines: %zu", _d->max_lines);
+  hlog_generic(HLOG_GENERIC_BOTH, level, 0, indentation + 1, 0, NULL,
+    "max_files: %zu", _d->max_files);
+  hlog_generic(HLOG_GENERIC_BOTH, level, 0, indentation + 1, 0, NULL,
+    "zip_backups: %s", _d->zip_backups ? "yes" : "no");
 }
 
 int Report::TlvOutput::log(
@@ -724,8 +729,9 @@ int Report::TlvOutput::log(
 }
 
 void Report::TlvOutput::show(Level level, int indentation) const {
-  hlog_generic(level, false, indentation, "tlv '%s' (%s) [%s]", name(),
-    isOpen() ? "open" : "closed", this->level().toString());
+  hlog_generic(HLOG_GENERIC_BOTH, level, 0, indentation, 0, NULL,
+    "tlv '%s' (%s) [%s]", name(), isOpen() ? "open" : "closed",
+    this->level().toString());
 }
 
 int Report::TlvManager::submit(uint16_t tag, size_t size, const char* val) {
@@ -805,12 +811,12 @@ public:
         _min_level.toString(), _max_level.toString());
     }
     if (_function_name_length == 1) {
-      hlog_generic(level, false, indentation,
+      hlog_generic(HLOG_GENERIC_BOTH, level, 0, indentation, 0, NULL,
         "%s '%s' %zu <= line <= %zu%s",
         _mode > reject ? "ACCEPT" : "REJECT", _file_name, _min_line, _max_line,
         level_str);
     } else {
-      hlog_generic(level, false, indentation,
+      hlog_generic(HLOG_GENERIC_BOTH, level, 0, indentation, 0, NULL,
         "%s '%s' function = %s%s",
         _mode > reject ? "ACCEPT" : "REJECT", _file_name, _function_name,
         level_str);
@@ -921,17 +927,21 @@ int Report::Filter::log(
 }
 
 void Report::Filter::show(Level level, int indentation) const {
-  hlog_generic(level, false, indentation, "filter '%s' (%s) [%s]:", name(),
-    isOpen() ? "open" : "closed", this->level().toString());
+  hlog_generic(HLOG_GENERIC_BOTH, level, 0, indentation, 0, NULL,
+    "filter '%s' (%s) [%s]:", name(), isOpen() ? "open" : "closed",
+    this->level().toString());
   if (_conditions.empty()) {
-    hlog_generic(level, false, indentation + 1, "no conditions");
+    hlog_generic(HLOG_GENERIC_BOTH, level, 0, indentation + 1, 0, NULL,
+      "no conditions");
   } else {
-    hlog_generic(level, false, indentation + 1, "conditions:");
+    hlog_generic(HLOG_GENERIC_BOTH, level, 0, indentation + 1, 0, NULL,
+      "conditions:");
     for (list<Condition*>::const_iterator it = _conditions.begin();
         it != _conditions.end(); ++it) {
       (*it)->show(level, indentation + 2);
     }
   }
-  hlog_generic(level, false, indentation + 1, "output:");
+  hlog_generic(HLOG_GENERIC_BOTH, level, 0, indentation + 1, 0, NULL,
+    "output:");
   _output->show(level, indentation + 2);
 }

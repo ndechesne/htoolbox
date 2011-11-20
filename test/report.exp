@@ -6,7 +6,6 @@ ALERT! alert level
 Error: error level
 Warning: warning level
 info level
-report, info level
 ALERT! alert level
 ALERT! alert level, temporary\r
 alert level, no prefix       
@@ -126,7 +125,6 @@ ALERT! alert level
 Error: error level
 Warning: warning level
 info level
-report, info level
 ALERT! alert level
 ALERT! alert level, temporary\r
 alert level, no prefix       
@@ -167,7 +165,6 @@ ALERT! alert level
 Error: error level
 Warning: warning level
 info level
-report, info level
 verbose level
  > verbose 0 level
  -> verbose 1 level
@@ -220,7 +217,6 @@ ALERT! alert level
 Error: error level
 Warning: warning level
 info level
-report, info level
 verbose level
  > verbose 0 level
  -> verbose 1 level
@@ -285,7 +281,6 @@ ALERT! alert level
 Error: error level
 Warning: warning level
 info level
-report, info level
 verbose level
  > verbose 0 level
  -> verbose 1 level
@@ -359,7 +354,6 @@ ALERT! alert level
 Error: error level
 Warning: warning level
 info level
-report, info level
 verbose level
  > verbose 0 level
  -> verbose 1 level
@@ -425,7 +419,6 @@ ALERT! alert level
 Error: error level
 Warning: warning level
 info level
-report, info level
 verbose level
  > verbose 0 level
  -> verbose 1 level
@@ -491,7 +484,6 @@ ALERT! alert level
 Error: error level
 Warning: warning level
 info level
-report, info level
 verbose level
  > verbose 0 level
  -> verbose 1 level
@@ -583,7 +575,6 @@ message: info
 message: verbose
 message: debug
 message: regression
-temporary message: info\r
 temporary message: verbose\r
 temporary message: debug  \r
                         \r
@@ -1122,372 +1113,372 @@ This is a buffer of size: 90
 	00000040  09 0d 0a 1f 7d 7e 7f 80  ff 2b 29 2d 3d 7b 7d 5b  |....}~...+)-={}[|
 	00000050  5d 3c 3e 7c 3a 3b 2c 2e  2f 3f                    |]<>|:;,./?|
 	0000005a
-2009-08-07 06:05:04 INFO  report_test.cpp:739	This is a buffer of size: 0
-2009-08-07 06:05:04 INFO  report_test.cpp:739	This is a buffer of size: 1
+2009-08-07 06:05:04 INFO  report_test.cpp:728	This is a buffer of size: 0
+2009-08-07 06:05:04 INFO  report_test.cpp:728	This is a buffer of size: 1
 	00000000  31                                                |1|
 	00000001
-2009-08-07 06:05:04 INFO  report_test.cpp:739	This is a buffer of size: 2
+2009-08-07 06:05:04 INFO  report_test.cpp:728	This is a buffer of size: 2
 	00000000  31 32                                             |12|
 	00000002
-2009-08-07 06:05:04 INFO  report_test.cpp:739	This is a buffer of size: 3
+2009-08-07 06:05:04 INFO  report_test.cpp:728	This is a buffer of size: 3
 	00000000  31 32 33                                          |123|
 	00000003
-2009-08-07 06:05:04 INFO  report_test.cpp:739	This is a buffer of size: 4
+2009-08-07 06:05:04 INFO  report_test.cpp:728	This is a buffer of size: 4
 	00000000  31 32 33 34                                       |1234|
 	00000004
-2009-08-07 06:05:04 INFO  report_test.cpp:739	This is a buffer of size: 5
+2009-08-07 06:05:04 INFO  report_test.cpp:728	This is a buffer of size: 5
 	00000000  31 32 33 34 35                                    |12345|
 	00000005
-2009-08-07 06:05:04 INFO  report_test.cpp:739	This is a buffer of size: 6
+2009-08-07 06:05:04 INFO  report_test.cpp:728	This is a buffer of size: 6
 	00000000  31 32 33 34 35 36                                 |123456|
 	00000006
-2009-08-07 06:05:04 INFO  report_test.cpp:739	This is a buffer of size: 7
+2009-08-07 06:05:04 INFO  report_test.cpp:728	This is a buffer of size: 7
 	00000000  31 32 33 34 35 36 37                              |1234567|
 	00000007
-2009-08-07 06:05:04 INFO  report_test.cpp:739	This is a buffer of size: 8
+2009-08-07 06:05:04 INFO  report_test.cpp:728	This is a buffer of size: 8
 	00000000  31 32 33 34 35 36 37 38                           |12345678|
 	00000008
-2009-08-07 06:05:04 INFO  report_test.cpp:739	This is a buffer of size: 9
+2009-08-07 06:05:04 INFO  report_test.cpp:728	This is a buffer of size: 9
 	00000000  31 32 33 34 35 36 37 38  39                       |123456789|
 	00000009
-2009-08-07 06:05:04 INFO  report_test.cpp:739	This is a buffer of size: 10
+2009-08-07 06:05:04 INFO  report_test.cpp:728	This is a buffer of size: 10
 	00000000  31 32 33 34 35 36 37 38  39 30                    |1234567890|
 	0000000a
-2009-08-07 06:05:04 INFO  report_test.cpp:739	This is a buffer of size: 11
+2009-08-07 06:05:04 INFO  report_test.cpp:728	This is a buffer of size: 11
 	00000000  31 32 33 34 35 36 37 38  39 30 61                 |1234567890a|
 	0000000b
-2009-08-07 06:05:04 INFO  report_test.cpp:739	This is a buffer of size: 12
+2009-08-07 06:05:04 INFO  report_test.cpp:728	This is a buffer of size: 12
 	00000000  31 32 33 34 35 36 37 38  39 30 61 62              |1234567890ab|
 	0000000c
-2009-08-07 06:05:04 INFO  report_test.cpp:739	This is a buffer of size: 13
+2009-08-07 06:05:04 INFO  report_test.cpp:728	This is a buffer of size: 13
 	00000000  31 32 33 34 35 36 37 38  39 30 61 62 63           |1234567890abc|
 	0000000d
-2009-08-07 06:05:04 INFO  report_test.cpp:739	This is a buffer of size: 14
+2009-08-07 06:05:04 INFO  report_test.cpp:728	This is a buffer of size: 14
 	00000000  31 32 33 34 35 36 37 38  39 30 61 62 63 64        |1234567890abcd|
 	0000000e
-2009-08-07 06:05:04 INFO  report_test.cpp:739	This is a buffer of size: 15
+2009-08-07 06:05:04 INFO  report_test.cpp:728	This is a buffer of size: 15
 	00000000  31 32 33 34 35 36 37 38  39 30 61 62 63 64 65     |1234567890abcde|
 	0000000f
-2009-08-07 06:05:04 INFO  report_test.cpp:739	This is a buffer of size: 16
+2009-08-07 06:05:04 INFO  report_test.cpp:728	This is a buffer of size: 16
 	00000000  31 32 33 34 35 36 37 38  39 30 61 62 63 64 65 66  |1234567890abcdef|
 	00000010
-2009-08-07 06:05:04 INFO  report_test.cpp:739	This is a buffer of size: 17
+2009-08-07 06:05:04 INFO  report_test.cpp:728	This is a buffer of size: 17
 	00000000  31 32 33 34 35 36 37 38  39 30 61 62 63 64 65 66  |1234567890abcdef|
 	00000010  67                                                |g|
 	00000011
-2009-08-07 06:05:04 INFO  report_test.cpp:739	This is a buffer of size: 18
+2009-08-07 06:05:04 INFO  report_test.cpp:728	This is a buffer of size: 18
 	00000000  31 32 33 34 35 36 37 38  39 30 61 62 63 64 65 66  |1234567890abcdef|
 	00000010  67 68                                             |gh|
 	00000012
-2009-08-07 06:05:04 INFO  report_test.cpp:739	This is a buffer of size: 19
+2009-08-07 06:05:04 INFO  report_test.cpp:728	This is a buffer of size: 19
 	00000000  31 32 33 34 35 36 37 38  39 30 61 62 63 64 65 66  |1234567890abcdef|
 	00000010  67 68 69                                          |ghi|
 	00000013
-2009-08-07 06:05:04 INFO  report_test.cpp:739	This is a buffer of size: 20
+2009-08-07 06:05:04 INFO  report_test.cpp:728	This is a buffer of size: 20
 	00000000  31 32 33 34 35 36 37 38  39 30 61 62 63 64 65 66  |1234567890abcdef|
 	00000010  67 68 69 6a                                       |ghij|
 	00000014
-2009-08-07 06:05:04 INFO  report_test.cpp:739	This is a buffer of size: 21
+2009-08-07 06:05:04 INFO  report_test.cpp:728	This is a buffer of size: 21
 	          31 32 33 34 35 36 37 38  39 30 61 62 63 64 65 66
 	          67 68 69 6a 6b
-2009-08-07 06:05:04 INFO  report_test.cpp:739	This is a buffer of size: 22
+2009-08-07 06:05:04 INFO  report_test.cpp:728	This is a buffer of size: 22
 	          31 32 33 34 35 36 37 38  39 30 61 62 63 64 65 66
 	          67 68 69 6a 6b 6c
-2009-08-07 06:05:04 INFO  report_test.cpp:739	This is a buffer of size: 23
+2009-08-07 06:05:04 INFO  report_test.cpp:728	This is a buffer of size: 23
 	          31 32 33 34 35 36 37 38  39 30 61 62 63 64 65 66
 	          67 68 69 6a 6b 6c 6d
-2009-08-07 06:05:04 INFO  report_test.cpp:739	This is a buffer of size: 24
+2009-08-07 06:05:04 INFO  report_test.cpp:728	This is a buffer of size: 24
 	          31 32 33 34 35 36 37 38  39 30 61 62 63 64 65 66
 	          67 68 69 6a 6b 6c 6d 6e
-2009-08-07 06:05:04 INFO  report_test.cpp:739	This is a buffer of size: 25
+2009-08-07 06:05:04 INFO  report_test.cpp:728	This is a buffer of size: 25
 	          31 32 33 34 35 36 37 38  39 30 61 62 63 64 65 66
 	          67 68 69 6a 6b 6c 6d 6e  6f
-2009-08-07 06:05:04 INFO  report_test.cpp:739	This is a buffer of size: 26
+2009-08-07 06:05:04 INFO  report_test.cpp:728	This is a buffer of size: 26
 	          31 32 33 34 35 36 37 38  39 30 61 62 63 64 65 66
 	          67 68 69 6a 6b 6c 6d 6e  6f 70
-2009-08-07 06:05:04 INFO  report_test.cpp:739	This is a buffer of size: 27
+2009-08-07 06:05:04 INFO  report_test.cpp:728	This is a buffer of size: 27
 	          31 32 33 34 35 36 37 38  39 30 61 62 63 64 65 66
 	          67 68 69 6a 6b 6c 6d 6e  6f 70 71
-2009-08-07 06:05:04 INFO  report_test.cpp:739	This is a buffer of size: 28
+2009-08-07 06:05:04 INFO  report_test.cpp:728	This is a buffer of size: 28
 	          31 32 33 34 35 36 37 38  39 30 61 62 63 64 65 66
 	          67 68 69 6a 6b 6c 6d 6e  6f 70 71 72
-2009-08-07 06:05:04 INFO  report_test.cpp:739	This is a buffer of size: 29
+2009-08-07 06:05:04 INFO  report_test.cpp:728	This is a buffer of size: 29
 	          31 32 33 34 35 36 37 38  39 30 61 62 63 64 65 66
 	          67 68 69 6a 6b 6c 6d 6e  6f 70 71 72 73
-2009-08-07 06:05:04 INFO  report_test.cpp:739	This is a buffer of size: 30
+2009-08-07 06:05:04 INFO  report_test.cpp:728	This is a buffer of size: 30
 	          31 32 33 34 35 36 37 38  39 30 61 62 63 64 65 66
 	          67 68 69 6a 6b 6c 6d 6e  6f 70 71 72 73 74
-2009-08-07 06:05:04 INFO  report_test.cpp:739	This is a buffer of size: 31
+2009-08-07 06:05:04 INFO  report_test.cpp:728	This is a buffer of size: 31
 	          31 32 33 34 35 36 37 38  39 30 61 62 63 64 65 66
 	          67 68 69 6a 6b 6c 6d 6e  6f 70 71 72 73 74 75
-2009-08-07 06:05:04 INFO  report_test.cpp:739	This is a buffer of size: 32
+2009-08-07 06:05:04 INFO  report_test.cpp:728	This is a buffer of size: 32
 	          31 32 33 34 35 36 37 38  39 30 61 62 63 64 65 66
 	          67 68 69 6a 6b 6c 6d 6e  6f 70 71 72 73 74 75 76
-2009-08-07 06:05:04 INFO  report_test.cpp:739	This is a buffer of size: 33
+2009-08-07 06:05:04 INFO  report_test.cpp:728	This is a buffer of size: 33
 	          31 32 33 34 35 36 37 38  39 30 61 62 63 64 65 66
 	          67 68 69 6a 6b 6c 6d 6e  6f 70 71 72 73 74 75 76
 	          77
-2009-08-07 06:05:04 INFO  report_test.cpp:739	This is a buffer of size: 34
+2009-08-07 06:05:04 INFO  report_test.cpp:728	This is a buffer of size: 34
 	          31 32 33 34 35 36 37 38  39 30 61 62 63 64 65 66
 	          67 68 69 6a 6b 6c 6d 6e  6f 70 71 72 73 74 75 76
 	          77 78
-2009-08-07 06:05:04 INFO  report_test.cpp:739	This is a buffer of size: 35
+2009-08-07 06:05:04 INFO  report_test.cpp:728	This is a buffer of size: 35
 	          31 32 33 34 35 36 37 38  39 30 61 62 63 64 65 66
 	          67 68 69 6a 6b 6c 6d 6e  6f 70 71 72 73 74 75 76
 	          77 78 79
-2009-08-07 06:05:04 INFO  report_test.cpp:739	This is a buffer of size: 36
+2009-08-07 06:05:04 INFO  report_test.cpp:728	This is a buffer of size: 36
 	          31 32 33 34 35 36 37 38  39 30 61 62 63 64 65 66
 	          67 68 69 6a 6b 6c 6d 6e  6f 70 71 72 73 74 75 76
 	          77 78 79 7a
-2009-08-07 06:05:04 INFO  report_test.cpp:739	This is a buffer of size: 37
+2009-08-07 06:05:04 INFO  report_test.cpp:728	This is a buffer of size: 37
 	          31 32 33 34 35 36 37 38  39 30 61 62 63 64 65 66
 	          67 68 69 6a 6b 6c 6d 6e  6f 70 71 72 73 74 75 76
 	          77 78 79 7a 41
-2009-08-07 06:05:04 INFO  report_test.cpp:739	This is a buffer of size: 38
+2009-08-07 06:05:04 INFO  report_test.cpp:728	This is a buffer of size: 38
 	          31 32 33 34 35 36 37 38  39 30 61 62 63 64 65 66
 	          67 68 69 6a 6b 6c 6d 6e  6f 70 71 72 73 74 75 76
 	          77 78 79 7a 41 42
-2009-08-07 06:05:04 INFO  report_test.cpp:739	This is a buffer of size: 39
+2009-08-07 06:05:04 INFO  report_test.cpp:728	This is a buffer of size: 39
 	          31 32 33 34 35 36 37 38  39 30 61 62 63 64 65 66  |1234567890abcdef|
 	          67 68 69 6a 6b 6c 6d 6e  6f 70 71 72 73 74 75 76  |ghijklmnopqrstuv|
 	          77 78 79 7a 41 42 43                              |wxyzABC|
-2009-08-07 06:05:04 INFO  report_test.cpp:739	This is a buffer of size: 40
+2009-08-07 06:05:04 INFO  report_test.cpp:728	This is a buffer of size: 40
 	          31 32 33 34 35 36 37 38  39 30 61 62 63 64 65 66  |1234567890abcdef|
 	          67 68 69 6a 6b 6c 6d 6e  6f 70 71 72 73 74 75 76  |ghijklmnopqrstuv|
 	          77 78 79 7a 41 42 43 44                           |wxyzABCD|
-2009-08-07 06:05:04 INFO  report_test.cpp:739	This is a buffer of size: 41
+2009-08-07 06:05:04 INFO  report_test.cpp:728	This is a buffer of size: 41
 	          31 32 33 34 35 36 37 38  39 30 61 62 63 64 65 66  |1234567890abcdef|
 	          67 68 69 6a 6b 6c 6d 6e  6f 70 71 72 73 74 75 76  |ghijklmnopqrstuv|
 	          77 78 79 7a 41 42 43 44  45                       |wxyzABCDE|
-2009-08-07 06:05:04 INFO  report_test.cpp:739	This is a buffer of size: 42
+2009-08-07 06:05:04 INFO  report_test.cpp:728	This is a buffer of size: 42
 	          31 32 33 34 35 36 37 38  39 30 61 62 63 64 65 66  |1234567890abcdef|
 	          67 68 69 6a 6b 6c 6d 6e  6f 70 71 72 73 74 75 76  |ghijklmnopqrstuv|
 	          77 78 79 7a 41 42 43 44  45 46                    |wxyzABCDEF|
-2009-08-07 06:05:04 INFO  report_test.cpp:739	This is a buffer of size: 43
+2009-08-07 06:05:04 INFO  report_test.cpp:728	This is a buffer of size: 43
 	          31 32 33 34 35 36 37 38  39 30 61 62 63 64 65 66  |1234567890abcdef|
 	          67 68 69 6a 6b 6c 6d 6e  6f 70 71 72 73 74 75 76  |ghijklmnopqrstuv|
 	          77 78 79 7a 41 42 43 44  45 46 47                 |wxyzABCDEFG|
-2009-08-07 06:05:04 INFO  report_test.cpp:739	This is a buffer of size: 44
+2009-08-07 06:05:04 INFO  report_test.cpp:728	This is a buffer of size: 44
 	          31 32 33 34 35 36 37 38  39 30 61 62 63 64 65 66  |1234567890abcdef|
 	          67 68 69 6a 6b 6c 6d 6e  6f 70 71 72 73 74 75 76  |ghijklmnopqrstuv|
 	          77 78 79 7a 41 42 43 44  45 46 47 48              |wxyzABCDEFGH|
-2009-08-07 06:05:04 INFO  report_test.cpp:739	This is a buffer of size: 45
+2009-08-07 06:05:04 INFO  report_test.cpp:728	This is a buffer of size: 45
 	          31 32 33 34 35 36 37 38  39 30 61 62 63 64 65 66  |1234567890abcdef|
 	          67 68 69 6a 6b 6c 6d 6e  6f 70 71 72 73 74 75 76  |ghijklmnopqrstuv|
 	          77 78 79 7a 41 42 43 44  45 46 47 48 49           |wxyzABCDEFGHI|
-2009-08-07 06:05:04 INFO  report_test.cpp:739	This is a buffer of size: 46
+2009-08-07 06:05:04 INFO  report_test.cpp:728	This is a buffer of size: 46
 	          31 32 33 34 35 36 37 38  39 30 61 62 63 64 65 66  |1234567890abcdef|
 	          67 68 69 6a 6b 6c 6d 6e  6f 70 71 72 73 74 75 76  |ghijklmnopqrstuv|
 	          77 78 79 7a 41 42 43 44  45 46 47 48 49 4a        |wxyzABCDEFGHIJ|
-2009-08-07 06:05:04 INFO  report_test.cpp:739	This is a buffer of size: 47
+2009-08-07 06:05:04 INFO  report_test.cpp:728	This is a buffer of size: 47
 	          31 32 33 34 35 36 37 38  39 30 61 62 63 64 65 66  |1234567890abcdef|
 	          67 68 69 6a 6b 6c 6d 6e  6f 70 71 72 73 74 75 76  |ghijklmnopqrstuv|
 	          77 78 79 7a 41 42 43 44  45 46 47 48 49 4a 4b     |wxyzABCDEFGHIJK|
-2009-08-07 06:05:04 INFO  report_test.cpp:739	This is a buffer of size: 48
+2009-08-07 06:05:04 INFO  report_test.cpp:728	This is a buffer of size: 48
 	          31 32 33 34 35 36 37 38  39 30 61 62 63 64 65 66  |1234567890abcdef|
 	          67 68 69 6a 6b 6c 6d 6e  6f 70 71 72 73 74 75 76  |ghijklmnopqrstuv|
 	          77 78 79 7a 41 42 43 44  45 46 47 48 49 4a 4b 4c  |wxyzABCDEFGHIJKL|
-2009-08-07 06:05:04 INFO  report_test.cpp:739	This is a buffer of size: 49
+2009-08-07 06:05:04 INFO  report_test.cpp:728	This is a buffer of size: 49
 	          31 32 33 34 35 36 37 38  39 30 61 62 63 64 65 66  |1234567890abcdef|
 	          67 68 69 6a 6b 6c 6d 6e  6f 70 71 72 73 74 75 76  |ghijklmnopqrstuv|
 	          77 78 79 7a 41 42 43 44  45 46 47 48 49 4a 4b 4c  |wxyzABCDEFGHIJKL|
 	          4d                                                |M|
-2009-08-07 06:05:04 INFO  report_test.cpp:739	This is a buffer of size: 50
+2009-08-07 06:05:04 INFO  report_test.cpp:728	This is a buffer of size: 50
 	          31 32 33 34 35 36 37 38  39 30 61 62 63 64 65 66  |1234567890abcdef|
 	          67 68 69 6a 6b 6c 6d 6e  6f 70 71 72 73 74 75 76  |ghijklmnopqrstuv|
 	          77 78 79 7a 41 42 43 44  45 46 47 48 49 4a 4b 4c  |wxyzABCDEFGHIJKL|
 	          4d 4e                                             |MN|
-2009-08-07 06:05:04 INFO  report_test.cpp:739	This is a buffer of size: 51
+2009-08-07 06:05:04 INFO  report_test.cpp:728	This is a buffer of size: 51
 	          31 32 33 34 35 36 37 38  39 30 61 62 63 64 65 66  |1234567890abcdef|
 	          67 68 69 6a 6b 6c 6d 6e  6f 70 71 72 73 74 75 76  |ghijklmnopqrstuv|
 	          77 78 79 7a 41 42 43 44  45 46 47 48 49 4a 4b 4c  |wxyzABCDEFGHIJKL|
 	          4d 4e 4f                                          |MNO|
-2009-08-07 06:05:04 INFO  report_test.cpp:739	This is a buffer of size: 52
+2009-08-07 06:05:04 INFO  report_test.cpp:728	This is a buffer of size: 52
 	          31 32 33 34 35 36 37 38  39 30 61 62 63 64 65 66  |1234567890abcdef|
 	          67 68 69 6a 6b 6c 6d 6e  6f 70 71 72 73 74 75 76  |ghijklmnopqrstuv|
 	          77 78 79 7a 41 42 43 44  45 46 47 48 49 4a 4b 4c  |wxyzABCDEFGHIJKL|
 	          4d 4e 4f 50                                       |MNOP|
-2009-08-07 06:05:04 INFO  report_test.cpp:739	This is a buffer of size: 53
+2009-08-07 06:05:04 INFO  report_test.cpp:728	This is a buffer of size: 53
 	          31 32 33 34 35 36 37 38  39 30 61 62 63 64 65 66  |1234567890abcdef|
 	          67 68 69 6a 6b 6c 6d 6e  6f 70 71 72 73 74 75 76  |ghijklmnopqrstuv|
 	          77 78 79 7a 41 42 43 44  45 46 47 48 49 4a 4b 4c  |wxyzABCDEFGHIJKL|
 	          4d 4e 4f 50 51                                    |MNOPQ|
-2009-08-07 06:05:04 INFO  report_test.cpp:739	This is a buffer of size: 54
+2009-08-07 06:05:04 INFO  report_test.cpp:728	This is a buffer of size: 54
 	          31 32 33 34 35 36 37 38  39 30 61 62 63 64 65 66  |1234567890abcdef|
 	          67 68 69 6a 6b 6c 6d 6e  6f 70 71 72 73 74 75 76  |ghijklmnopqrstuv|
 	          77 78 79 7a 41 42 43 44  45 46 47 48 49 4a 4b 4c  |wxyzABCDEFGHIJKL|
 	          4d 4e 4f 50 51 52                                 |MNOPQR|
-2009-08-07 06:05:04 INFO  report_test.cpp:739	This is a buffer of size: 55
+2009-08-07 06:05:04 INFO  report_test.cpp:728	This is a buffer of size: 55
 	          31 32 33 34 35 36 37 38  39 30 61 62 63 64 65 66  |1234567890abcdef|
 	          67 68 69 6a 6b 6c 6d 6e  6f 70 71 72 73 74 75 76  |ghijklmnopqrstuv|
 	          77 78 79 7a 41 42 43 44  45 46 47 48 49 4a 4b 4c  |wxyzABCDEFGHIJKL|
 	          4d 4e 4f 50 51 52 53                              |MNOPQRS|
-2009-08-07 06:05:04 INFO  report_test.cpp:739	This is a buffer of size: 56
+2009-08-07 06:05:04 INFO  report_test.cpp:728	This is a buffer of size: 56
 	          31 32 33 34 35 36 37 38  39 30 61 62 63 64 65 66  |1234567890abcdef|
 	          67 68 69 6a 6b 6c 6d 6e  6f 70 71 72 73 74 75 76  |ghijklmnopqrstuv|
 	          77 78 79 7a 41 42 43 44  45 46 47 48 49 4a 4b 4c  |wxyzABCDEFGHIJKL|
 	          4d 4e 4f 50 51 52 53 54                           |MNOPQRST|
-2009-08-07 06:05:04 INFO  report_test.cpp:739	This is a buffer of size: 57
+2009-08-07 06:05:04 INFO  report_test.cpp:728	This is a buffer of size: 57
 	00000000  31 32 33 34 35 36 37 38  39 30 61 62 63 64 65 66
 	00000010  67 68 69 6a 6b 6c 6d 6e  6f 70 71 72 73 74 75 76
 	00000020  77 78 79 7a 41 42 43 44  45 46 47 48 49 4a 4b 4c
 	00000030  4d 4e 4f 50 51 52 53 54  55
 	00000039
-2009-08-07 06:05:04 INFO  report_test.cpp:739	This is a buffer of size: 58
+2009-08-07 06:05:04 INFO  report_test.cpp:728	This is a buffer of size: 58
 	00000000  31 32 33 34 35 36 37 38  39 30 61 62 63 64 65 66
 	00000010  67 68 69 6a 6b 6c 6d 6e  6f 70 71 72 73 74 75 76
 	00000020  77 78 79 7a 41 42 43 44  45 46 47 48 49 4a 4b 4c
 	00000030  4d 4e 4f 50 51 52 53 54  55 56
 	0000003a
-2009-08-07 06:05:04 INFO  report_test.cpp:739	This is a buffer of size: 59
+2009-08-07 06:05:04 INFO  report_test.cpp:728	This is a buffer of size: 59
 	00000000  31 32 33 34 35 36 37 38  39 30 61 62 63 64 65 66
 	00000010  67 68 69 6a 6b 6c 6d 6e  6f 70 71 72 73 74 75 76
 	00000020  77 78 79 7a 41 42 43 44  45 46 47 48 49 4a 4b 4c
 	00000030  4d 4e 4f 50 51 52 53 54  55 56 57
 	0000003b
-2009-08-07 06:05:04 INFO  report_test.cpp:739	This is a buffer of size: 60
+2009-08-07 06:05:04 INFO  report_test.cpp:728	This is a buffer of size: 60
 	00000000  31 32 33 34 35 36 37 38  39 30 61 62 63 64 65 66
 	00000010  67 68 69 6a 6b 6c 6d 6e  6f 70 71 72 73 74 75 76
 	00000020  77 78 79 7a 41 42 43 44  45 46 47 48 49 4a 4b 4c
 	00000030  4d 4e 4f 50 51 52 53 54  55 56 57 58
 	0000003c
-2009-08-07 06:05:04 INFO  report_test.cpp:739	This is a buffer of size: 61
+2009-08-07 06:05:04 INFO  report_test.cpp:728	This is a buffer of size: 61
 	00000000  31 32 33 34 35 36 37 38  39 30 61 62 63 64 65 66
 	00000010  67 68 69 6a 6b 6c 6d 6e  6f 70 71 72 73 74 75 76
 	00000020  77 78 79 7a 41 42 43 44  45 46 47 48 49 4a 4b 4c
 	00000030  4d 4e 4f 50 51 52 53 54  55 56 57 58 59
 	0000003d
-2009-08-07 06:05:04 INFO  report_test.cpp:739	This is a buffer of size: 62
+2009-08-07 06:05:04 INFO  report_test.cpp:728	This is a buffer of size: 62
 	00000000  31 32 33 34 35 36 37 38  39 30 61 62 63 64 65 66
 	00000010  67 68 69 6a 6b 6c 6d 6e  6f 70 71 72 73 74 75 76
 	00000020  77 78 79 7a 41 42 43 44  45 46 47 48 49 4a 4b 4c
 	00000030  4d 4e 4f 50 51 52 53 54  55 56 57 58 59 5a
 	0000003e
-2009-08-07 06:05:04 INFO  report_test.cpp:739	This is a buffer of size: 63
+2009-08-07 06:05:04 INFO  report_test.cpp:728	This is a buffer of size: 63
 	00000000  31 32 33 34 35 36 37 38  39 30 61 62 63 64 65 66
 	00000010  67 68 69 6a 6b 6c 6d 6e  6f 70 71 72 73 74 75 76
 	00000020  77 78 79 7a 41 42 43 44  45 46 47 48 49 4a 4b 4c
 	00000030  4d 4e 4f 50 51 52 53 54  55 56 57 58 59 5a 20
 	0000003f
-2009-08-07 06:05:04 INFO  report_test.cpp:739	This is a buffer of size: 64
+2009-08-07 06:05:04 INFO  report_test.cpp:728	This is a buffer of size: 64
 	00000000  31 32 33 34 35 36 37 38  39 30 61 62 63 64 65 66
 	00000010  67 68 69 6a 6b 6c 6d 6e  6f 70 71 72 73 74 75 76
 	00000020  77 78 79 7a 41 42 43 44  45 46 47 48 49 4a 4b 4c
 	00000030  4d 4e 4f 50 51 52 53 54  55 56 57 58 59 5a 20 00
 	00000040
-2009-08-07 06:05:04 INFO  report_test.cpp:739	This is a buffer of size: 65
+2009-08-07 06:05:04 INFO  report_test.cpp:728	This is a buffer of size: 65
 	00000000  31 32 33 34 35 36 37 38  39 30 61 62 63 64 65 66
 	00000010  67 68 69 6a 6b 6c 6d 6e  6f 70 71 72 73 74 75 76
 	00000020  77 78 79 7a 41 42 43 44  45 46 47 48 49 4a 4b 4c
 	00000030  4d 4e 4f 50 51 52 53 54  55 56 57 58 59 5a 20 00
 	00000040  09
 	00000041
-2009-08-07 06:05:04 INFO  report_test.cpp:739	This is a buffer of size: 66
+2009-08-07 06:05:04 INFO  report_test.cpp:728	This is a buffer of size: 66
 	00000000  31 32 33 34 35 36 37 38  39 30 61 62 63 64 65 66
 	00000010  67 68 69 6a 6b 6c 6d 6e  6f 70 71 72 73 74 75 76
 	00000020  77 78 79 7a 41 42 43 44  45 46 47 48 49 4a 4b 4c
 	00000030  4d 4e 4f 50 51 52 53 54  55 56 57 58 59 5a 20 00
 	00000040  09 0d
 	00000042
-2009-08-07 06:05:04 INFO  report_test.cpp:739	This is a buffer of size: 67
+2009-08-07 06:05:04 INFO  report_test.cpp:728	This is a buffer of size: 67
 	00000000  31 32 33 34 35 36 37 38  39 30 61 62 63 64 65 66
 	00000010  67 68 69 6a 6b 6c 6d 6e  6f 70 71 72 73 74 75 76
 	00000020  77 78 79 7a 41 42 43 44  45 46 47 48 49 4a 4b 4c
 	00000030  4d 4e 4f 50 51 52 53 54  55 56 57 58 59 5a 20 00
 	00000040  09 0d 0a
 	00000043
-2009-08-07 06:05:04 INFO  report_test.cpp:739	This is a buffer of size: 68
+2009-08-07 06:05:04 INFO  report_test.cpp:728	This is a buffer of size: 68
 	00000000  31 32 33 34 35 36 37 38  39 30 61 62 63 64 65 66
 	00000010  67 68 69 6a 6b 6c 6d 6e  6f 70 71 72 73 74 75 76
 	00000020  77 78 79 7a 41 42 43 44  45 46 47 48 49 4a 4b 4c
 	00000030  4d 4e 4f 50 51 52 53 54  55 56 57 58 59 5a 20 00
 	00000040  09 0d 0a 1f
 	00000044
-2009-08-07 06:05:04 INFO  report_test.cpp:739	This is a buffer of size: 69
+2009-08-07 06:05:04 INFO  report_test.cpp:728	This is a buffer of size: 69
 	00000000  31 32 33 34 35 36 37 38  39 30 61 62 63 64 65 66
 	00000010  67 68 69 6a 6b 6c 6d 6e  6f 70 71 72 73 74 75 76
 	00000020  77 78 79 7a 41 42 43 44  45 46 47 48 49 4a 4b 4c
 	00000030  4d 4e 4f 50 51 52 53 54  55 56 57 58 59 5a 20 00
 	00000040  09 0d 0a 1f 7d
 	00000045
-2009-08-07 06:05:04 INFO  report_test.cpp:739	This is a buffer of size: 70
+2009-08-07 06:05:04 INFO  report_test.cpp:728	This is a buffer of size: 70
 	00000000  31 32 33 34 35 36 37 38  39 30 61 62 63 64 65 66
 	00000010  67 68 69 6a 6b 6c 6d 6e  6f 70 71 72 73 74 75 76
 	00000020  77 78 79 7a 41 42 43 44  45 46 47 48 49 4a 4b 4c
 	00000030  4d 4e 4f 50 51 52 53 54  55 56 57 58 59 5a 20 00
 	00000040  09 0d 0a 1f 7d 7e
 	00000046
-2009-08-07 06:05:04 INFO  report_test.cpp:739	This is a buffer of size: 71
+2009-08-07 06:05:04 INFO  report_test.cpp:728	This is a buffer of size: 71
 	00000000  31 32 33 34 35 36 37 38  39 30 61 62 63 64 65 66
 	00000010  67 68 69 6a 6b 6c 6d 6e  6f 70 71 72 73 74 75 76
 	00000020  77 78 79 7a 41 42 43 44  45 46 47 48 49 4a 4b 4c
 	00000030  4d 4e 4f 50 51 52 53 54  55 56 57 58 59 5a 20 00
 	00000040  09 0d 0a 1f 7d 7e 7f
 	00000047
-2009-08-07 06:05:04 INFO  report_test.cpp:739	This is a buffer of size: 72
+2009-08-07 06:05:04 INFO  report_test.cpp:728	This is a buffer of size: 72
 	00000000  31 32 33 34 35 36 37 38  39 30 61 62 63 64 65 66
 	00000010  67 68 69 6a 6b 6c 6d 6e  6f 70 71 72 73 74 75 76
 	00000020  77 78 79 7a 41 42 43 44  45 46 47 48 49 4a 4b 4c
 	00000030  4d 4e 4f 50 51 52 53 54  55 56 57 58 59 5a 20 00
 	00000040  09 0d 0a 1f 7d 7e 7f 80
 	00000048
-2009-08-07 06:05:04 INFO  report_test.cpp:739	This is a buffer of size: 73
+2009-08-07 06:05:04 INFO  report_test.cpp:728	This is a buffer of size: 73
 	00000000  31 32 33 34 35 36 37 38  39 30 61 62 63 64 65 66
 	00000010  67 68 69 6a 6b 6c 6d 6e  6f 70 71 72 73 74 75 76
 	00000020  77 78 79 7a 41 42 43 44  45 46 47 48 49 4a 4b 4c
 	00000030  4d 4e 4f 50 51 52 53 54  55 56 57 58 59 5a 20 00
 	00000040  09 0d 0a 1f 7d 7e 7f 80  ff
 	00000049
-2009-08-07 06:05:04 INFO  report_test.cpp:739	This is a buffer of size: 74
+2009-08-07 06:05:04 INFO  report_test.cpp:728	This is a buffer of size: 74
 	00000000  31 32 33 34 35 36 37 38  39 30 61 62 63 64 65 66
 	00000010  67 68 69 6a 6b 6c 6d 6e  6f 70 71 72 73 74 75 76
 	00000020  77 78 79 7a 41 42 43 44  45 46 47 48 49 4a 4b 4c
 	00000030  4d 4e 4f 50 51 52 53 54  55 56 57 58 59 5a 20 00
 	00000040  09 0d 0a 1f 7d 7e 7f 80  ff 2b
 	0000004a
-2009-08-07 06:05:04 INFO  report_test.cpp:739	This is a buffer of size: 75
+2009-08-07 06:05:04 INFO  report_test.cpp:728	This is a buffer of size: 75
 	00000000  31 32 33 34 35 36 37 38  39 30 61 62 63 64 65 66  |1234567890abcdef|
 	00000010  67 68 69 6a 6b 6c 6d 6e  6f 70 71 72 73 74 75 76  |ghijklmnopqrstuv|
 	00000020  77 78 79 7a 41 42 43 44  45 46 47 48 49 4a 4b 4c  |wxyzABCDEFGHIJKL|
 	00000030  4d 4e 4f 50 51 52 53 54  55 56 57 58 59 5a 20 00  |MNOPQRSTUVWXYZ .|
 	00000040  09 0d 0a 1f 7d 7e 7f 80  ff 2b 29                 |....}~...+)|
 	0000004b
-2009-08-07 06:05:04 INFO  report_test.cpp:739	This is a buffer of size: 76
+2009-08-07 06:05:04 INFO  report_test.cpp:728	This is a buffer of size: 76
 	00000000  31 32 33 34 35 36 37 38  39 30 61 62 63 64 65 66  |1234567890abcdef|
 	00000010  67 68 69 6a 6b 6c 6d 6e  6f 70 71 72 73 74 75 76  |ghijklmnopqrstuv|
 	00000020  77 78 79 7a 41 42 43 44  45 46 47 48 49 4a 4b 4c  |wxyzABCDEFGHIJKL|
 	00000030  4d 4e 4f 50 51 52 53 54  55 56 57 58 59 5a 20 00  |MNOPQRSTUVWXYZ .|
 	00000040  09 0d 0a 1f 7d 7e 7f 80  ff 2b 29 2d              |....}~...+)-|
 	0000004c
-2009-08-07 06:05:04 INFO  report_test.cpp:739	This is a buffer of size: 77
+2009-08-07 06:05:04 INFO  report_test.cpp:728	This is a buffer of size: 77
 	00000000  31 32 33 34 35 36 37 38  39 30 61 62 63 64 65 66  |1234567890abcdef|
 	00000010  67 68 69 6a 6b 6c 6d 6e  6f 70 71 72 73 74 75 76  |ghijklmnopqrstuv|
 	00000020  77 78 79 7a 41 42 43 44  45 46 47 48 49 4a 4b 4c  |wxyzABCDEFGHIJKL|
 	00000030  4d 4e 4f 50 51 52 53 54  55 56 57 58 59 5a 20 00  |MNOPQRSTUVWXYZ .|
 	00000040  09 0d 0a 1f 7d 7e 7f 80  ff 2b 29 2d 3d           |....}~...+)-=|
 	0000004d
-2009-08-07 06:05:04 INFO  report_test.cpp:739	This is a buffer of size: 78
+2009-08-07 06:05:04 INFO  report_test.cpp:728	This is a buffer of size: 78
 	00000000  31 32 33 34 35 36 37 38  39 30 61 62 63 64 65 66  |1234567890abcdef|
 	00000010  67 68 69 6a 6b 6c 6d 6e  6f 70 71 72 73 74 75 76  |ghijklmnopqrstuv|
 	00000020  77 78 79 7a 41 42 43 44  45 46 47 48 49 4a 4b 4c  |wxyzABCDEFGHIJKL|
 	00000030  4d 4e 4f 50 51 52 53 54  55 56 57 58 59 5a 20 00  |MNOPQRSTUVWXYZ .|
 	00000040  09 0d 0a 1f 7d 7e 7f 80  ff 2b 29 2d 3d 7b        |....}~...+)-={|
 	0000004e
-2009-08-07 06:05:04 INFO  report_test.cpp:739	This is a buffer of size: 79
+2009-08-07 06:05:04 INFO  report_test.cpp:728	This is a buffer of size: 79
 	00000000  31 32 33 34 35 36 37 38  39 30 61 62 63 64 65 66  |1234567890abcdef|
 	00000010  67 68 69 6a 6b 6c 6d 6e  6f 70 71 72 73 74 75 76  |ghijklmnopqrstuv|
 	00000020  77 78 79 7a 41 42 43 44  45 46 47 48 49 4a 4b 4c  |wxyzABCDEFGHIJKL|
 	00000030  4d 4e 4f 50 51 52 53 54  55 56 57 58 59 5a 20 00  |MNOPQRSTUVWXYZ .|
 	00000040  09 0d 0a 1f 7d 7e 7f 80  ff 2b 29 2d 3d 7b 7d     |....}~...+)-={}|
 	0000004f
-2009-08-07 06:05:04 INFO  report_test.cpp:739	This is a buffer of size: 80
+2009-08-07 06:05:04 INFO  report_test.cpp:728	This is a buffer of size: 80
 	00000000  31 32 33 34 35 36 37 38  39 30 61 62 63 64 65 66  |1234567890abcdef|
 	00000010  67 68 69 6a 6b 6c 6d 6e  6f 70 71 72 73 74 75 76  |ghijklmnopqrstuv|
 	00000020  77 78 79 7a 41 42 43 44  45 46 47 48 49 4a 4b 4c  |wxyzABCDEFGHIJKL|
 	00000030  4d 4e 4f 50 51 52 53 54  55 56 57 58 59 5a 20 00  |MNOPQRSTUVWXYZ .|
 	00000040  09 0d 0a 1f 7d 7e 7f 80  ff 2b 29 2d 3d 7b 7d 5b  |....}~...+)-={}[|
 	00000050
-2009-08-07 06:05:04 INFO  report_test.cpp:739	This is a buffer of size: 81
+2009-08-07 06:05:04 INFO  report_test.cpp:728	This is a buffer of size: 81
 	00000000  31 32 33 34 35 36 37 38  39 30 61 62 63 64 65 66  |1234567890abcdef|
 	00000010  67 68 69 6a 6b 6c 6d 6e  6f 70 71 72 73 74 75 76  |ghijklmnopqrstuv|
 	00000020  77 78 79 7a 41 42 43 44  45 46 47 48 49 4a 4b 4c  |wxyzABCDEFGHIJKL|
@@ -1495,7 +1486,7 @@ This is a buffer of size: 90
 	00000040  09 0d 0a 1f 7d 7e 7f 80  ff 2b 29 2d 3d 7b 7d 5b  |....}~...+)-={}[|
 	00000050  5d                                                |]|
 	00000051
-2009-08-07 06:05:04 INFO  report_test.cpp:739	This is a buffer of size: 82
+2009-08-07 06:05:04 INFO  report_test.cpp:728	This is a buffer of size: 82
 	00000000  31 32 33 34 35 36 37 38  39 30 61 62 63 64 65 66  |1234567890abcdef|
 	00000010  67 68 69 6a 6b 6c 6d 6e  6f 70 71 72 73 74 75 76  |ghijklmnopqrstuv|
 	00000020  77 78 79 7a 41 42 43 44  45 46 47 48 49 4a 4b 4c  |wxyzABCDEFGHIJKL|
@@ -1503,7 +1494,7 @@ This is a buffer of size: 90
 	00000040  09 0d 0a 1f 7d 7e 7f 80  ff 2b 29 2d 3d 7b 7d 5b  |....}~...+)-={}[|
 	00000050  5d 3c                                             |]<|
 	00000052
-2009-08-07 06:05:04 INFO  report_test.cpp:739	This is a buffer of size: 83
+2009-08-07 06:05:04 INFO  report_test.cpp:728	This is a buffer of size: 83
 	00000000  31 32 33 34 35 36 37 38  39 30 61 62 63 64 65 66  |1234567890abcdef|
 	00000010  67 68 69 6a 6b 6c 6d 6e  6f 70 71 72 73 74 75 76  |ghijklmnopqrstuv|
 	00000020  77 78 79 7a 41 42 43 44  45 46 47 48 49 4a 4b 4c  |wxyzABCDEFGHIJKL|
@@ -1511,7 +1502,7 @@ This is a buffer of size: 90
 	00000040  09 0d 0a 1f 7d 7e 7f 80  ff 2b 29 2d 3d 7b 7d 5b  |....}~...+)-={}[|
 	00000050  5d 3c 3e                                          |]<>|
 	00000053
-2009-08-07 06:05:04 INFO  report_test.cpp:739	This is a buffer of size: 84
+2009-08-07 06:05:04 INFO  report_test.cpp:728	This is a buffer of size: 84
 	00000000  31 32 33 34 35 36 37 38  39 30 61 62 63 64 65 66  |1234567890abcdef|
 	00000010  67 68 69 6a 6b 6c 6d 6e  6f 70 71 72 73 74 75 76  |ghijklmnopqrstuv|
 	00000020  77 78 79 7a 41 42 43 44  45 46 47 48 49 4a 4b 4c  |wxyzABCDEFGHIJKL|
@@ -1519,7 +1510,7 @@ This is a buffer of size: 90
 	00000040  09 0d 0a 1f 7d 7e 7f 80  ff 2b 29 2d 3d 7b 7d 5b  |....}~...+)-={}[|
 	00000050  5d 3c 3e 7c                                       |]<>||
 	00000054
-2009-08-07 06:05:04 INFO  report_test.cpp:739	This is a buffer of size: 85
+2009-08-07 06:05:04 INFO  report_test.cpp:728	This is a buffer of size: 85
 	00000000  31 32 33 34 35 36 37 38  39 30 61 62 63 64 65 66  |1234567890abcdef|
 	00000010  67 68 69 6a 6b 6c 6d 6e  6f 70 71 72 73 74 75 76  |ghijklmnopqrstuv|
 	00000020  77 78 79 7a 41 42 43 44  45 46 47 48 49 4a 4b 4c  |wxyzABCDEFGHIJKL|
@@ -1527,7 +1518,7 @@ This is a buffer of size: 90
 	00000040  09 0d 0a 1f 7d 7e 7f 80  ff 2b 29 2d 3d 7b 7d 5b  |....}~...+)-={}[|
 	00000050  5d 3c 3e 7c 3a                                    |]<>|:|
 	00000055
-2009-08-07 06:05:04 INFO  report_test.cpp:739	This is a buffer of size: 86
+2009-08-07 06:05:04 INFO  report_test.cpp:728	This is a buffer of size: 86
 	00000000  31 32 33 34 35 36 37 38  39 30 61 62 63 64 65 66  |1234567890abcdef|
 	00000010  67 68 69 6a 6b 6c 6d 6e  6f 70 71 72 73 74 75 76  |ghijklmnopqrstuv|
 	00000020  77 78 79 7a 41 42 43 44  45 46 47 48 49 4a 4b 4c  |wxyzABCDEFGHIJKL|
@@ -1535,7 +1526,7 @@ This is a buffer of size: 90
 	00000040  09 0d 0a 1f 7d 7e 7f 80  ff 2b 29 2d 3d 7b 7d 5b  |....}~...+)-={}[|
 	00000050  5d 3c 3e 7c 3a 3b                                 |]<>|:;|
 	00000056
-2009-08-07 06:05:04 INFO  report_test.cpp:739	This is a buffer of size: 87
+2009-08-07 06:05:04 INFO  report_test.cpp:728	This is a buffer of size: 87
 	00000000  31 32 33 34 35 36 37 38  39 30 61 62 63 64 65 66  |1234567890abcdef|
 	00000010  67 68 69 6a 6b 6c 6d 6e  6f 70 71 72 73 74 75 76  |ghijklmnopqrstuv|
 	00000020  77 78 79 7a 41 42 43 44  45 46 47 48 49 4a 4b 4c  |wxyzABCDEFGHIJKL|
@@ -1543,7 +1534,7 @@ This is a buffer of size: 90
 	00000040  09 0d 0a 1f 7d 7e 7f 80  ff 2b 29 2d 3d 7b 7d 5b  |....}~...+)-={}[|
 	00000050  5d 3c 3e 7c 3a 3b 2c                              |]<>|:;,|
 	00000057
-2009-08-07 06:05:04 INFO  report_test.cpp:739	This is a buffer of size: 88
+2009-08-07 06:05:04 INFO  report_test.cpp:728	This is a buffer of size: 88
 	00000000  31 32 33 34 35 36 37 38  39 30 61 62 63 64 65 66  |1234567890abcdef|
 	00000010  67 68 69 6a 6b 6c 6d 6e  6f 70 71 72 73 74 75 76  |ghijklmnopqrstuv|
 	00000020  77 78 79 7a 41 42 43 44  45 46 47 48 49 4a 4b 4c  |wxyzABCDEFGHIJKL|
@@ -1551,7 +1542,7 @@ This is a buffer of size: 90
 	00000040  09 0d 0a 1f 7d 7e 7f 80  ff 2b 29 2d 3d 7b 7d 5b  |....}~...+)-={}[|
 	00000050  5d 3c 3e 7c 3a 3b 2c 2e                           |]<>|:;,.|
 	00000058
-2009-08-07 06:05:04 INFO  report_test.cpp:739	This is a buffer of size: 89
+2009-08-07 06:05:04 INFO  report_test.cpp:728	This is a buffer of size: 89
 	00000000  31 32 33 34 35 36 37 38  39 30 61 62 63 64 65 66  |1234567890abcdef|
 	00000010  67 68 69 6a 6b 6c 6d 6e  6f 70 71 72 73 74 75 76  |ghijklmnopqrstuv|
 	00000020  77 78 79 7a 41 42 43 44  45 46 47 48 49 4a 4b 4c  |wxyzABCDEFGHIJKL|
@@ -1559,7 +1550,7 @@ This is a buffer of size: 90
 	00000040  09 0d 0a 1f 7d 7e 7f 80  ff 2b 29 2d 3d 7b 7d 5b  |....}~...+)-={}[|
 	00000050  5d 3c 3e 7c 3a 3b 2c 2e  2f                       |]<>|:;,./|
 	00000059
-2009-08-07 06:05:04 INFO  report_test.cpp:739	This is a buffer of size: 90
+2009-08-07 06:05:04 INFO  report_test.cpp:728	This is a buffer of size: 90
 	00000000  31 32 33 34 35 36 37 38  39 30 61 62 63 64 65 66  |1234567890abcdef|
 	00000010  67 68 69 6a 6b 6c 6d 6e  6f 70 71 72 73 74 75 76  |ghijklmnopqrstuv|
 	00000020  77 78 79 7a 41 42 43 44  45 46 47 48 49 4a 4b 4c  |wxyzABCDEFGHIJKL|
