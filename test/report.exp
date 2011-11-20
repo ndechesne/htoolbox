@@ -1683,14 +1683,18 @@ report.log
 report.log-1.gz
 report.log-2.gz
 
-Specific report
+Log to file, no LF
+2009-08-07 06:05:04 INFO  1234567 report_test.cpp:915	message start...middle...
+2009-08-07 06:05:04 VERB  1234567 report_test.cpp:918	different level
+2009-08-07 06:05:04 INFO  1234567 report_test.cpp:920	message start...end
+2009-08-07 06:05:04 INFO  1234567 report_test.cpp:922	other message
+
+Thread-local report
 ALERT! some message with a number 9
 message with a number 10
 
-Log to file, no LF
-2009-08-07 06:05:04 INFO  1234567 report_test.cpp:924	message start...middle...
-2009-08-07 06:05:04 VERB  1234567 report_test.cpp:926	different level
-2009-08-07 06:05:04 INFO  1234567 report_test.cpp:927	message start...end
-2009-08-07 06:05:04 INFO  1234567 report_test.cpp:929	other message
+Specific report
+ALERT! some message with a number 9
+message with a number 10
 
 End of tests

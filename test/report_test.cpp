@@ -902,7 +902,29 @@ int main(void) {
   (void) system("ls report.log*");
 
 
-  cout << endl << "Specific report" << endl;
+  cout << endl << "Log to file, no LF" << endl;
+  Report::FileOutput log_file2("report2.log");
+  if (log_file2.open() < 0) {
+    hlog_error("%s opening log file", strerror(errno));
+    return 0;
+  }
+  report.add(&log_file2);
+  report.stopConsoleLog();
+  report.setLevel(debug);
+  hlog_generic(HLOG_GENERIC_BOTH, info, Report::HLOG_NOLINEFEED, -1, 0, NULL,
+    "message start...");
+  hlog_generic(HLOG_GENERIC_BOTH, info, Report::HLOG_NOLINEFEED, -1, 0, NULL,
+    "middle...");
+  hlog_verbose("different level");
+  hlog_generic(HLOG_GENERIC_BOTH, info, Report::HLOG_NOLINEFEED, -1, 0, NULL,
+    "message start...");
+  hlog_info("end");
+  hlog_info("other message");
+  log_file2.close();
+  (void) system("cat report2.log");
+
+
+  cout << endl << "Thread-local report" << endl;
   Report my_report("my report");
   tl_report = &my_report;
   hlog_alert("some message with a number %d", 9);
@@ -911,24 +933,10 @@ int main(void) {
   tl_report = NULL;
 
 
-  cout << endl << "Log to file, no LF" << endl;
-  Report::FileOutput log_file2("report2.log");
-  if (log_file2.open() < 0) {
-    hlog_error("%s opening log file", strerror(errno));
-    return 0;
-  }
-
-  report.add(&log_file2);
-  report.stopConsoleLog();
-  report.setLevel(debug);
-  hlog_generic(HLOG_GENERIC_BOTH, info, Report::HLOG_NOLINEFEED, -1, 0, NULL, "message start...");
-  hlog_generic(HLOG_GENERIC_BOTH, info, Report::HLOG_NOLINEFEED, -1, 0, NULL, "middle...");
-  hlog_verbose("different level");
-  hlog_generic(HLOG_GENERIC_BOTH, info, Report::HLOG_NOLINEFEED, -1, 0, NULL, "message start...");
-  hlog_info("end");
-  hlog_info("other message");
-  log_file2.close();
-  (void) system("cat report2.log");
+  cout << endl << "Specific report" << endl;
+  hlog_report_alert(my_report, "some message with a number %d", 9);
+  hlog_report_info(my_report, "message with a number %d", 10);
+  hlog_report_debug(my_report, "with a number %d", 11);
 
 
   cout << endl << "End of tests" << endl;
