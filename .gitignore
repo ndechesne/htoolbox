@@ -32,3 +32,4 @@ autoscan.log
 configure.scan
 htoolbox.pc
 include/report_macros.h
+/html
