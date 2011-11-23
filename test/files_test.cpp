@@ -376,13 +376,19 @@ int main(void) {
 
   cout << endl << "mkdir_p test" << endl;
   if (Node::mkdir_p("a/b/c/d", 0740) < 0) {
-    hlog_regression("mkdir_p test 1 failed");
+    hlog_regression("mkdir_p test 1 failed: %m");
+  } else {
+    hlog_regression("mkdir_p test 1 passed");
   }
   if (Node::mkdir_p("a/b/c/d", 0750) < 0) {
-    hlog_regression("mkdir_p test 2 failed");
+    hlog_regression("mkdir_p test 2 failed: %m");
+  } else {
+    hlog_regression("mkdir_p test 2 passed");
   }
   if (Node::mkdir_p("/a/b/c/d", 0700) >= 0) {
     hlog_regression("mkdir_p test 3 failed");
+  } else {
+    hlog_regression("mkdir_p test 3 passed: %m");
   }
 
   return 0;

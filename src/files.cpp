@@ -315,32 +315,44 @@ void Node::deleteList() {
   }
 }
 
-int Node::mkdir_p(const char* path, mode_t mode) {
-  // This is not meant to be efficient... at all!
-  char dir_path[PATH_MAX] = "";
-  size_t dir_path_len = 0;
-  const char* pos;
-  do {
-    // "[/]a/b/c"
-    pos = strchr(path, '/');
-    if (pos != NULL) {
-      memcpy(&dir_path[dir_path_len], path, pos - path);
-      dir_path_len += pos - path;
-      dir_path[dir_path_len] = '\0';
-      path = pos + 1;
-    } else {
-      strcpy(&dir_path[dir_path_len], path);
-    }
-    // create dir
-    if (dir_path_len > 0) {
-      hlog_regression("dir_path (%zu) = '%s'", dir_path_len, dir_path);
-      if ((::mkdir(dir_path, mode) < 0) && (errno != EEXIST)) {
+static int mkdir_p_recursive(char* path, size_t path_len, mode_t mode) {
+  int rc = mkdir(path, mode);
+  if (rc < 0) {
+    if (errno == ENOENT) {
+      hlog_regression("mkdir_p_recursive(%s,%zu) Needs parent", path, path_len);
+      char* reader = &path[path_len];
+      while ((--reader >= path) && (*reader != '/'));
+      if (reader < path) {
+        hlog_regression("mkdir_p_recursive Error: reader < path");
         return -1;
       }
+      *reader = '\0';
+      if (mkdir_p_recursive(path, reader - path, mode) < 0) {
+        return -1;
+      }
+      *reader = '/';
+      rc = mkdir(path, mode);
+    } else
+    if (errno == EEXIST) {
+      hlog_regression("mkdir_p_recursive(%s) Already there", path);
+      rc = 0;
     }
-    dir_path[dir_path_len++] = '/';
-  } while (pos != NULL);
-  return 0;
+  }
+  if (rc < 0) {
+    hlog_regression("mkdir_p_recursive(%s) %m", path);
+  }
+  return rc;
+}
+
+int Node::mkdir_p(const char* path, mode_t mode) {
+  size_t path_len = strlen(path);
+  if (path_len >= PATH_MAX) {
+    errno = ENAMETOOLONG;
+    return -1;
+  }
+  char dir_path[PATH_MAX];
+  strcpy(dir_path, path);
+  return mkdir_p_recursive(dir_path, path_len, mode);
 }
 
 int Node::mkdir() {

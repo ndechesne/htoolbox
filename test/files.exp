@@ -160,12 +160,14 @@ CR\r
  -> File: touchedfile, path = test1/touchedfile, type = f, mtime = 1, size = 0, uid = 1, gid = 1, mode = 644
 
 mkdir_p test
-dir_path (1) = 'a'
-dir_path (3) = 'a/b'
-dir_path (5) = 'a/b/c'
-dir_path (6) = 'a/b/c/d'
-dir_path (1) = 'a'
-dir_path (3) = 'a/b'
-dir_path (5) = 'a/b/c'
-dir_path (6) = 'a/b/c/d'
-dir_path (2) = '/a'
+mkdir_p_recursive(a/b/c/d,7) Needs parent
+mkdir_p_recursive(a/b/c,5) Needs parent
+mkdir_p_recursive(a/b,3) Needs parent
+mkdir_p test 1 passed
+mkdir_p_recursive(a/b/c/d) Already there
+mkdir_p test 2 passed
+mkdir_p_recursive(/a/b/c/d,8) Needs parent
+mkdir_p_recursive(/a/b/c,6) Needs parent
+mkdir_p_recursive(/a/b,4) Needs parent
+mkdir_p_recursive(/a) Permission denied
+mkdir_p test 3 passed: Permission denied
