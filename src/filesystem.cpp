@@ -40,11 +40,7 @@ FsNode::~FsNode() {
   free(name);
   if (S_ISDIR(mode)) {
     FsNodeDir* t = static_cast<FsNodeDir*>(this);
-    FsNode* child;
-    while ((child = t->children_head) != NULL) {
-      t->children_head = child->sibling;
-      delete child;
-    }
+    t->clear();
   } else
   if (S_ISLNK(mode)) {
     FsNodeLink* t = static_cast<FsNodeLink*>(this);
@@ -235,4 +231,12 @@ int FsNodeDir::read(const char* path, dev_t dev) {
   }
   free(direntList);
   return failed ? -1 : 0;
+}
+
+void FsNodeDir::clear() {
+  FsNode* child;
+  while ((child = children_head) != NULL) {
+    children_head = child->sibling;
+    delete child;
+  }
 }
