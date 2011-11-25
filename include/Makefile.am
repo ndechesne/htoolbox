@@ -17,6 +17,7 @@ htoolsinclude_HEADERS = \
   criticality.h \
   filereaderwriter.h \
   files.h \
+  filesystem.h \
   hash_tree.h \
   hasher.h \
   ireaderwriter.h \
@@ -45,6 +46,7 @@ EXTRA_DIST = \
   criticality.h \
   filereaderwriter.h \
   files.h \
+  filesystem.h \
   hash_tree.h \
   hasher.h \
   ireaderwriter.h \

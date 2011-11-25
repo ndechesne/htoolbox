@@ -13,6 +13,7 @@ libhtoolbox_la_SOURCES = \
   criticality.cpp \
   files.cpp \
   filereaderwriter.cpp \
+  filesystem.cpp \
   hasher.cpp \
   linereaderwriter.cpp \
   multiwriter.cpp \

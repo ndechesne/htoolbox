@@ -25,6 +25,9 @@ case $1 in
   "frw" )
     export NAME="filereaderwriter"
     ;;
+  "fs" )
+    export NAME="filesystem"
+    ;;
   "hh" )
     export NAME="hasher"
     ;;
