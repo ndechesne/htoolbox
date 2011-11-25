@@ -14,7 +14,7 @@ AC_CONFIG_HEADERS([config.h])
 AC_LANG([C++])
 
 # Compiler options
-CXXFLAGS="$CXXFLAGS -Wall -Wextra -Wundef -Wold-style-cast -Wconversion"
+CXXFLAGS="$CXXFLAGS -Wall -Wextra -Wundef -Wold-style-cast -Wconversion -D_FILE_OFFSET_BITS=64"
 AC_ARG_ENABLE(debug,
     AC_HELP_STRING(--enable-debug, [Compile with symbols (Default = yes)]),
     enable_debug=$enableval, enable_debug=yes)
