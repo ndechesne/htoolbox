@@ -45,7 +45,25 @@ namespace htoolbox {
     gid_t           gid;
     FsNode*       sibling;
     ~FsNode();
+    //! \brief Create root node
+    /*!
+      \param name         the name/path of the root node, if relevant
+      \return the node on success, NULL on failure
+    */
     static FsNodeDir* createRoot(const char* path = NULL);
+    //! \brief Create node from filesystem path
+    /*!
+      \param path         the path on the filesystem
+      \param dev          the device to check this file's against
+      \return the node on success, NULL on failure
+    */
+    static FsNode* createNode(const char* path, dev_t dev = 0);
+    //! \brief Add child to directory
+    /*!
+      \param node         the node
+      \return the node on success, NULL on failure
+    */
+    FsNode* addChild(FsNode* node);
     //! \brief Create child using name and type
     /*!
       \param name         the name to give to the child

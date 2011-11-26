@@ -24,6 +24,7 @@
 
 #include "report.h"
 #include "shared_path.h"
+#include "files.h"
 #include "filesystem.h"
 
 using namespace htoolbox;
@@ -49,6 +50,65 @@ FsNodeDir* FsNode::createRoot(const char* path) {
   return node;
 }
 
+FsNode* FsNode::createNode(const char* path, dev_t dev) {
+  struct stat64 metadata;
+  // Any error is fatal here
+  if (lstat64(path, &metadata) < 0) {
+    return NULL;
+  }
+  // Create node
+  FsNode* node;
+  if (S_ISDIR(metadata.st_mode)) {
+    node = new FsNodeDir(Path::basename(path));
+  } else
+  if (S_ISREG(metadata.st_mode)) {
+    node = new FsNodeFile(Path::basename(path));
+  } else
+  if (S_ISLNK(metadata.st_mode)) {
+    node = new FsNodeLink(Path::basename(path));
+  } else
+  {
+    node = new FsNodeNotDir(Path::basename(path));
+  }
+  // Populate
+  node->mode = metadata.st_mode & 0177777;
+  if ((dev != 0) && (dev != metadata.st_dev)) {
+    node->mode |= dev_changed_bit;
+  }
+  node->uid = metadata.st_uid;
+  node->gid = metadata.st_gid;
+  if (! S_ISDIR(node->mode)) {
+    FsNodeNotDir* not_dir = static_cast<FsNodeNotDir*>(node);
+    not_dir->size = metadata.st_size;
+    not_dir->mtime = metadata.st_mtime;
+    if (S_ISLNK(node->mode)) {
+      FsNodeLink* link = static_cast<FsNodeLink*>(node);
+      link->string = static_cast<char*>(
+        malloc(static_cast<int>(metadata.st_size) + 1));
+      ssize_t count = readlink(path, link->string,
+        static_cast<int>(metadata.st_size));
+      if (count >= 0) {
+        metadata.st_size = count;
+      } else {
+        metadata.st_size = 0;
+      }
+      link->string[metadata.st_size] = '\0';
+    }
+  }
+  return node;
+}
+
+FsNode* FsNode::addChild(FsNode* node) {
+  if (S_ISDIR(mode)) {
+    FsNodeDir* t = static_cast<FsNodeDir*>(this);
+    node->sibling = t->children_head;
+    t->children_head = node;
+    return node;
+  } else {
+    return NULL;
+  }
+}
+
 FsNode* FsNode::createChild(const char* name, char type) {
   if (S_ISDIR(mode)) {
     FsNode* f;
@@ -65,10 +125,7 @@ FsNode* FsNode::createChild(const char* name, char type) {
       default:
         f = new FsNodeNotDir(name);
     }
-    FsNodeDir* t = static_cast<FsNodeDir*>(this);
-    f->sibling = t->children_head;
-    t->children_head = f;
-    return f;
+    return addChild(f);
   } else {
     return NULL;
   }
@@ -178,48 +235,11 @@ int FsNodeDir::read(const char* path, dev_t dev) {
       // Stat
       const char* basename = direntList[size]->d_name;
       SharedPath shared(full_path, full_path_len, basename);
-      struct stat64 metadata;
-      // Any error is fatal here
-      if (lstat64(full_path, &metadata) < 0) {
+      FsNode* node = createNode(full_path, dev);
+      if (node == NULL) {
         failed = true;
       } else {
-        // Add to list
-        char type = '*';
-        if (S_ISDIR(metadata.st_mode)) {
-          type = 'd';
-        } else
-        if (S_ISREG(metadata.st_mode)) {
-          type = 'f';
-        } else
-        if (S_ISLNK(metadata.st_mode)) {
-          type = 'l';
-        }
-        FsNode* node = this->createChild(basename, type);
-        // Populate
-        node->mode = metadata.st_mode & 0177777;
-        if ((dev != 0) && (dev != metadata.st_dev)) {
-          node->mode |= dev_changed_bit;
-        }
-        node->uid = metadata.st_uid;
-        node->gid = metadata.st_gid;
-        if (type != 'd') {
-          FsNodeNotDir* not_dir = static_cast<FsNodeNotDir*>(node);
-          not_dir->size = metadata.st_size;
-          not_dir->mtime = metadata.st_mtime;
-          if (type == 'l') {
-            FsNodeLink* link = static_cast<FsNodeLink*>(node);
-            link->string = static_cast<char*>(
-              malloc(static_cast<int>(metadata.st_size) + 1));
-            ssize_t count = readlink(full_path, link->string,
-              static_cast<int>(metadata.st_size));
-            if (count >= 0) {
-              metadata.st_size = count;
-            } else {
-              metadata.st_size = 0;
-            }
-            link->string[metadata.st_size] = '\0';
-          }
-        }
+        addChild(node);
       }
     }
     free(direntList[size]);
