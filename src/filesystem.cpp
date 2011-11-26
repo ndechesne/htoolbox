@@ -28,13 +28,8 @@
 
 using namespace htoolbox;
 
-FsNode::FsNode(const char* n) {
-  name = strdup(n);
-  mode = 0;
-  uid = 0;
-  gid = 0;
-  sibling = NULL;
-}
+FsNode::FsNode(const char* n, mode_t m):
+  name(strdup(n)), mode(m), uid(0), gid(0), sibling(NULL) {}
 
 FsNode::~FsNode() {
   free(name);

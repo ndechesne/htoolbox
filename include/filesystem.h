@@ -60,23 +60,37 @@ namespace htoolbox {
     */
     FsNode* getNode(const char* path, bool create_missing = false);
     static const mode_t dev_changed_bit = 0200000;
+    static const mode_t read_issue_bit = 0400000;
     bool deviceChanged() const { return (mode & dev_changed_bit) != 0; }
+    bool readFailed() const { return (mode & read_issue_bit) != 0; }
     void show(int level = 0) const;
   protected:
-    FsNode(const char* name);
+    FsNode(const char* name, mode_t mode = 0);
   };
 
+  //! \brief Structure to hold a directory metadata and the head of its list
+  /*!
+    Lists contents, using the given parameters as filters.
+    \param children_head head of contained files list
+  */
   struct FsNodeDir : public FsNode {
     FsNode*       children_head;
-    FsNodeDir(const char* name) : FsNode(name), children_head(NULL) {}
+    FsNodeDir(const char* name): FsNode(name, S_IFDIR), children_head(NULL) {}
     int read(const char* path, dev_t dev = 0);
     void clear();
   };
 
+  //! \brief Structure to hold a file metadata that's not a directory
+  /*!
+    Lists contents, using the given parameters as filters.
+    \param off_t        file size
+    \param time_t       file modification time
+  */
   struct FsNodeNotDir : public FsNode {
     off_t           size;
     time_t          mtime;
-    FsNodeNotDir(const char* name) : FsNode(name), size(0), mtime(0) {}
+    FsNodeNotDir(const char* name, mode_t mode = 0):
+      FsNode(name, mode), size(0), mtime(0) {}
   };
 
   //! \brief Structure to hold a regular file metadata and contents hash
@@ -86,12 +100,19 @@ namespace htoolbox {
   */
   struct FsNodeFile : public FsNodeNotDir {
     char            hash[35];
-    FsNodeFile(const char* name) : FsNodeNotDir(name) { hash[0] = '\0'; }
+    FsNodeFile(const char* name): FsNodeNotDir(name, S_IFREG) {
+      hash[0] = '\0';
+    }
   };
 
+  //! \brief Structure to hold a symbolic link metadata
+  /*!
+    Lists contents, using the given parameters as filters.
+    \param string       linked string
+  */
   struct FsNodeLink : public FsNodeNotDir {
     char*           string;
-    FsNodeLink(const char* name) : FsNodeNotDir(name), string(NULL) {}
+    FsNodeLink(const char* name): FsNodeNotDir(name, S_IFLNK), string(NULL) {}
   };
 
 }
