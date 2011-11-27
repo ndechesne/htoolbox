@@ -60,7 +60,7 @@ public:
   Path dirname() const;
   // Some generic methods
   static const char* basename(const char* path);
-  static int compare(const char* s1, const char* s2, ssize_t length = -1);
+  static int pathcmp(const char* s1, const char* s2, ssize_t length = -1);
   static const char* fromDos(char* path);
   static const char* noTrailingSlashes(char* path, size_t* size_p = NULL);
   static const char* noRepeatedSlashes(char* path, size_t* size_p = NULL);
@@ -158,7 +158,7 @@ public:
   // Operators
   bool operator<(const Node& right) const {
     // Only compare paths
-    return Path::compare(_path, right._path) < 0;
+    return Path::pathcmp(_path, right._path) < 0;
   }
   // Data read access
   bool          exists()  const { return _type != '?';  }

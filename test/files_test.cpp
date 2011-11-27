@@ -232,30 +232,33 @@ int main(void) {
   cout << c_str << " -> ";
   cout << Path::noTrailingSlashes(c_str) << endl;
 
-  cout << endl << "Test: compare" << endl;
-  cout << "a <> a: " << Path::compare("a", "a") << endl;
-  cout << "a <> b: " << Path::compare("a", "b") << endl;
-  cout << "b <> a: " << Path::compare("b", "a") << endl;
-  cout << "a1 <> b: " << Path::compare("a1", "b") << endl;
-  cout << "b <> a1: " << Path::compare("b", "a1") << endl;
-  cout << "a1 <> a: " << Path::compare("a1", "a") << endl;
-  cout << "a <> a1: " << Path::compare("a", "a1") << endl;
-  cout << "a/ <> a: " << Path::compare("a/", "a") << endl;
-  cout << "a <> a/: " << Path::compare("a", "a/") << endl;
-  cout << "a\t <> a/: " << Path::compare("a\t", "a/") << endl;
-  cout << "a/ <> a\t " << Path::compare("a/", "a\t") << endl;
-  cout << "a\t <> a\t " << Path::compare("a\t", "a\t") << endl;
-  cout << "a\n <> a/: " << Path::compare("a\n", "a/") << endl;
-  cout << "a/ <> a\n " << Path::compare("a/", "a\n") << endl;
-  cout << "a\n <> a\n " << Path::compare("a\n", "a\n") << endl;
-  cout << "a/ <> a.: " << Path::compare("a/", "a.") << endl;
-  cout << "a. <> a/: " << Path::compare("a.", "a/") << endl;
-  cout << "a/ <> a-: " << Path::compare("a/", "a-") << endl;
-  cout << "a- <> a/: " << Path::compare("a-", "a/") << endl;
-  cout << "a/ <> a/: " << Path::compare("a/", "a/") << endl;
-  cout << "abcd <> abce, 3: " << Path::compare("abcd", "abce", 3) << endl;
-  cout << "abcd <> abce, 4: " << Path::compare("abcd", "abce", 4) << endl;
-  cout << "abcd <> abce, 5: " << Path::compare("abcd", "abce", 5) << endl;
+
+  cout << endl << "Test: pathcmp" << endl;
+  cout << "a <> a: " << Path::pathcmp("a", "a") << endl;
+  cout << "a <> b: " << Path::pathcmp("a", "b") << endl;
+  cout << "b <> a: " << Path::pathcmp("b", "a") << endl;
+  cout << "a1 <> b: " << Path::pathcmp("a1", "b") << endl;
+  cout << "b <> a1: " << Path::pathcmp("b", "a1") << endl;
+  cout << "a1 <> a: " << Path::pathcmp("a1", "a") << endl;
+  cout << "a <> a1: " << Path::pathcmp("a", "a1") << endl;
+  cout << "a/ <> a: " << Path::pathcmp("a/", "a") << endl;
+  cout << "a <> a/: " << Path::pathcmp("a", "a/") << endl;
+  cout << "a\t <> a/: " << Path::pathcmp("a\t", "a/") << endl;
+  cout << "a/ <> a\t " << Path::pathcmp("a/", "a\t") << endl;
+  cout << "a\t <> a\t " << Path::pathcmp("a\t", "a\t") << endl;
+  cout << "a\n <> a/: " << Path::pathcmp("a\n", "a/") << endl;
+  cout << "a/ <> a\n " << Path::pathcmp("a/", "a\n") << endl;
+  cout << "a\n <> a\n " << Path::pathcmp("a\n", "a\n") << endl;
+  cout << "a/ <> a.: " << Path::pathcmp("a/", "a.") << endl;
+  cout << "a. <> a/: " << Path::pathcmp("a.", "a/") << endl;
+  cout << "a/ <> a-: " << Path::pathcmp("a/", "a-") << endl;
+  cout << "a- <> a/: " << Path::pathcmp("a-", "a/") << endl;
+  cout << "a/ <> a/: " << Path::pathcmp("a/", "a/") << endl;
+  cout << "a/ <> a+/: " << Path::pathcmp("a/", "a+/") << endl;
+  cout << "a+/ <> a/: " << Path::pathcmp("a+/", "a/") << endl;
+  cout << "abcd <> abce, 3: " << Path::pathcmp("abcd", "abce", 3) << endl;
+  cout << "abcd <> abce, 4: " << Path::pathcmp("abcd", "abce", 4) << endl;
+  cout << "abcd <> abce, 5: " << Path::pathcmp("abcd", "abce", 5) << endl;
 
 
   cout << endl << "File types" << endl;

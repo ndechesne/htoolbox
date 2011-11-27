@@ -33,7 +33,7 @@ this/is a path/ Unix/ cannot cope with -> this/is a path/ Unix/ cannot cope with
  -> 
 / -> 
 
-Test: compare
+Test: pathcmp
 a <> a: 0
 a <> b: -1
 b <> a: 1
@@ -43,13 +43,13 @@ a1 <> a: 1
 a <> a1: -1
 a/ <> a: 1
 a <> a/: -1
-a	 <> a/: -1
-a/ <> a	 1
+a	 <> a/: 1
+a/ <> a	 -1
 a	 <> a	 0
 a
- <> a/: -1
+ <> a/: 1
 a/ <> a
- 1
+ -1
 a
  <> a
  0
@@ -58,6 +58,8 @@ a. <> a/: 1
 a/ <> a-: -1
 a- <> a/: 1
 a/ <> a/: 0
+a/ <> a+/: -1
+a+/ <> a/: 1
 abcd <> abce, 3: 0
 abcd <> abce, 4: -1
 abcd <> abce, 5: -1

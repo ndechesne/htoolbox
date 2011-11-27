@@ -153,7 +153,9 @@ const char* Path::noRepeatedSlashes(char* path, size_t* size_p) {
   return path;
 }
 
-int Path::compare(const char* s1, const char* s2, ssize_t length) {
+int Path::pathcmp(const char* ss1, const char* ss2, ssize_t length) {
+  const unsigned char* s1 = reinterpret_cast<const unsigned char*>(ss1);
+  const unsigned char* s2 = reinterpret_cast<const unsigned char*>(ss2);
   while (true) {
     if (length-- == 0) {
       return 0;
@@ -174,19 +176,10 @@ int Path::compare(const char* s1, const char* s2, ssize_t length) {
       return 1;
     } else
     if (*s1 == '/') {
-      // For TAB and LF
-      if ((*s2 == '\t') || (*s2 == '\n')) {
-        return 1;
-      } else {
-        return -1;
-      }
+      return -1;
     } else
     if (*s2 == '/') {
-      if ((*s1 == '\t') || (*s1 == '\n')) {
-        return -1;
-      } else {
-        return 1;
-      }
+      return 1;
     } else {
       return *s1 < *s2 ? -1 : 1;
     }
@@ -249,7 +242,7 @@ static int direntFilter(const struct dirent* a) {
 }
 
 static int direntCompare(const dirent** a, const dirent** b) {
-  return Path::compare((*a)->d_name, (*b)->d_name);
+  return strcmp((*a)->d_name, (*b)->d_name);
 }
 
 int Node::createList() {
