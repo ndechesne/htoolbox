@@ -216,7 +216,7 @@ static int direntFilter(const struct dirent* a) {
 }
 
 static int direntCompare(const dirent** a, const dirent** b) {
-  return strcmp((*a)->d_name, (*b)->d_name);
+  return Path::compare((*a)->d_name, (*b)->d_name);
 }
 
 int FsNodeDir::read(const char* path, dev_t dev) {
