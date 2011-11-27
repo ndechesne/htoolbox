@@ -79,6 +79,7 @@ namespace htoolbox {
     FsNode* getNode(const char* path, bool create_missing = false);
     static const mode_t dev_changed_bit = 0200000;
     static const mode_t read_issue_bit = 0400000;
+    static const mode_t bits_mask = dev_changed_bit | read_issue_bit;
     bool deviceChanged() const { return (mode & dev_changed_bit) != 0; }
     bool readFailed() const { return (mode & read_issue_bit) != 0; }
     void show(int level = 0) const;
