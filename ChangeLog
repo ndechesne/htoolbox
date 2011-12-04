@@ -1,3 +1,16 @@
+1.4 - 2011-12-04 (git branch 1.4, tag 1.4.0)
+  * create pkg-config file
+  * add SharedPath class to modify strings in-situ and give them back unchanged
+  * LineReaderWriter now supports looking for two successive delimiters
+  * LineReaderWriter now has method to check whether delimiter(s) were found
+  * ThreadManager can automatically set thread ID to use in logs
+  * Queue now supports a simple signalling system to keep callers simple
+  * Queue/ThreadManager can now be closed without waiting for data to be dealt with
+  * Report macros are now auto-generated, support thread-local- and specific-report-only modes
+  * Report now supports logging thread ID and binary buffers (breaks ABI)
+  * Path comparison function is now compatible with strcmp, renamed to pathcmp
+  * New FsNode* classes support memory-efficient filesystem management
+
 1.3 - 2011-08-14 (git branch 1.3, tag 1.3.0)
   * report filter can now have an accept rule that does not change the log level
   * report filters on function name too
