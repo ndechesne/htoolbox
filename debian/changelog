@@ -1,3 +1,9 @@
+libhtoolbox (1.4.0-1~2) oneiric; urgency=low
+
+  * debian: remove patchsys-quilt / cdbs, unused for now
+
+ -- Nicolas Dechesne <n-dechesne@ti.com>  Thu, 15 Dec 2011 23:05:19 +0100
+
 libhtoolbox (1.4.0-1~1) oneiric; urgency=low
 
   * Initial debianization of HToolBox
