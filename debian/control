@@ -1,0 +1,32 @@
+Source: libhtoolbox
+Priority: extra
+Maintainer: Nicolas Dechesne <n-dechesne@ti.com>
+Build-Depends: debhelper (>= 8.0.0), autotools-dev, dh-autoreconf, 
+               cdbs, libtool, 
+	       libssl-dev, zlib1g-dev
+Standards-Version: 3.9.2
+Section: libs
+Homepage: http://htoolbox.sourceforge.net/
+Vcs-Git: git://htoolbox.git.sourceforge.net/gitroot/htoolbox/htoolbox 
+Vcs-Browser: http://htoolbox.git.sourceforge.net/
+
+Package: libhtoolbox-dev
+Section: libdevel
+Architecture: any
+Depends: libhtoolboxBROKEN (= ${binary:Version})
+Description: HToolBox development files
+ Collection of tools, mainly those I use for my HBackup project. Basically, the 
+ functionality is: stackable files/sockets manipulation, modular configuration 
+ manager, helper for network share mounting and helper for automatic threads 
+ management.
+
+Package: libhtoolbox1
+Section: libs
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: HToolBox libraries
+ Collection of tools, mainly those I use for my HBackup project. Basically, the 
+ functionality is: stackable files/sockets manipulation, modular configuration 
+ manager, helper for network share mounting and helper for automatic threads 
+ management.
+
